@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="model.entity.sigma.AndTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2017-10-14T14:38:47" hostname="raphael-laptop" time="0.504">
+  <properties/>
+  <testcase name="trueVerifyTest" classname="model.entity.sigma.AndTest" time="0.194"/>
+  <testcase name="toStringTest" classname="model.entity.sigma.AndTest" time="0.104"/>
+  <testcase name="falseVerifyTest2" classname="model.entity.sigma.AndTest" time="0.106"/>
+  <testcase name="falseVerifyTest" classname="model.entity.sigma.AndTest" time="0.097"/>
+  <system-out><![CDATA[There is a problem in signatures
+the challenge is fabricated
+the challenge is fabricated
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

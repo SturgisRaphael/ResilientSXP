@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ProtocolChooseTrent.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">protocol.impl.sigma.steps</a> &gt; <span class="el_source">ProtocolChooseTrent.java</span></div><h1>ProtocolChooseTrent.java</h1><pre class="source lang-java linenums">package protocol.impl.sigma.steps;
+
+import java.math.BigInteger;
+import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.ListIterator;
+
+import javax.xml.bind.annotation.XmlElement;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.type.TypeReference;
+
+import controller.Users;
+import controller.tools.JsonTools;
+import crypt.factories.ElGamalAsymKeyFactory;
+import model.entity.ElGamalKey;
+import model.entity.User;
+import network.api.EstablisherService;
+import network.api.EstablisherServiceListener;
+import network.api.Peer;
+import protocol.impl.SigmaEstablisher;
+import protocol.impl.sigma.SigmaContract;
+
+/**
+ * Choose Trent with the other peers for this contract
+ * @author neon@ec-m.fr
+ * 
+ * The format of data sent here is a String[2] with
+ * 		data[0] = round
+ * 		data[1] = jsonSent
+ *
+ *	First round - setup a list of potential TTP
+ *	Second round - choose a random TTP
+ *	Third round - checks that everyone has same TTP
+ */
+public class ProtocolChooseTrent implements ProtocolStep {
+	
+	public static final String TITLE  = &quot;CHOOSING_TRENT&quot;;
+
+	@XmlElement(name=&quot;list&quot;)
+	final private ArrayList&lt;User&gt; list;
+	
+	@XmlElement(name=&quot;randomNumber&quot;)
+	private BigInteger randomNumber;
+	@XmlElement(name=&quot;finalNumber&quot;)
+	private BigInteger finalNumber;
+	
+<span class="pc" id="L53">	@XmlElement(name=&quot;hasSent&quot;)</span>
+	private String[][] hasSent = new String[3][];
+
+	@XmlElement(name=&quot;key&quot;)
+	private ElGamalKey key;
+	
+	
+	private SigmaEstablisher sigmaE;
+	private Peer peer;
+	private HashMap&lt;ElGamalKey,String&gt; uris;
+	private EstablisherService es;
+	private SigmaContract contract;
+	private int senderKeyId;
+
+<span class="pc" id="L67">	final private JsonTools&lt;Collection&lt;User&gt;&gt; json = new JsonTools&lt;&gt;(new TypeReference&lt;Collection&lt;User&gt;&gt;(){});</span>
+<span class="pc" id="L68">	final private JsonTools&lt;String[]&gt; jsonMessage = new JsonTools&lt;&gt;(new TypeReference&lt;String[]&gt;(){});</span>
+	
+	/**
+	 * Used when the protocol stopped and need to be restarted from scratch where it stopped
+	 */
+	@JsonCreator
+	public ProtocolChooseTrent(@JsonProperty(&quot;list&quot;) ArrayList&lt;User&gt; list,
+			@JsonProperty(&quot;randomNumber&quot;) BigInteger randomNumber,
+			@JsonProperty(&quot;finalNumber&quot;) BigInteger finalNumber,
+			@JsonProperty(&quot;hasSent&quot;) String[][] hasSent,
+<span class="nc" id="L78">			@JsonProperty(&quot;key&quot;) ElGamalKey key){</span>
+<span class="nc" id="L79">		this.list = list;</span>
+<span class="nc" id="L80">		this.randomNumber = randomNumber;</span>
+<span class="nc" id="L81">		this.finalNumber = finalNumber;</span>
+<span class="nc" id="L82">		this.hasSent = hasSent;</span>
+<span class="nc" id="L83">		this.key = key;</span>
+		
+<span class="nc" id="L85">		this.senderKeyId = 0;</span>
+<span class="nc" id="L86">		String senPubK = key.getPublicKey().toString();</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">		while (!(contract.getParties().get(this.senderKeyId).getPublicKey().toString().equals(senPubK))){this.senderKeyId++;}</span>
+<span class="nc" id="L88">	}</span>
+	
+	/**
+	 * Constructor for the step
+	 * @param sigmaE : the current sigmaEstablisher it is started from
+	 * @param key : signer key
+	 */
+	public ProtocolChooseTrent(SigmaEstablisher sigmaE,
+<span class="fc" id="L96">			ElGamalKey key){</span>
+		
+<span class="fc" id="L98">		this.key = key;</span>
+<span class="fc" id="L99">		this.sigmaE = sigmaE;</span>
+<span class="fc" id="L100">		this.peer = sigmaE.peer;</span>
+<span class="fc" id="L101">		this.uris = sigmaE.sigmaEstablisherData.getUris();</span>
+<span class="fc" id="L102">		this.es = sigmaE.establisherService;</span>
+<span class="fc" id="L103">		this.contract = sigmaE.sigmaEstablisherData.getContract();</span>
+	
+		// Setup list of users (remove the signers)
+<span class="fc" id="L106">		this.list = new ArrayList&lt;User&gt;(json.toEntity((new Users()).get()));</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">		for (ElGamalKey k : contract.getParties()){</span>
+<span class="fc" id="L108">	        ListIterator&lt;User&gt; it = list.listIterator();  </span>
+<span class="fc bfc" id="L109" title="All 2 branches covered.">			while(it.hasNext())</span>
+<span class="fc bfc" id="L110" title="All 2 branches covered.">				if (k.getPublicKey().equals(it.next().getKey().getPublicKey()))</span>
+<span class="fc" id="L111">					it.remove();</span>
+<span class="fc" id="L112">		}</span>
+		
+		// Setup the random number which will be sent
+<span class="fc" id="L115">		this.randomNumber = new BigInteger(100, new SecureRandom());</span>
+<span class="fc" id="L116">		this.finalNumber = this.randomNumber;</span>
+		
+<span class="fc" id="L118">		int i=0;</span>
+<span class="fc" id="L119">		String senPubK = key.getPublicKey().toString();</span>
+<span class="fc bfc" id="L120" title="All 2 branches covered.">		while (!(contract.getParties().get(i).getPublicKey().toString().equals(senPubK))){i++;}</span>
+<span class="fc bfc" id="L121" title="All 2 branches covered.">		for (int k=0; k&lt;hasSent.length; k++)</span>
+<span class="fc" id="L122">			hasSent[k] = new String[contract.getParties().size() + 1];</span>
+<span class="fc" id="L123">		this.senderKeyId = i;</span>
+		
+		// Setup the listener on other peers
+<span class="fc" id="L126">		this.setupListener();</span>
+<span class="fc" id="L127">	}</span>
+	
+	@Override
+	/**
+	 * Called to start again
+	 */
+	public void restore(SigmaEstablisher sigmaE){
+<span class="nc" id="L134">		this.sigmaE = sigmaE;</span>
+<span class="nc" id="L135">		this.peer = sigmaE.peer;</span>
+<span class="nc" id="L136">		this.uris = sigmaE.sigmaEstablisherData.getUris();</span>
+<span class="nc" id="L137">		this.es = sigmaE.establisherService;</span>
+<span class="nc" id="L138">		this.contract = sigmaE.sigmaEstablisherData.getContract();</span>
+		
+<span class="nc" id="L140">		this.setupListener();</span>
+<span class="nc" id="L141">	}</span>
+	
+	
+	@Override
+	public String getName() {
+<span class="fc" id="L146">		return TITLE;</span>
+	}
+
+	
+	@Override
+	/*
+	 * The round here is 
+	 * 		+ 0 if the list hasn't been setup with other peers
+	 * 		+ 1 if the random numbers aren't all recovered
+	 * 		+ 2 if Trent is already chosen
+	 */
+	public int getRound() {
+<span class="pc bpc" id="L158" title="1 of 2 branches missed.">		if (Arrays.asList(hasSent[0]).indexOf(null) != (-1))</span>
+<span class="fc" id="L159">			return 0;</span>
+<span class="nc bnc" id="L160" title="All 2 branches missed.">		else if (Arrays.asList(hasSent[1]).indexOf(null) != (-1))</span>
+<span class="nc" id="L161">			return 1;</span>
+<span class="nc" id="L162">		return 2;</span>
+	}
+
+	
+	@Override
+	public void sendMessage() {
+<span class="fc" id="L168">		String[] content = {&quot;0&quot;, json.toJson(list)};</span>
+<span class="fc" id="L169">		String senPubK = key.getPublicKey().toString();</span>
+		
+<span class="fc" id="L171">		es.sendContract(TITLE+new String(contract.getHashableData()),</span>
+<span class="fc" id="L172">				jsonMessage.toJson(content), </span>
+				senPubK,
+				peer, 
+				uris);
+<span class="fc" id="L176">		hasSent[0][senderKeyId] = &quot;&quot;;</span>
+<span class="fc" id="L177">	}</span>
+
+	
+	@Override
+	public void setupListener() {
+<span class="fc" id="L182">		final String contractId = new String(contract.getHashableData());</span>
+<span class="fc" id="L183">		final String senPubK = key.getPublicKey().toString();</span>
+<span class="fc" id="L184">		final int N = contract.getParties().size();</span>
+		
+<span class="fc" id="L186">		es.removeListener(TITLE+contractId+senPubK);</span>
+<span class="pc bpc" id="L187" title="1 of 2 branches missed.">		es.setListener(&quot;title&quot;, TITLE+contractId, TITLE+contractId+senPubK, new EstablisherServiceListener() {</span>
+			@Override
+			public void notify(String title, String msg, String senderId) {
+<span class="fc" id="L190">				String[] content = jsonMessage.toEntity(msg);</span>
+<span class="fc" id="L191">				int j = 0;</span>
+<span class="fc bfc" id="L192" title="All 2 branches covered.">				while (!(contract.getParties().get(j).getPublicKey().toString().equals(senderId))){j++;}</span>
+				// If we received a new list
+<span class="pc bpc" id="L194" title="1 of 4 branches missed.">				if (content[0].equals(&quot;0&quot;) &amp;&amp; Arrays.asList(hasSent[0]).indexOf(null) != (-1)){</span>
+<span class="fc" id="L195">					Collection&lt;User&gt; list2 = json.toEntity(content[1]);</span>
+<span class="fc" id="L196">			        ListIterator&lt;User&gt; it = list.listIterator();  </span>
+<span class="fc bfc" id="L197" title="All 2 branches covered.">					while(it.hasNext()){</span>
+<span class="fc" id="L198">						boolean isInBoth = false;</span>
+<span class="fc bfc" id="L199" title="All 2 branches covered.">						for (User u : list2){</span>
+<span class="pc bpc" id="L200" title="1 of 2 branches missed.">							if (u.getKey().getPublicKey().equals(it.next().getKey().getPublicKey()))</span>
+<span class="fc" id="L201">								isInBoth = true;</span>
+<span class="fc" id="L202">						}</span>
+<span class="pc bpc" id="L203" title="1 of 2 branches missed.">						if (!isInBoth)</span>
+<span class="nc" id="L204">							it.remove();</span>
+<span class="fc" id="L205">					}</span>
+<span class="fc" id="L206">					hasSent[0][j] = &quot;&quot;;</span>
+					
+<span class="fc bfc" id="L208" title="All 2 branches covered.">					if (Arrays.asList(hasSent[0]).indexOf(null) == N){</span>
+<span class="fc" id="L209">						hasSent[0][N] = &quot;&quot;;</span>
+<span class="fc" id="L210">						list.sort(new Comparator&lt;User&gt;(){</span>
+							@Override
+							public int compare(User u1, User u2){
+<span class="fc" id="L213">								return u1.getKey().getPublicKey().compareTo(u2.getKey().getPublicKey());</span>
+							}
+						});
+<span class="fc" id="L216">						String[] toBeSent = new String[2];</span>
+<span class="fc" id="L217">						toBeSent[0] = &quot;1&quot;;</span>
+<span class="fc" id="L218">						toBeSent[1] = randomNumber.toString();</span>
+<span class="fc" id="L219">						hasSent[1][senderKeyId] = &quot;&quot;;</span>
+<span class="fc" id="L220">						es.sendContract(TITLE+contractId, jsonMessage.toJson(toBeSent), senPubK, peer, uris);</span>
+					}
+<span class="fc" id="L222">				}</span>
+				// If we receive the others random number
+<span class="pc bpc" id="L224" title="1 of 4 branches missed.">				else if (content[0].equals(&quot;1&quot;) &amp;&amp; Arrays.asList(hasSent[1]).indexOf(null) != (-1)){</span>
+					// Wait for everyone to have sent their number and setup Trent
+<span class="fc bfc" id="L226" title="All 2 branches covered.">					if (hasSent[1][j] == null){</span>
+<span class="fc" id="L227">						finalNumber = finalNumber.add(new BigInteger(content[1]));</span>
+<span class="fc" id="L228">						hasSent[1][j] = &quot;&quot;;</span>
+					}
+						
+<span class="fc bfc" id="L231" title="All 2 branches covered.">					if (Arrays.asList(hasSent[1]).indexOf(null) == N){</span>
+<span class="fc" id="L232">						hasSent[1][N] = &quot;&quot;;</span>
+<span class="fc" id="L233">						int N2 = (int) list.size();</span>
+<span class="pc bpc" id="L234" title="1 of 2 branches missed.">						if (N2 == 0){</span>
+<span class="nc" id="L235">							System.out.println(&quot;Can't go on - there is no third party available&quot;);</span>
+						}else{
+<span class="fc" id="L237">							User trentUser = list.get(finalNumber.mod(new BigInteger(String.valueOf(N2))).intValue());</span>
+<span class="fc bfc" id="L238" title="All 2 branches covered.">							if (sigmaE.sigmaEstablisherData.getTrentKey() ==null){</span>
+<span class="fc" id="L239">								sigmaE.setTrent(trentUser.getKey());</span>
+							}
+							
+<span class="fc" id="L242">							String[] toBeSent = new String[2];</span>
+<span class="fc" id="L243">							toBeSent[0] = &quot;2&quot;;</span>
+<span class="fc" id="L244">							toBeSent[1] = trentUser.getKey().getPublicKey().toString();</span>
+<span class="fc" id="L245">							es.sendContract(TITLE+contractId, jsonMessage.toJson(toBeSent), senPubK, peer, uris);</span>
+<span class="fc" id="L246">							hasSent[2][senderKeyId] = &quot;&quot;;</span>
+							
+<span class="pc bpc" id="L248" title="1 of 2 branches missed.">							if (sigmaE.sigmaEstablisherData.getTrentKey() !=null &amp;&amp;</span>
+<span class="pc bpc" id="L249" title="1 of 2 branches missed.">									!sigmaE.sigmaEstablisherData.getTrentKey().getPublicKey().equals(trentUser.getKey().getPublicKey())){</span>
+<span class="nc bnc" id="L250" title="All 2 branches missed.">								for (int k=0; k&lt;hasSent.length; k++)</span>
+<span class="nc" id="L251">									hasSent[k] = new String[contract.getParties().size()];</span>
+<span class="nc" id="L252">								sigmaE.setTrent(null);</span>
+<span class="nc" id="L253">								sendMessage();</span>
+							}
+						}
+<span class="fc" id="L256">					}</span>
+				}
+				// Check that we have the same Trent
+<span class="pc bpc" id="L259" title="2 of 4 branches missed.">				else if (content[0].equals(&quot;2&quot;) &amp;&amp; Arrays.asList(hasSent[2]).indexOf(null) != (-1)){</span>
+<span class="fc" id="L260">					ElGamalKey key = sigmaE.sigmaEstablisherData.getTrentKey();</span>
+<span class="fc bfc" id="L261" title="All 2 branches covered.">					if (key==null){</span>
+<span class="fc" id="L262">						ElGamalKey trentK = ElGamalAsymKeyFactory.create(false);</span>
+<span class="fc" id="L263">						trentK.setPublicKey(new BigInteger(content[1]));</span>
+<span class="fc" id="L264">						sigmaE.setTrent(trentK);</span>
+<span class="fc" id="L265">						hasSent[2][j] = &quot;&quot;;</span>
+<span class="pc bpc" id="L266" title="1 of 2 branches missed.">					}else if(content[1].equals(key.getPublicKey().toString())){</span>
+<span class="fc" id="L267">						hasSent[2][j] = &quot;&quot;;</span>
+<span class="fc bfc" id="L268" title="All 2 branches covered.">						if (Arrays.asList(hasSent[2]).indexOf(null) == (N)){</span>
+<span class="fc" id="L269">							hasSent[2][N] = &quot;&quot;; </span>
+<span class="fc" id="L270">							nextStep();</span>
+						}
+					}else {
+<span class="nc bnc" id="L273" title="All 2 branches missed.">						for (int k=0; k&lt;hasSent.length; k++)</span>
+<span class="nc" id="L274">							hasSent[k] = new String[contract.getParties().size()];</span>
+<span class="nc" id="L275">						sigmaE.setTrent(null);</span>
+<span class="nc" id="L276">						sendMessage();</span>
+					}
+				}
+<span class="fc" id="L279">			}</span>
+		}, uris != null);
+
+<span class="fc" id="L282">	}</span>
+
+	@Override
+	public void stop() {
+<span class="nc" id="L286">		String contractId = new String(contract.getHashableData());</span>
+<span class="nc" id="L287">		String senPubK = key.getPublicKey().toString();</span>
+<span class="nc" id="L288">		es.removeListener(TITLE+contractId+senPubK.toString());</span>
+<span class="nc" id="L289">	}</span>
+	
+	/**
+	 * Contains what needs to be done after this step
+	 */
+	private void nextStep(){
+<span class="fc" id="L295">		sigmaE.setListenerOnTrent();</span>
+<span class="fc" id="L296">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractParser.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">crypt.utils</a> &gt; <span class="el_source">AbstractParser.java</span></div><h1>AbstractParser.java</h1><pre class="source lang-java linenums">package crypt.utils;
+
+import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Field;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Hashtable;
+
+import controller.tools.LoggerUtilities;
+import crypt.annotations.CryptCryptAnnotation;
+import crypt.annotations.CryptHashAnnotation;
+import crypt.annotations.CryptSigneAnnotation;
+import crypt.api.annotation.ParserAnnotation;
+import crypt.api.encryption.Encrypter;
+import crypt.api.key.AsymKey;
+import crypt.factories.EncrypterFactory;
+import crypt.factories.HasherFactory;
+import crypt.impl.encryption.ElGamalEncrypter;
+import crypt.impl.encryption.ElGamalSerpentEncrypter;
+import model.entity.ElGamalKey;
+import model.entity.User;
+
+/**
+ * Abstract class that parse Entity fields for each annotation, and prepare fields for parser Action implemented in its child class.  
+ *  
+ * @author radoua abderrahim
+ * @param &lt;Entity&gt; Type of Object generic type. 
+ */
+public abstract class AbstractParser&lt;Entity&gt; implements ParserAnnotation&lt;Entity&gt;{
+	
+	//private User user;
+	
+	
+	private Entity entity;
+	private byte[] salt;
+	
+	private Hashtable&lt;Field,CryptCryptAnnotation&gt; fieldsToCrypt;
+	private Hashtable&lt;Field,CryptHashAnnotation&gt; fieldsToHash;
+	private Hashtable&lt;Field,CryptSigneAnnotation&gt; fieldsToSign;
+	
+	private AsymKey&lt;BigInteger&gt; key;
+	
+	/**
+	 * Constructor
+	 * @param entity
+	 */
+<span class="nc" id="L52">	public AbstractParser(Entity entity){</span>
+<span class="nc" id="L53">		this.entity = entity;</span>
+<span class="nc" id="L54">		fieldsToCrypt = new Hashtable&lt;&gt;();</span>
+<span class="nc" id="L55">		fieldsToHash = new Hashtable&lt;&gt;();</span>
+<span class="nc" id="L56">		fieldsToSign = new Hashtable&lt;&gt;();</span>
+<span class="nc" id="L57">		init();</span>
+<span class="nc" id="L58">	}</span>
+	
+	/**
+	 * Constructor
+	 * @param entity
+	 */
+<span class="fc" id="L64">	public AbstractParser(Entity entity,AsymKey&lt;BigInteger&gt; key){</span>
+<span class="fc" id="L65">		this.entity = entity;</span>
+<span class="fc" id="L66">	    this.key = key;</span>
+<span class="fc" id="L67">		fieldsToCrypt = new Hashtable&lt;&gt;();</span>
+<span class="fc" id="L68">		fieldsToHash = new Hashtable&lt;&gt;();</span>
+<span class="fc" id="L69">		fieldsToSign = new Hashtable&lt;&gt;();</span>
+<span class="fc" id="L70">		init();</span>
+<span class="fc" id="L71">	}</span>
+	
+	
+	/**
+	 * Iterate on all fields and check for all possible annotations with each one
+	 *  if an annotation found stored in Hashtable specific for that category.
+	 */
+	public void init(){
+		
+<span class="fc" id="L80">		Field [] tabsField = entity.getClass().getDeclaredFields(); </span>
+		
+<span class="fc bfc" id="L82" title="All 2 branches covered.">		for (Field field : tabsField) {</span>
+			
+<span class="fc" id="L84">			CryptHashAnnotation annotationHasher = field.getAnnotation(CryptHashAnnotation.class);</span>
+<span class="fc" id="L85">			CryptCryptAnnotation annotationCrypt = field.getAnnotation(CryptCryptAnnotation.class);</span>
+<span class="fc" id="L86">			CryptSigneAnnotation annotationSigne = field.getAnnotation(CryptSigneAnnotation.class);</span>
+			
+<span class="fc bfc" id="L88" title="All 2 branches covered.">			if(annotationHasher!=null){</span>
+<span class="fc" id="L89">				fieldsToHash.put(field, annotationHasher);</span>
+			}
+			
+<span class="fc bfc" id="L92" title="All 2 branches covered.">			if(annotationCrypt!=null){</span>
+<span class="fc" id="L93">				fieldsToCrypt.put(field,annotationCrypt);</span>
+			}
+			
+<span class="fc bfc" id="L96" title="All 2 branches covered.">			if(annotationSigne!=null){</span>
+<span class="fc" id="L97">				fieldsToSign.put(field, annotationSigne);</span>
+			}
+		}
+<span class="fc" id="L100">	}</span>
+	
+	/**
+	 * read the salt within the Entity
+	 * &lt;p&gt;
+	 *  	if no salt found within the Entity, it will return null.
+	 * &lt;/p&gt;
+	 * @return byte[]
+	 */
+	public byte[] getSalt(){
+	
+		try {
+			
+<span class="fc" id="L113">			Field field = entity.getClass().getDeclaredField(&quot;salt&quot;);</span>
+			
+<span class="fc" id="L115">			field.setAccessible(true);</span>
+			
+<span class="fc" id="L117">			this.salt = (byte []) field.get(entity);</span>
+			
+<span class="fc" id="L119">			return this.salt;</span>
+			
+<span class="nc" id="L121">		} catch (NoSuchFieldException e) {</span>
+<span class="nc" id="L122">			LoggerUtilities.logStackTrace(e);</span>
+<span class="nc" id="L123">		} catch (SecurityException e) {</span>
+<span class="nc" id="L124">			LoggerUtilities.logStackTrace(e);</span>
+<span class="nc" id="L125">		} catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L126">			LoggerUtilities.logStackTrace(e);</span>
+<span class="nc" id="L127">		} catch (IllegalAccessException e) {</span>
+<span class="nc" id="L128">			LoggerUtilities.logStackTrace(e);</span>
+<span class="nc" id="L129">		}</span>
+		
+<span class="nc" id="L131">		return null;</span>
+	}
+
+	/**
+	 * getter
+	 * @return Entity the entity
+	 */
+	public Entity getEntity() {
+<span class="fc" id="L139">		return entity;</span>
+	}
+
+	/**
+	 * Hashtable of fields that should be encrypted or decrypted
+	 * Hashtable of field as key and annotation as value.
+	 * @return Hashtable&lt;Field, CryptCryptAnnotation&gt;
+	 */
+	public Hashtable&lt;Field, CryptCryptAnnotation&gt; getFieldsToCrypt() {
+<span class="fc" id="L148">		return fieldsToCrypt;</span>
+	}
+
+	/**
+	 * Hashtable of fields that should be hashed
+	 * Hashtable of field as key and annotation as value.
+	 * @return Hashtable&lt;Field, CryptHashAnnotation&gt;
+	 */
+	public Hashtable&lt;Field, CryptHashAnnotation&gt; getFieldsToHash() {
+<span class="fc" id="L157">		return fieldsToHash;</span>
+	}
+
+	/**
+	 * Hashtable of fields that should be signed or checked
+	 * Hashtable of field as key and annotation as value.
+	 * @return Hashtable&lt;Field, CryptSigneAnnotation&gt;
+	 */
+	public Hashtable&lt;Field, CryptSigneAnnotation&gt; getFieldsToSign() {
+<span class="fc" id="L166">		return fieldsToSign;</span>
+	}
+	
+	
+	/**
+	 * private key of user
+	 * @return BigInteger
+	 */
+	public BigInteger getPrivateKey(){
+<span class="fc" id="L175">		return this.key.getPrivateKey();</span>
+	}
+	
+	/**
+	 * public key of user
+	 * @return BigInteger
+	 */
+	public BigInteger getPublicKey(){
+<span class="nc" id="L183">		return this.key.getPublicKey();</span>
+	}
+	
+	/**
+	 * ElGamalKey of user
+	 * Composite key public and private key 
+	 * @return ElGamalKey
+	 */
+	public ElGamalKey getKey(){
+<span class="fc" id="L192">		return (ElGamalKey) this.key;</span>
+	}
+	
+	public void setKey(AsymKey&lt;BigInteger&gt; key) {
+<span class="fc" id="L196">		this.key = key;</span>
+<span class="fc" id="L197">	}</span>
+
+	/**
+	 * if entity signature not correct set entity to null
+	 */
+	public void setEntityToNull() {
+<span class="fc" id="L203">		this.entity = null;</span>
+<span class="fc" id="L204">		this.fieldsToCrypt = new Hashtable&lt;&gt;();</span>
+<span class="fc" id="L205">		this.fieldsToHash = new Hashtable&lt;&gt;();</span>
+<span class="fc" id="L206">		this.fieldsToSign = new Hashtable&lt;&gt;();</span>
+<span class="fc" id="L207">	}</span>
+	
+	/**
+	 * encrypt String data 
+	 * using an asymmetric protocol to encrypt a password and encrypt data using this password by a symmetric system 
+	 * @param data : String
+	 * @return : encrypted data as a json String
+	 */
+	protected String encrypt(String data,boolean isKeyPublic){
+		    
+<span class="nc" id="L217">		Encrypter&lt;ElGamalKey&gt; encrypter = EncrypterFactory.createElGamalSerpentEncrypter();</span>
+	 	
+<span class="nc" id="L219">		encrypter.setKey(getKey());</span>
+		
+<span class="nc" id="L221">		return new String(encrypter.encrypt(data.getBytes()));</span>
+    }
+	
+	/**
+	 * decrypt String data 
+	 * using an asymmetric protocol to decrypt a password and decrypt data using this password by a symmetric system 
+	 * @param data : String as json format
+	 * @return : decrypted data as String
+	 */
+	protected String decrypt(String data,boolean isKeyPublic){
+    		
+<span class="nc" id="L232">	 	Encrypter&lt;ElGamalKey&gt; decrypter = EncrypterFactory.createElGamalSerpentEncrypter();</span>
+		
+<span class="nc" id="L234">		decrypter.setKey(getKey());</span>
+		
+<span class="nc" id="L236">		return new String(decrypter.decrypt(data.getBytes()));</span>
+    }
+	
+	
+	protected String encrypt(String data,ElGamalKey key,boolean isKeyPublic){
+<span class="fc" id="L241">		ElGamalSerpentEncrypter encrypter = EncrypterFactory.createElGamalSerpentEncrypter();</span>
+<span class="fc" id="L242">		encrypter.setKey(getKey());</span>
+<span class="fc" id="L243">		return new String(encrypter.encryptMsg(data.getBytes(),key).getBytes());</span>
+    }
+	
+	protected String decrypt(String data,ElGamalKey key,boolean isKeyPublic){
+<span class="fc" id="L247">		ElGamalSerpentEncrypter decrypter = EncrypterFactory.createElGamalSerpentEncrypter();</span>
+<span class="fc" id="L248">		decrypter.setKey(getKey());</span>
+<span class="fc" id="L249">		return new String(decrypter.decryptMsg(new String(data.getBytes()),key));</span>
+    }
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

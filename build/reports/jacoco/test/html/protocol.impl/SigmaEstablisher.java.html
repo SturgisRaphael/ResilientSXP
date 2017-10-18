@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SigmaEstablisher.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">protocol.impl</a> &gt; <span class="el_source">SigmaEstablisher.java</span></div><h1>SigmaEstablisher.java</h1><pre class="source lang-java linenums">package protocol.impl;
+
+
+import java.math.BigInteger;
+import java.util.HashMap;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+
+import crypt.impl.signatures.SigmaSigner;
+
+import controller.Application;
+import controller.tools.JsonTools;
+import model.api.Status;
+import model.api.Wish;
+import model.entity.ElGamalKey;
+import model.entity.sigma.SigmaSignature;
+import network.api.EstablisherService;
+import network.api.Peer;
+import protocol.api.Establisher;
+import protocol.impl.sigma.SigmaContract;
+import protocol.impl.sigma.SigmaEstablisherData;
+import protocol.impl.sigma.steps.ProtocolChooseTrent;
+import protocol.impl.sigma.steps.ProtocolResolve;
+import protocol.impl.sigma.steps.ProtocolSign;
+import protocol.impl.sigma.steps.ProtocolStep;
+
+
+/** 
+ *	Establisher for sigma protocol
+ *
+ * @author Nathanaël EON
+ */
+
+public class SigmaEstablisher extends Establisher&lt;BigInteger, ElGamalKey, SigmaSignature, SigmaSigner, SigmaContract&gt; {
+	
+	// The service we'll use to send data
+<span class="pc" id="L37">	public EstablisherService establisherService =(EstablisherService) Application.getInstance().getPeer().getService(EstablisherService.NAME);</span>
+	// The current peer
+<span class="pc" id="L39">	public Peer peer = Application.getInstance().getPeer();</span>
+	// The step called if something goes wrong
+	public ProtocolStep resolvingStep;
+	// Data that need to be restored if there is a peer-disconnection
+	// TODO implement correctly the data saving
+	public SigmaEstablisherData sigmaEstablisherData;
+	
+	// The signer Key
+	protected ElGamalKey senderK;
+	
+	/**
+	 * Setup the signing protocol
+	 * @param &lt;senderK&gt; : elgamalkey (public and private) of the user
+	 * @param &lt;uri&gt; : parties matching uri, if null, the protocol will be asynchronous
+	 */
+<span class="fc" id="L54">	public SigmaEstablisher(ElGamalKey senderK, HashMap&lt;ElGamalKey,String&gt; uris){</span>
+<span class="fc" id="L55">		this.senderK = senderK;</span>
+		
+<span class="fc" id="L57">		this.uris = uris;</span>
+			
+<span class="fc" id="L59">		this.sigmaEstablisherData = new SigmaEstablisherData();</span>
+<span class="fc" id="L60">		this.sigmaEstablisherData.setUris(uris);</span>
+<span class="fc" id="L61">		sigmaEstablisherData.setTrentKey(null);</span>
+<span class="fc" id="L62">	}</span>
+	
+	/**
+	 * Constructor which start back from where it were (using establisherData)
+	 * @param &lt;establisherData&gt; : data of the former establisher 
+	 * @param &lt;senderK&gt; : key we use to sign contract
+	 */
+<span class="nc" id="L69">	public SigmaEstablisher(String establisherData, ElGamalKey senderK){</span>
+<span class="nc" id="L70">		JsonTools&lt;SigmaEstablisherData&gt; json = new JsonTools&lt;&gt;(new TypeReference&lt;SigmaEstablisherData&gt;(){});</span>
+<span class="nc" id="L71">		SigmaEstablisherData data = json.toEntity(establisherData);</span>
+<span class="nc" id="L72">		this.contract = data.getContract();</span>
+<span class="nc" id="L73">		this.uris = data.getUris();</span>
+<span class="nc" id="L74">		this.sigmaEstablisherData = data;</span>
+<span class="nc" id="L75">	}</span>
+	
+	/**
+	 * Initialize the protocol when a contract comes
+	 * @param &lt;c&gt; : contract to be signed
+	 */
+	@Override
+	public void initialize(SigmaContract c){
+<span class="fc" id="L83">		this.sigmaEstablisherData.setContract(c);</span>
+<span class="fc" id="L84">		contract = c;</span>
+		
+		//Prepare the choosingTent step
+<span class="fc" id="L87">		sigmaEstablisherData.setProtocolStep( new ProtocolChooseTrent(this, senderK) );</span>
+<span class="fc" id="L88">	}</span>
+	
+	/**
+	 * Launch the protocol : tell everyone that the user is ready to sign (pressed signing button)
+	 */
+	@Override
+	public void start(){
+		// Does only start if the status and the wish are ok
+		// It sends the list of users that can be TTP for us
+<span class="pc bpc" id="L97" title="3 of 6 branches missed.">		if (getStatus() != Status.CANCELLED &amp;&amp; getStatus() != Status.FINALIZED &amp;&amp; getWish() == Wish.ACCEPT)</span>
+<span class="fc" id="L98">			sigmaEstablisherData.getProtocolStep().sendMessage();</span>
+<span class="fc" id="L99">	}</span>
+	
+	/**
+	 * Setup trent with correct Key
+	 * @param trentK
+	 */
+	public void setTrent(ElGamalKey trentK){
+<span class="fc" id="L106">		contract.setTrentKey(trentK);</span>
+<span class="fc" id="L107">		sigmaEstablisherData.setTrentKey(trentK);</span>
+<span class="fc" id="L108">	}</span>
+
+	
+	// Put a listener on Trent in case something goes wrong
+	public void setListenerOnTrent(){
+<span class="fc" id="L113">		setStatus(Status.SIGNING);</span>
+<span class="fc" id="L114">		resolvingStep = new ProtocolResolve(this,</span>
+				senderK);
+<span class="fc" id="L116">		sign();</span>
+<span class="fc" id="L117">	}</span>
+	
+	/**
+	 * The contract signing protocol
+	 * TODO : Setup a timer that will trigger resolve()
+	 */
+	protected void sign(){
+<span class="fc" id="L124">		sigmaEstablisherData.setProtocolStep(new ProtocolSign(this, senderK));</span>
+<span class="fc" id="L125">		sigmaEstablisherData.getProtocolStep().sendMessage();</span>
+<span class="fc" id="L126">	}</span>
+	
+	/**
+	 * Called if something goes wrong.
+	 * It send Trent 5 informations : 
+	 *		the round
+	 * 		the uris of the parties
+	 * 		the contract to be signed
+	 * 		the encrypted (for Trent) claim
+	 * 		the encrypted (for Trent) signed claim (we need to check signature)
+	 * 
+	 * Trent resolve function is in Trent Class
+	 */
+	protected void resolve(){
+<span class="nc" id="L140">		resolvingStep.sendMessage();</span>
+<span class="nc" id="L141">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

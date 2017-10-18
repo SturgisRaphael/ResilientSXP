@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JettyRestServer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">rest.impl</a> &gt; <span class="el_source">JettyRestServer.java</span></div><h1>JettyRestServer.java</h1><pre class="source lang-java linenums">package rest.impl;
+
+import java.io.IOException;
+
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.eclipse.jetty.http.HttpVersion;
+import org.eclipse.jetty.server.Connector;
+import org.eclipse.jetty.server.HttpConfiguration;
+import org.eclipse.jetty.server.HttpConnectionFactory;
+import org.eclipse.jetty.server.SecureRequestCustomizer;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.server.SslConnectionFactory;
+import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.util.ssl.SslContextFactory;
+
+import com.google.common.reflect.ClassPath;
+
+import controller.tools.LoggerUtilities;
+import crypt.api.certificate.CertificateGenerator;
+import crypt.impl.certificate.X509V3Generator;
+import rest.api.RestServer;
+import rest.api.ServletPath;
+
+<span class="fc" id="L27">public class JettyRestServer implements RestServer{</span>
+<span class="fc" id="L28">	private final static Logger log = LogManager.getLogger(JettyRestServer.class);</span>
+	private ServletContextHandler context;
+	private Server server;
+	private CertificateGenerator cert_gen;
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void initialize(String packageName) {
+<span class="fc" id="L38">		context = new ServletContextHandler(ServletContextHandler.SESSIONS);</span>
+<span class="fc" id="L39">		context.setContextPath(&quot;/&quot;);</span>
+
+<span class="fc" id="L41">		final ClassLoader loader = Thread.currentThread().getContextClassLoader();</span>
+
+		try {
+<span class="fc bfc" id="L44" title="All 2 branches covered.">			for (final ClassPath.ClassInfo info : ClassPath.from(loader).getTopLevelClasses()) {</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">				if (info.getName().startsWith(packageName + &quot;.&quot;)) {</span>
+<span class="fc" id="L46">					final Class&lt;?&gt; clazz = info.load();</span>
+<span class="fc" id="L47">					ServletPath path = clazz.getAnnotation(ServletPath.class);</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">					if(path == null) {</span>
+<span class="fc" id="L49">						continue;</span>
+					}
+<span class="fc" id="L51">					ServletHolder jerseyServlet = context.addServlet(org.glassfish.jersey.servlet.ServletContainer.class, path.value());</span>
+<span class="fc" id="L52">					jerseyServlet.setInitOrder(0);</span>
+<span class="fc" id="L53">					jerseyServlet.setInitParameter(&quot;jersey.config.server.provider.classnames&quot;, clazz.getCanonicalName());</span>
+				}
+<span class="fc" id="L55">			}</span>
+<span class="nc" id="L56">		} catch (IOException e) {</span>
+<span class="nc" id="L57">			LoggerUtilities.logStackTrace(e);</span>
+<span class="fc" id="L58">		}</span>
+
+		/*for(Class&lt;?&gt; c : entryPoints) {
+
+        	ServletPath path = c.getAnnotation(ServletPath.class);
+        	if(path == null) {
+        		throw new RuntimeException(&quot;No servlet path annotation on class &quot; + c.getCanonicalName());
+        	}
+        	ServletHolder jerseyServlet = context.addServlet(org.glassfish.jersey.servlet.ServletContainer.class, path.value());
+        	jerseyServlet.setInitOrder(0);
+        	jerseyServlet.setInitParameter(&quot;jersey.config.server.provider.classnames&quot;, c.getCanonicalName());
+        }*/
+<span class="fc" id="L70">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void start(int port) throws Exception {
+
+<span class="fc" id="L78">		server = new Server();</span>
+<span class="fc" id="L79">		server.setHandler(context);</span>
+
+		@SuppressWarnings(&quot;unused&quot;)
+<span class="fc" id="L82">		String signe_type = &quot;self-signed&quot;;</span>
+
+		/*if( signe_type == &quot;CA-signed&quot; )
+		{
+			//Launching a simple http on 80 port for challenge
+			//the CA serveur.
+			createAndSetConnector(80, &quot;http&quot;); //Launch in sudo bc of 80;
+			server.start();
+
+			TimeUnit.SECONDS.sleep(3); //Give some time to Jetty to be on.
+
+			this.cert_gen = X509V3Generator.getInstance(&quot;certConfig.conf&quot;);
+			this.cert_gen.CreateCertificate(&quot;CA-signed&quot;);
+			this.cert_gen.StoreInKeystore(&quot;keystore.jks&quot;);
+
+			//Restarting the serveur with good certificate.
+			server.stop();
+			createAndSetConnector(port, &quot;https&quot;);
+			//server.setHandler(context);
+		}
+		else if( signe_type == &quot;self-signed&quot; )
+		{*/
+<span class="fc" id="L104">		this.cert_gen = X509V3Generator.getInstance(&quot;certConfig.conf&quot;);</span>
+<span class="fc" id="L105">		this.cert_gen.CreateCertificate(&quot;self-signed&quot;);</span>
+<span class="fc" id="L106">		this.cert_gen.StoreInKeystore(&quot;keystore.jks&quot;);</span>
+<span class="fc" id="L107">		createAndSetConnector(port, &quot;https&quot;);</span>
+		//}
+
+<span class="fc" id="L110">		server.start();</span>
+<span class="nc" id="L111">		server.join();</span>
+<span class="nc" id="L112">	}</span>
+
+	/**
+	 * Create and link the proper connector to
+	 * the jetty serveur.
+	 * @param port Port the server will use for the given protocol.
+	 * @param protocol Protocol used by the jetty serveur (currently available protocols : http, https).
+	 */
+	public void createAndSetConnector(int port, String protocol) throws Exception 
+	{
+
+		// Http config (base config)
+<span class="fc" id="L124">		HttpConfiguration http_config = new HttpConfiguration();</span>
+<span class="fc" id="L125">		http_config.setSecureScheme(&quot;https&quot;);</span>
+<span class="fc" id="L126">		http_config.setSecurePort(port);</span>
+<span class="fc" id="L127">		http_config.setOutputBufferSize(38768);</span>
+<span class="fc" id="L128">		javax.net.ssl.HttpsURLConnection.setDefaultHostnameVerifier(</span>
+<span class="fc" id="L129">				new javax.net.ssl.HostnameVerifier(){</span>
+
+					@Override
+					public boolean verify(String hostname,
+							javax.net.ssl.SSLSession sslSession) {
+<span class="nc bnc" id="L134" title="All 2 branches missed.">						if (hostname.equals(&quot;localhost&quot;)) {</span>
+<span class="nc" id="L135">							return true;</span>
+						}
+<span class="nc" id="L137">						return false;</span>
+					}
+				});
+
+	/*	switch (protocol)
+		{
+		case &quot;http&quot;:
+			// Http Connector
+			ServerConnector http = new ServerConnector(server, new HttpConnectionFactory(http_config) );
+			http.setPort(port);
+			http.setIdleTimeout(30000);
+
+			server.setConnectors(new Connector[] {http});
+			break;
+	 
+		case &quot;https&quot;:*/
+			// SSL Context factory for HTTPS
+<span class="fc" id="L154">			SslContextFactory sslContextFactory = new SslContextFactory();</span>
+<span class="fc" id="L155">			sslContextFactory.setKeyStorePath(&quot;keystore.jks&quot;);</span>
+<span class="fc" id="L156">			sslContextFactory.setKeyStorePassword(this.cert_gen.getKsPassword());</span>
+<span class="fc" id="L157">			sslContextFactory.setKeyManagerPassword(this.cert_gen.getKsPassword());</span>
+
+			// HTTPS Config
+<span class="fc" id="L160">			HttpConfiguration https_config = new HttpConfiguration(http_config);</span>
+<span class="fc" id="L161">			SecureRequestCustomizer src = new SecureRequestCustomizer();</span>
+<span class="fc" id="L162">			src.setStsMaxAge(2000);</span>
+<span class="fc" id="L163">			src.setStsIncludeSubDomains(true);</span>
+<span class="fc" id="L164">			https_config.addCustomizer(src);</span>
+
+			// HTTPS Connector
+<span class="fc" id="L167">			ServerConnector https = new ServerConnector(server,</span>
+<span class="fc" id="L168">					new SslConnectionFactory(sslContextFactory, HttpVersion.HTTP_1_1.asString()),</span>
+					new HttpConnectionFactory(https_config));
+<span class="fc" id="L170">			https.setPort(port);</span>
+<span class="fc" id="L171">			https.setIdleTimeout(500000);</span>
+<span class="fc" id="L172">			log.debug(&quot;HTTPS context&quot;);</span>
+<span class="fc" id="L173">			server.setConnectors(new Connector[] {https}); </span>
+		/*	break;
+
+		case &quot;http&amp;https&quot;:
+			// Http Connector
+			ServerConnector httpb = new ServerConnector(server, new HttpConnectionFactory(http_config) );
+			httpb.setPort(port);
+			httpb.setIdleTimeout(30000);
+
+			// SSL Context factory for HTTPS
+			SslContextFactory sslContextFactoryb = new SslContextFactory();
+			sslContextFactoryb.setKeyStorePath(&quot;keystore.jks&quot;);
+			sslContextFactoryb.setKeyStorePassword(this.cert_gen.getKsPassword());
+			sslContextFactoryb.setKeyManagerPassword(this.cert_gen.getKsPassword());
+
+			// HTTPS Config
+			HttpConfiguration https_configb = new HttpConfiguration(http_config);
+			SecureRequestCustomizer srcb = new SecureRequestCustomizer();
+			srcb.setStsMaxAge(2000);
+			srcb.setStsIncludeSubDomains(true);
+			https_configb.addCustomizer(srcb);
+
+			// HTTPS Connector
+			ServerConnector httpsb = new ServerConnector(server,
+					new SslConnectionFactory(sslContextFactoryb, HttpVersion.HTTP_1_1.asString()),
+					new HttpConnectionFactory(https_configb));
+			httpsb.setPort(port+1);
+			httpsb.setIdleTimeout(500000);
+
+			server.setConnectors(new Connector[] {httpb, httpsb}); 
+			break;
+
+
+		default: 
+			System.out.println(&quot;Wrong connector protocol for jetty.&quot;);
+			System.exit(1);
+			break;
+		}*/
+<span class="fc" id="L211">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void stop() {
+<span class="nc" id="L218">		server.destroy();</span>
+<span class="nc" id="L219">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

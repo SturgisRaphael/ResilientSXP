@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ManagerDecorator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">model.api</a> &gt; <span class="el_source">ManagerDecorator.java</span></div><h1>ManagerDecorator.java</h1><pre class="source lang-java linenums">package model.api;
+
+import java.util.Collection;
+import java.util.Hashtable;
+
+import javax.persistence.EntityManager;
+
+/**
+ * Entities manager. Handle local and distant storage, search.
+ * @author Julien Prudhomme
+ *
+ * @param &lt;T&gt;
+ */
+public abstract class ManagerDecorator&lt;Entity&gt; implements Manager&lt;Entity&gt;{
+
+	private Manager&lt;Entity&gt; em;
+
+<span class="fc" id="L18">	public ManagerDecorator(Manager&lt;Entity&gt; em) {</span>
+<span class="fc" id="L19">		this.em = em;</span>
+<span class="fc" id="L20">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void findOneById(String id, ManagerListener&lt;Entity&gt; l) {
+<span class="nc" id="L27">		em.findOneById(id, l);</span>
+<span class="nc" id="L28">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void findAllByAttribute(String attribute, String value, ManagerListener&lt;Entity&gt; l) {
+<span class="fc" id="L35">		em.findAllByAttribute(attribute, value, l);</span>
+<span class="fc" id="L36">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void findOneByAttribute(String attribute, String value, ManagerListener&lt;Entity&gt; l) {
+<span class="fc" id="L43">		em.findOneByAttribute(attribute, value, l);</span>
+<span class="fc" id="L44">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean persist(Entity entity) {
+<span class="fc" id="L51">		return em.persist(entity);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean begin() {
+<span class="fc" id="L59">		return em.begin();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean end() {
+<span class="fc" id="L67">		return em.end();</span>
+	}
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean remove(Entity entity){
+<span class="nc" id="L76">		return em.remove(entity);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Collection&lt;Entity&gt; watchlist(){
+<span class="fc" id="L84">		return em.watchlist();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean contains(Entity entity){
+<span class="fc" id="L92">		return em.contains(entity);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean check(){
+<span class="nc" id="L100">		return em.check();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean close() {
+<span class="fc" id="L108">		return em.close();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Collection&lt;Entity&gt; changesInWatchlist() {
+<span class="fc" id="L116">		return em.changesInWatchlist();</span>
+	}
+	
+	
+	
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

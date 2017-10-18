@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SigmaClauses.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">protocol.impl.sigma</a> &gt; <span class="el_source">SigmaClauses.java</span></div><h1>SigmaClauses.java</h1><pre class="source lang-java linenums">package protocol.impl.sigma;
+
+import java.util.ArrayList;
+
+import crypt.api.signatures.Signable;
+import model.entity.sigma.SigmaSignature;
+
+public class SigmaClauses implements Signable&lt;SigmaSignature&gt;{
+
+	private SigmaSignature sign;
+	private ArrayList&lt;String&gt; clauses;
+	
+<span class="fc" id="L13">	public SigmaClauses(ArrayList&lt;String&gt; s) {</span>
+<span class="fc" id="L14">		this.clauses = s;</span>
+<span class="fc" id="L15">	}</span>
+	
+	public ArrayList&lt;String&gt; getClauses(){
+<span class="fc" id="L18">		return clauses;</span>
+	}
+	
+	@Override
+	public byte[] getHashableData() {
+<span class="fc" id="L23">		StringBuffer buffer = new StringBuffer();</span>
+<span class="fc bfc" id="L24" title="All 2 branches covered.">		for (String c : clauses)</span>
+<span class="fc" id="L25">			buffer.append(c);</span>
+<span class="fc" id="L26">		return buffer.toString().getBytes();</span>
+	}
+
+	@Override
+	public void setSign(SigmaSignature s) {
+<span class="fc" id="L31">		this.sign = s;</span>
+<span class="fc" id="L32">	}</span>
+
+	@Override
+	public SigmaSignature getSign() {
+<span class="fc" id="L36">		return this.sign;</span>
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+<span class="fc" id="L41">		SigmaClauses s2 = (SigmaClauses) o;</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">		if (s2.clauses.size() != this.clauses.size())</span>
+<span class="fc" id="L43">			return false;</span>
+		
+<span class="fc" id="L45">		boolean b = true;</span>
+<span class="fc" id="L46">		int n = this.clauses.size();</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">		for (int k =0; k&lt;n; k++)</span>
+<span class="pc bpc" id="L48" title="2 of 4 branches missed.">			b = b &amp;&amp; this.clauses.get(k).equals(s2.clauses.get(k));</span>
+<span class="fc" id="L49">		return b;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ElGamalSerpentEncrypter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">crypt.impl.encryption</a> &gt; <span class="el_source">ElGamalSerpentEncrypter.java</span></div><h1>ElGamalSerpentEncrypter.java</h1><pre class="source lang-java linenums">package crypt.impl.encryption;
+
+import java.util.Random;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+
+import controller.tools.JsonTools;
+import crypt.api.encryption.Encrypter;
+import crypt.factories.EncrypterFactory;
+import model.entity.ElGamalKey;
+
+/**
+ * Encrypter that uses an asymmetric protocol to encrypt a password and
+ * 	encrypt data using this password by a symmetric system
+ * 
+ * @author Nathanaël Eon
+ *
+ */
+<span class="fc" id="L19">public class ElGamalSerpentEncrypter implements Encrypter&lt;ElGamalKey&gt; {</span>
+	
+	private ElGamalKey key;
+	
+	
+	@Override
+	public void setKey(ElGamalKey k){
+<span class="fc" id="L26">		key = k;</span>
+<span class="fc" id="L27">	}</span>
+	
+	@Override
+	public byte[] encrypt(byte[] buffer){
+<span class="fc" id="L31">		return encryptMsg(buffer).getBytes();</span>
+	}
+	
+	@Override
+	public byte[] decrypt(byte[] buffer){
+<span class="fc" id="L36">		return decryptMsg(new String(buffer));</span>
+	}
+	
+	
+	/**
+	 * The encryption works as follow :
+	 * 		set a password, encrypt it through elgamal
+	 * 		encrypt the message with Serpent thanks to the password
+	 * @param msg : msg to encrypt
+	 * @param key : receiver ElGamalKey (using public key to encrypt) 
+	 * @return : encrypted key and msg as a json String
+	 */
+	public String encryptMsg(byte[] msg){
+		// Create a password
+<span class="fc" id="L50">		String pwd = createPwd(20);</span>
+		
+		// Set the encrypter for the password with ElGamal
+<span class="fc" id="L53">		Encrypter&lt;ElGamalKey&gt; encrypter1 = EncrypterFactory.createElGamalEncrypter();</span>
+<span class="fc" id="L54">		encrypter1.setKey(key);</span>
+		
+		// set the encrypter for the message with the password
+<span class="fc" id="L57">		Encrypter&lt;byte[]&gt; encrypter2 = EncrypterFactory.createSerpentEncrypter();</span>
+<span class="fc" id="L58">		encrypter2.setKey(pwd.getBytes());</span>
+		
+		// create the message
+<span class="fc" id="L61">		JsonTools&lt;byte[][]&gt; json = new JsonTools&lt;&gt;(new TypeReference&lt;byte[][]&gt;(){});</span>
+<span class="fc" id="L62">		byte[][] content = new byte[2][];</span>
+<span class="fc" id="L63">		content[0] = encrypter1.encrypt(pwd.getBytes());</span>
+<span class="fc" id="L64">		content[1] = encrypter2.encrypt(msg);</span>
+
+<span class="fc" id="L66">		return json.toJson(content, true);</span>
+	}
+	
+	/**
+	 * 	decrypt the password using ElGamal private key
+	 * 	decrypt the message with password
+	 * @param msg : crypted message
+	 * @param key : ElGamalKey of the receiver (using private key here)
+	 * @return : decrypted message
+	 */
+	private byte[] decryptMsg(String msg){
+		// Get the two different encrypted data (password and message)
+<span class="fc" id="L78">		JsonTools&lt;byte[][]&gt; json = new JsonTools&lt;&gt;(new TypeReference&lt;byte[][]&gt;(){});</span>
+<span class="fc" id="L79">		byte[][] content = json.toEntity(msg, true);</span>
+		
+		// Decrypt the password
+<span class="fc" id="L82">		Encrypter&lt;ElGamalKey&gt; encrypter1 = EncrypterFactory.createElGamalEncrypter();</span>
+<span class="fc" id="L83">		encrypter1.setKey(key);</span>
+<span class="fc" id="L84">		byte[] pwd = encrypter1.decrypt(content[0]);</span>
+		
+		// Decrypt the message
+<span class="fc" id="L87">		Encrypter&lt;byte[]&gt; encrypter2 = EncrypterFactory.createSerpentEncrypter();</span>
+<span class="fc" id="L88">		encrypter2.setKey(pwd);</span>
+<span class="fc" id="L89">		return encrypter2.decrypt(content[1]);</span>
+	}
+	
+	
+	public String encryptMsg(byte[] msg,ElGamalKey secondKey){
+
+<span class="fc" id="L95">		String pwd = createPwd(20);</span>
+		
+<span class="fc" id="L97">		Encrypter&lt;ElGamalKey&gt; encrypter1 = EncrypterFactory.createElGamalEncrypter();</span>
+<span class="fc" id="L98">		encrypter1.setKey(key);</span>
+		
+<span class="fc" id="L100">		Encrypter&lt;ElGamalKey&gt; encrypter2 = EncrypterFactory.createElGamalEncrypter();</span>
+<span class="fc" id="L101">		encrypter2.setKey(secondKey);</span>
+		
+<span class="fc" id="L103">		Encrypter&lt;byte[]&gt; encrypter3 = EncrypterFactory.createSerpentEncrypter();</span>
+<span class="fc" id="L104">		encrypter3.setKey(pwd.getBytes());</span>
+		
+<span class="fc" id="L106">		JsonTools&lt;byte[][]&gt; json = new JsonTools&lt;&gt;(new TypeReference&lt;byte[][]&gt;(){});</span>
+<span class="fc" id="L107">		byte[][] content = new byte[3][];</span>
+<span class="fc" id="L108">		content[0] = encrypter1.encrypt(pwd.getBytes());</span>
+<span class="fc" id="L109">		content[1] = encrypter2.encrypt(pwd.getBytes());</span>
+<span class="fc" id="L110">		content[2] = encrypter3.encrypt(msg);</span>
+
+<span class="fc" id="L112">		return json.toJson(content, true);</span>
+	}
+	
+	
+	public byte[] decryptMsg(String msg,ElGamalKey secondKey){
+		
+<span class="fc" id="L118">		JsonTools&lt;byte[][]&gt; json = new JsonTools&lt;&gt;(new TypeReference&lt;byte[][]&gt;(){});</span>
+<span class="fc" id="L119">		byte[][] content = json.toEntity(msg, true);</span>
+		
+		byte[] pwd;
+		
+<span class="fc" id="L123">		Encrypter&lt;ElGamalKey&gt; encrypter1 = EncrypterFactory.createElGamalEncrypter();</span>
+<span class="fc" id="L124">		encrypter1.setKey(key);</span>
+		
+<span class="pc bpc" id="L126" title="1 of 2 branches missed.">		if(key.getPublicKey().equals(secondKey.getPublicKey())){//sender</span>
+<span class="fc" id="L127">			pwd= encrypter1.decrypt(content[1]);</span>
+		}else{//receiver
+<span class="nc" id="L129">			pwd= encrypter1.decrypt(content[0]);</span>
+		}
+		
+<span class="fc" id="L132">		Encrypter&lt;byte[]&gt; encrypter2 = EncrypterFactory.createSerpentEncrypter();</span>
+<span class="fc" id="L133">		encrypter2.setKey(pwd);</span>
+<span class="fc" id="L134">		return encrypter2.decrypt(content[2]);</span>
+	}
+	
+	
+	
+	/**
+	 * Create a password using predefinite 
+	 * @param len : length of the password wanted
+	 * @return : a randomly generated String
+	 */
+	private String createPwd(int len){
+		// Characters we will use to encrypt
+<span class="fc" id="L146">		char[] characters = &quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~`!@#$%^&amp;*()-_=+[{]}\\|;:\'\&quot;,&lt;.&gt;/?&quot;.toCharArray();</span>
+		
+		// Build a random String from the characters
+<span class="fc" id="L149">		StringBuilder sb = new StringBuilder();</span>
+<span class="fc" id="L150">		Random random = new Random();</span>
+<span class="fc bfc" id="L151" title="All 2 branches covered.">		for (int j = 0; j &lt; len; j++) {</span>
+<span class="fc" id="L152">		    char c = characters[random.nextInt(characters.length)];</span>
+<span class="fc" id="L153">		    sb.append(c);</span>
+		}
+<span class="fc" id="L155">		return sb.toString();</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

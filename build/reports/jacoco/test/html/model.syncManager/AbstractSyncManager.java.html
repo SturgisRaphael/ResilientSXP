@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractSyncManager.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">model.syncManager</a> &gt; <span class="el_source">AbstractSyncManager.java</span></div><h1>AbstractSyncManager.java</h1><pre class="source lang-java linenums">package model.syncManager;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Iterator;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
+
+import org.eclipse.persistence.internal.sessions.UnitOfWorkChangeSet;
+import org.eclipse.persistence.internal.sessions.UnitOfWorkImpl;
+import org.eclipse.persistence.jpa.JpaEntityManager;
+import org.eclipse.persistence.sessions.UnitOfWork;
+import org.eclipse.persistence.sessions.changesets.ObjectChangeSet;
+
+import controller.tools.LoggerUtilities;
+import model.validator.EntityValidator;
+
+
+<span class="fc" id="L25">public abstract class AbstractSyncManager&lt;Entity&gt; implements model.api.SyncManager&lt;Entity&gt;{</span>
+	private EntityManagerFactory factory;
+	private EntityManager em;
+	private Class&lt;?&gt; theClass;
+	@Override
+	public void initialisation(String unitName, Class&lt;?&gt; c) {
+<span class="fc" id="L31">		factory = Persistence.createEntityManagerFactory(unitName);</span>
+<span class="fc" id="L32">		this.theClass = c;</span>
+<span class="fc" id="L33">		em = factory.createEntityManager();</span>
+<span class="fc" id="L34">	}</span>
+
+	@SuppressWarnings(&quot;unchecked&quot;)
+	@Override
+	public Entity findOneById(String id) {
+		try
+		{
+<span class="fc" id="L41">			return (Entity) em.find(theClass, id);</span>
+
+		}
+<span class="nc" id="L44">		catch(Exception e)</span>
+		{
+<span class="nc" id="L46">			LoggerUtilities.logStackTrace(e);</span>
+<span class="nc" id="L47">			return null;</span>
+		}
+	}
+
+	@SuppressWarnings(&quot;unchecked&quot;)
+	@Override
+	public Collection&lt;Entity&gt; findAll() {
+		try
+		{
+<span class="fc" id="L56">			Query q = em.createQuery(&quot;select t from &quot; + theClass.getSimpleName() + &quot; t&quot;);</span>
+<span class="fc" id="L57">			return q.getResultList();</span>
+		}
+<span class="nc" id="L59">		catch(Exception e)</span>
+		{
+<span class="nc" id="L61">			LoggerUtilities.logStackTrace(e);</span>
+<span class="nc" id="L62">			return null;</span>
+		}
+
+	}
+
+	@Override
+	@SuppressWarnings(&quot;unchecked&quot;)
+	public Entity findOneByAttribute(String attribute, String value) {
+<span class="fc" id="L70">		Query q = em.createQuery(&quot;select t from &quot; + theClass.getSimpleName() + &quot; t where t.&quot;+ attribute + &quot;=:value&quot;);</span>
+<span class="fc" id="L71">		q.setParameter(&quot;value&quot;, value);</span>
+		try {
+<span class="fc" id="L73">			return (Entity) q.getSingleResult();</span>
+<span class="fc" id="L74">		} catch(Exception e) {</span>
+<span class="fc" id="L75">			LoggerUtilities.logStackTrace(e);</span>
+<span class="fc" id="L76">			return null;</span>
+		}
+	}
+
+	@SuppressWarnings(&quot;unchecked&quot;)
+	@Override
+	public Collection&lt;Entity&gt; findAllByAttribute(String attribute, String value) {
+<span class="fc" id="L83">		Query q = em.createQuery(&quot;select t from &quot; + theClass.getSimpleName() + &quot; t where t.&quot;+ attribute + &quot;=:value&quot;);</span>
+<span class="fc" id="L84">		q.setParameter(&quot;value&quot;, value);</span>
+		try {
+<span class="fc" id="L86">			return q.getResultList();</span>
+<span class="nc" id="L87">		} catch(Exception e) {</span>
+<span class="nc" id="L88">			LoggerUtilities.logStackTrace(e);</span>
+<span class="nc" id="L89">			return null;</span>
+		}
+	}
+	
+	@Override
+	public boolean begin() {
+		try
+		{
+<span class="fc" id="L97">			em.getTransaction().begin();</span>
+<span class="fc" id="L98">			return true;</span>
+		}
+<span class="nc" id="L100">		catch(Exception e)</span>
+		{
+<span class="nc" id="L102">			LoggerUtilities.logStackTrace(e);</span>
+<span class="nc" id="L103">			return false;</span>
+		}
+	}
+
+	protected abstract EntityValidator&lt;?&gt; getAdaptedValidator();
+
+	@Override
+	public boolean check(){
+		@SuppressWarnings(&quot;unchecked&quot;)
+<span class="fc" id="L112">		EntityValidator&lt;Entity&gt; ev = (EntityValidator&lt;Entity&gt;) this.getAdaptedValidator();</span>
+<span class="fc" id="L113">		boolean ret = true;</span>
+<span class="fc bfc" id="L114" title="All 2 branches covered.">		for (Entity ent : this.watchlist()) {</span>
+<span class="fc" id="L115">			ev.setEntity(ent);</span>
+<span class="pc bpc" id="L116" title="1 of 4 branches missed.">			ret = ret &amp;&amp; ev.validate();</span>
+<span class="fc" id="L117">		}</span>
+<span class="fc" id="L118">		return ret;</span>
+	}
+
+	@Override
+	public boolean end() {
+		//Validate all the entities in the Watchlist
+<span class="fc bfc" id="L124" title="All 2 branches covered.">		if(! this.check()){return false;}</span>
+		try{
+<span class="fc" id="L126">			EntityTransaction emtr = em.getTransaction();</span>
+<span class="pc bpc" id="L127" title="1 of 2 branches missed.">			if (!emtr.getRollbackOnly())</span>
+<span class="fc" id="L128">				em.getTransaction().commit();</span>
+<span class="fc" id="L129">			em.clear(); // Should it be done here or before the close method?</span>
+<span class="fc" id="L130">			return true;</span>
+<span class="nc" id="L131">		}catch(Exception e){</span>
+<span class="nc" id="L132">			LoggerUtilities.logStackTrace(e);</span>
+<span class="nc" id="L133">			return false;</span>
+		}
+	}
+
+	@Override
+	public boolean persist(Entity entity) {
+		try{
+<span class="fc" id="L140">			em.persist(entity);</span>
+<span class="fc" id="L141">			return true;</span>
+<span class="fc" id="L142">		}catch(Exception e){</span>
+<span class="fc" id="L143">			System.out.println(e);</span>
+<span class="fc" id="L144">			LoggerUtilities.logStackTrace(e);</span>
+<span class="fc" id="L145">			return false;</span>
+		}
+	}
+
+	@Override
+	public boolean remove(Entity entity){
+		try{
+<span class="fc" id="L152">			em.remove(entity);</span>
+<span class="fc" id="L153">			return true;</span>
+<span class="nc" id="L154">		}catch(Exception e){</span>
+<span class="nc" id="L155">			LoggerUtilities.logStackTrace(e);</span>
+<span class="nc" id="L156">			return false;</span>
+		}
+	}
+
+	@Override
+	public boolean contains(Entity entity){
+		try{
+<span class="fc" id="L163">			return em.contains(entity);</span>
+<span class="nc" id="L164">		}catch(Exception e){</span>
+<span class="nc" id="L165">			LoggerUtilities.logStackTrace(e);</span>
+<span class="nc" id="L166">			return false;</span>
+		}
+	}
+
+
+	@SuppressWarnings(&quot;unchecked&quot;)
+	@Override
+	public Collection&lt;Entity&gt; watchlist() {
+<span class="fc" id="L174">		UnitOfWorkImpl uow = (UnitOfWorkImpl) em.unwrap(UnitOfWork.class);</span>
+<span class="fc" id="L175">		return uow.getCloneMapping().keySet();</span>
+	}
+
+	@Override
+	public boolean close() {
+		try{
+<span class="fc" id="L181">			em.close();</span>
+<span class="fc" id="L182">			em = null;</span>
+<span class="fc" id="L183">			return true;</span>
+<span class="nc" id="L184">		}catch(Exception e){</span>
+<span class="nc" id="L185">			LoggerUtilities.logStackTrace(e);</span>
+<span class="nc" id="L186">			return false;</span>
+		}
+	}
+
+	@Override
+	public Collection&lt;Entity&gt; changesInWatchlist() {
+		
+<span class="fc" id="L193">		ArrayList&lt;Entity&gt; res = new ArrayList&lt;&gt;();</span>
+		
+<span class="fc" id="L195">		UnitOfWorkImpl uow = (UnitOfWorkImpl) em.unwrap(UnitOfWork.class);</span>
+		
+<span class="fc" id="L197">		final UnitOfWorkChangeSet changeSet = (UnitOfWorkChangeSet) uow.getCurrentChanges();</span>
+		
+<span class="fc" id="L199">		Collection&lt;Entity&gt; collection = uow.getCloneMapping().keySet(); </span>
+		
+<span class="fc bfc" id="L201" title="All 2 branches covered.">		for (Iterator&lt;Entity&gt; iterator = collection.iterator(); iterator.hasNext();) {</span>
+			
+<span class="fc" id="L203">			Entity entity = iterator.next();</span>
+			
+<span class="fc" id="L205">		    ObjectChangeSet objectChangeSet = changeSet.getObjectChangeSetForClone(entity);</span>
+			
+<span class="pc bpc" id="L207" title="1 of 2 branches missed.">			if(objectChangeSet.hasChanges()){</span>
+<span class="fc" id="L208">				res.add(entity);</span>
+			}
+			
+<span class="fc" id="L211">		}</span>
+		
+<span class="fc" id="L213">		return res;</span>
+	}
+	
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

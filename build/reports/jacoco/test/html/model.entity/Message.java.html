@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Message.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">model.entity</a> &gt; <span class="el_source">Message.java</span></div><h1>Message.java</h1><pre class="source lang-java linenums">package model.entity;
+
+import static javax.persistence.EnumType.STRING;
+
+import java.math.BigInteger;
+import java.util.Date;
+
+import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import org.eclipse.persistence.annotations.UuidGenerator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import crypt.annotations.CryptCryptAnnotation;
+import crypt.annotations.CryptSigneAnnotation;
+
+@XmlRootElement
+@Entity
+<span class="fc" id="L28">public class Message {</span>
+
+	@XmlElement(name=&quot;id&quot;)
+	@UuidGenerator(name=&quot;uuid&quot;)
+	@Id
+	@GeneratedValue(generator=&quot;uuid&quot;)
+	private String id;
+
+	@XmlElement(name=&quot;sendingDate&quot;)
+	@NotNull
+	@Temporal(TemporalType.TIMESTAMP)
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern=&quot;dd-MM-yyyy HH:mm:ss&quot;) 
+	private Date sendingDate;
+
+	@XmlElement(name=&quot;senderId&quot;)
+	@NotNull
+	@Size(min = 1, max = 128)
+	private String senderId;
+
+	@XmlElement(name=&quot;senderName&quot;)
+	@NotNull
+	@Size(min = 1, max = 128)
+	private String senderName;
+
+	@XmlElement(name=&quot;receiverId&quot;)
+	@NotNull
+	private String receiverId;
+
+	@XmlElement(name=&quot;receiverName&quot;)
+	@NotNull
+	private String receiverName;
+	
+	@CryptCryptAnnotation(isCryptBySecondKey=true,secondKey=&quot;pbkey&quot;)
+	@Lob
+	@XmlElement(name=&quot;messageContent&quot;)
+	@NotNull
+	@Size(min = 1, max = 4096)
+	private String messageContent;
+
+<span class="pc" id="L67">	public static enum ReceptionStatus {DRAFT, SENT, RECEIVED}</span>
+<span class="fc" id="L68">	@XmlElement(name=&quot;status&quot;)</span>
+	@Enumerated(STRING)
+	public ReceptionStatus status = ReceptionStatus.DRAFT;   
+	
+	
+	@XmlElement(name=&quot;pbkey&quot;)
+	@NotNull
+	@Lob
+	@JsonSerialize(using=controller.tools.BigIntegerSerializer.class)
+	@JsonDeserialize(using=controller.tools.BigIntegerDeserializer.class)
+	@JsonFormat(shape=JsonFormat.Shape.STRING)
+	private BigInteger pbkey;
+	
+	@Lob
+	@CryptSigneAnnotation(signeWithFields={&quot;sendingDate&quot;,&quot;senderId&quot;,&quot;senderName&quot;,&quot;receiverId&quot;,&quot;receiverName&quot;,&quot;pbkey&quot;,&quot;messageContent&quot;},checkByKey=&quot;pbkey&quot;) //,ownerAttribute=&quot;senderId&quot;)
+	@XmlElement(name=&quot;signature&quot;)
+	//@NotNull
+	private ElGamalSignEntity signature;
+	
+	
+	public String getId(){
+<span class="fc" id="L89">		return this.id;</span>
+	}
+
+	public void setSendingDate(Date date){
+<span class="fc" id="L93">		this.sendingDate = date;</span>
+<span class="fc" id="L94">	}</span>
+
+	public Date getSendingDate(){
+<span class="nc" id="L97">		return this.sendingDate;</span>
+	}
+
+	public void setSender(String id, String name){
+<span class="fc" id="L101">		this.senderId = id;</span>
+<span class="fc" id="L102">		this.senderName = name;</span>
+<span class="fc" id="L103">	}</span>
+
+	public String getSenderId(){
+<span class="fc" id="L106">		return this.senderId;</span>
+	}
+	public String getSenderName(){
+<span class="fc" id="L109">		return this.senderName;</span>
+	}
+
+	public void setReceiver(String id, String name){
+<span class="fc" id="L113">		this.receiverId = id;</span>
+<span class="fc" id="L114">		this.receiverName = name;</span>
+<span class="fc" id="L115">	}</span>
+
+	public String getReceiverId(){
+<span class="fc" id="L118">		return this.receiverId;</span>
+	}
+
+	public String getReceiverName(){
+<span class="fc" id="L122">		return this.receiverName;</span>
+	}
+
+
+	public void setMessageContent(String content){
+<span class="fc" id="L127">		this.messageContent = content;</span>
+<span class="fc" id="L128">	}</span>
+
+	public String getMessageContent(){
+<span class="fc" id="L131">		return this.messageContent;</span>
+	}
+
+	public void setStatus(ReceptionStatus status){
+<span class="fc" id="L135">		this.status = status;</span>
+<span class="fc" id="L136">	}</span>
+
+	public ReceptionStatus getStatus(){
+<span class="nc" id="L139">		return this.status;</span>
+	}
+	
+	
+	public BigInteger getPbkey() {
+<span class="nc" id="L144">		return pbkey;</span>
+	}
+
+	public void setPbkey(BigInteger pbkey) {
+<span class="fc" id="L148">		this.pbkey = pbkey;</span>
+<span class="fc" id="L149">	}</span>
+
+	public ElGamalSignEntity getSignature() {
+<span class="fc" id="L152">		return signature;</span>
+	}
+
+	public void setSignature(ElGamalSignEntity signature) {
+<span class="fc" id="L156">		this.signature = signature;</span>
+<span class="fc" id="L157">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

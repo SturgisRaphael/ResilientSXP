@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserSyncManagerImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">model.syncManager</a> &gt; <span class="el_source">UserSyncManagerImpl.java</span></div><h1>UserSyncManagerImpl.java</h1><pre class="source lang-java linenums">package model.syncManager;
+
+import java.util.Collection;
+
+import crypt.api.hashs.Hasher;
+import crypt.factories.HasherFactory;
+import model.api.UserSyncManager;
+import model.entity.User;
+import model.factory.ValidatorFactory;
+import model.validator.EntityValidator;
+
+public class UserSyncManagerImpl extends AbstractSyncManager&lt;User&gt; implements UserSyncManager{
+	public UserSyncManagerImpl() {
+<span class="fc" id="L14">		super();</span>
+<span class="fc" id="L15">		this.initialisation(&quot;persistence&quot;, User.class);</span>
+<span class="fc" id="L16">	}</span>
+
+	@Override
+	public User getUser(String username, String password) {
+<span class="fc" id="L20">		Collection&lt;User&gt; users = this.findAllByAttribute(&quot;nick&quot;, username);</span>
+<span class="fc bfc" id="L21" title="All 2 branches covered.">		for(User u: users) {</span>
+<span class="fc" id="L22">			Hasher hasher = HasherFactory.createDefaultHasher();</span>
+<span class="fc" id="L23">			hasher.setSalt(u.getSalt());</span>
+			//check if passwords are the sames
+<span class="fc" id="L25">			String hash1 = new String(u.getPasswordHash());</span>
+<span class="fc" id="L26">			String hash2 = new String(hasher.getHash(password.getBytes()));</span>
+<span class="pc bpc" id="L27" title="1 of 2 branches missed.">			if(hash1.equals(hash2)) {</span>
+<span class="fc" id="L28">				return u;</span>
+			}
+<span class="nc" id="L30">		}</span>
+<span class="fc" id="L31">		return null;</span>
+	}
+
+	@Override
+	protected EntityValidator&lt;?&gt; getAdaptedValidator() {
+<span class="fc" id="L36">		return ValidatorFactory.createUserValidator();</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

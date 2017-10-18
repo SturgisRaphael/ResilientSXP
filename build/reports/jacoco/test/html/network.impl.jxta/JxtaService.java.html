@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JxtaService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">network.impl.jxta</a> &gt; <span class="el_source">JxtaService.java</span></div><h1>JxtaService.java</h1><pre class="source lang-java linenums">package network.impl.jxta;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.HashSet;
+
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
+import controller.tools.LoggerUtilities;
+import net.jxta.discovery.DiscoveryEvent;
+import net.jxta.discovery.DiscoveryListener;
+import net.jxta.discovery.DiscoveryService;
+import net.jxta.document.AdvertisementFactory;
+import net.jxta.endpoint.ByteArrayMessageElement;
+import net.jxta.endpoint.Message;
+import net.jxta.endpoint.Message.ElementIterator;
+import net.jxta.endpoint.MessageElement;
+import net.jxta.id.IDFactory;
+import net.jxta.peer.PeerID;
+import net.jxta.peergroup.PeerGroup;
+import net.jxta.pipe.OutputPipe;
+import net.jxta.pipe.PipeID;
+import net.jxta.pipe.PipeMsgEvent;
+import net.jxta.pipe.PipeMsgListener;
+import net.jxta.pipe.PipeService;
+import net.jxta.protocol.PipeAdvertisement;
+import network.api.Messages;
+import network.api.Peer;
+import network.api.SearchListener;
+import network.api.ServiceListener;
+import network.api.advertisement.Advertisement;
+import network.api.service.InvalidServiceException;
+import network.api.service.Service;
+import network.impl.MessagesGeneric;
+import network.impl.advertisement.ItemAdvertisement;
+import network.impl.advertisement.UserAdvertisement;
+
+/**
+ * This is the Jxta implementation of {@link Service}
+ * @see Peer
+ * @author Julien Prudhomme
+ *
+ */
+<span class="fc" id="L49">public class JxtaService implements Service, DiscoveryListener, PipeMsgListener{</span>
+	@SuppressWarnings(&quot;unused&quot;)
+<span class="fc" id="L51">	private final static Logger log = LogManager.getLogger(JxtaService.class);</span>
+
+<span class="fc" id="L53">	protected PeerGroup pg = null;</span>
+	private SearchListener&lt;Advertisement&gt; currentSl;
+	protected String name;
+<span class="fc" id="L56">	protected String peerUri = null;</span>
+<span class="fc" id="L57">	protected HashMap&lt;String, ServiceListener&gt; listeners = new HashMap&lt;&gt;();</span>
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getName() {
+<span class="fc" id="L64">		return name;</span>
+	}
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void publishAdvertisement(Advertisement adv) {
+<span class="fc" id="L73">		JxtaAdvertisement jxtaAdv = new JxtaAdvertisement(adv);</span>
+		try {
+<span class="fc" id="L75">			pg.getDiscoveryService().publish(jxtaAdv.getJxtaAdvertisementBridge());</span>
+<span class="fc" id="L76">			pg.getDiscoveryService().remotePublish(jxtaAdv.getJxtaAdvertisementBridge());</span>
+<span class="nc" id="L77">		} catch (IOException e) {</span>
+<span class="nc" id="L78">			LoggerUtilities.logStackTrace(e);</span>
+<span class="nc" id="L79">			throw new RuntimeException(e);</span>
+<span class="fc" id="L80">		}</span>
+<span class="fc" id="L81">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 * @throws InvalidServiceException 
+	 */
+	@Override
+	public void initAndStart(Peer peer) throws RuntimeException, InvalidServiceException{
+<span class="fc bfc" id="L89" title="All 2 branches covered.">		if(!(peer instanceof JxtaPeer)) {</span>
+<span class="fc" id="L90">			throw new RuntimeException(&quot;Need a Jxta Peer to run a Jxta service&quot;);</span>
+		}
+<span class="fc" id="L92">		JxtaPeer jxtaPeer = (JxtaPeer) peer;</span>
+<span class="fc" id="L93">		jxtaPeer.addService(this);</span>
+<span class="fc" id="L94">		peerUri = peer.getUri();</span>
+		
+<span class="fc" id="L96">		createInputPipe();</span>
+<span class="fc" id="L97">	}</span>
+
+	private void createInputPipe() {
+		try {
+<span class="fc" id="L101">			pg.getPipeService().createInputPipe(getAdvertisement(), this);</span>
+<span class="nc" id="L102">		} catch (IOException e) {</span>
+<span class="nc" id="L103">			LoggerUtilities.logStackTrace(e);</span>
+<span class="nc" id="L104">			throw new RuntimeException(e);</span>
+<span class="fc" id="L105">		}</span>
+<span class="fc" id="L106">	}</span>
+	
+	protected void setPeerGroup(PeerGroup pg) {
+<span class="fc" id="L109">		this.pg = pg;</span>
+<span class="fc" id="L110">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	@Override
+	public void search(String attribute, String value, SearchListener&lt;?&gt; sl) {
+<span class="fc" id="L118">		this.currentSl = (SearchListener&lt;Advertisement&gt;) sl;</span>
+<span class="fc" id="L119">		pg.getDiscoveryService().getRemoteAdvertisements(null, DiscoveryService.ADV, attribute, value, 10, this);</span>
+<span class="fc" id="L120">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void discoveryEvent(DiscoveryEvent event) {
+<span class="fc" id="L127">		Enumeration&lt;net.jxta.document.Advertisement&gt; advs = event.getResponse().getAdvertisements();</span>
+<span class="fc" id="L128">		ArrayList&lt;Advertisement&gt; advertisements = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L129" title="All 2 branches covered.">		while(advs.hasMoreElements()) {</span>
+<span class="fc" id="L130">			AdvertisementBridge adv = (AdvertisementBridge) advs.nextElement();</span>
+<span class="fc" id="L131">			Advertisement fadv = adv.getAdvertisement();</span>
+<span class="fc" id="L132">			fadv.setSourceURI(&quot;urn:jxta:&quot; + event.getSource().toString().substring(7));</span>
+			
+<span class="fc" id="L134">			advertisements.add(adv.getAdvertisement());</span>
+<span class="fc" id="L135">		}</span>
+<span class="fc" id="L136">		currentSl.notify(advertisements);</span>
+<span class="fc" id="L137">	}</span>
+	
+	/**
+	 * Create a simple advertisement for the pipes' class.
+	 * @return
+	 */
+	protected PipeAdvertisement getAdvertisement() {
+<span class="fc" id="L144">		return getPipeAdvertisement(IDFactory</span>
+<span class="fc" id="L145">				.newPipeID(pg.getPeerGroupID(), this.getClass().getName().getBytes()), false);</span>
+	}
+	
+	protected PipeAdvertisement getPipeAdvertisement(PipeID id, boolean is_multicast) {
+        PipeAdvertisement adv = (PipeAdvertisement )AdvertisementFactory.
+<span class="fc" id="L150">            newAdvertisement(PipeAdvertisement.getAdvertisementType());</span>
+<span class="fc" id="L151">        adv.setPipeID(id);</span>
+<span class="pc bpc" id="L152" title="1 of 2 branches missed.">        if (is_multicast)</span>
+<span class="nc" id="L153">            adv.setType(PipeService.PropagateType); </span>
+        else 
+<span class="fc" id="L155">            adv.setType(PipeService.UnicastType); </span>
+        
+        
+<span class="fc" id="L158">        adv.setName(&quot;Pipe_&quot;+this.getName());</span>
+<span class="fc" id="L159">        adv.setDescription(&quot;...&quot;);</span>
+<span class="fc" id="L160">        return adv;</span>
+    }
+
+	protected Message toJxtaMessage(Messages m) {
+<span class="fc" id="L164">		Message msg = new Message();</span>
+
+<span class="fc bfc" id="L166" title="All 2 branches covered.">		for(String s: m.getNames()) {</span>
+<span class="fc" id="L167">			msg.addMessageElement(new ByteArrayMessageElement(s, null, m.getMessage(s).getBytes(), null));</span>
+		}
+
+		//msg.addMessageElement(new ByteArrayMessageElement(&quot;WHO&quot;, null, m.getWho().getBytes(), null));
+<span class="fc" id="L171">		return msg;</span>
+	}
+	
+	protected Messages toMessages(Message m) {
+<span class="fc" id="L175">		MessagesGeneric msg = new MessagesGeneric();</span>
+<span class="fc" id="L176">		ElementIterator it = m.getMessageElements();</span>
+<span class="fc bfc" id="L177" title="All 2 branches covered.">		while(it.hasNext()) {</span>
+<span class="fc" id="L178">			MessageElement e = it.next();</span>
+<span class="fc bfc" id="L179" title="All 2 branches covered.">			if(e.getElementName().equals(&quot;WHO&quot;)) {</span>
+<span class="fc" id="L180">				msg.setWho(new String(e.getBytes(true)));</span>
+			} else {
+<span class="fc" id="L182">				msg.addField(e.getElementName(), new String(e.getBytes(true)));</span>
+			}
+<span class="fc" id="L184">		}</span>
+<span class="fc" id="L185">		return msg;</span>
+	}
+
+
+	@Override
+	public void sendMessages(Messages messages, String... uris) {
+
+<span class="fc" id="L192">		Message message = toJxtaMessage(messages);</span>
+<span class="fc" id="L193">		HashSet&lt;PeerID&gt; to = new HashSet&lt;PeerID&gt;();</span>
+<span class="fc bfc" id="L194" title="All 2 branches covered.">		for(String pidUri: uris) {</span>
+			try {
+<span class="fc" id="L196">				PeerID pid = PeerID.create(new URI(pidUri));</span>
+<span class="fc" id="L197">				to.add(pid);</span>
+<span class="nc" id="L198">			} catch (URISyntaxException e) {</span>
+<span class="nc" id="L199">				LoggerUtilities.logStackTrace(e);</span>
+<span class="nc" id="L200">				throw new RuntimeException(e);</span>
+<span class="fc" id="L201">			}</span>
+		}
+		try {
+<span class="fc" id="L204">			OutputPipe pipe = pg.getPipeService().createOutputPipe(getAdvertisement(), to, 3000);</span>
+<span class="fc" id="L205">			pipe.send(message);</span>
+<span class="fc" id="L206">			pipe.close();</span>
+<span class="fc" id="L207">		} catch (IOException e) {</span>
+<span class="fc" id="L208">			LoggerUtilities.logStackTrace(e);</span>
+<span class="fc" id="L209">			throw new RuntimeException(e);</span>
+<span class="fc" id="L210">		}</span>
+<span class="fc" id="L211">	}</span>
+
+
+	@Override
+	public void pipeMsgEvent(PipeMsgEvent event) {
+<span class="fc" id="L216">		Messages m = toMessages(event.getMessage());</span>
+<span class="pc bpc" id="L217" title="1 of 2 branches missed.">		if(listeners.get(m.getWho()) != null) {</span>
+<span class="nc" id="L218">			listeners.get(m.getWho()).notify(m);</span>
+		}
+<span class="fc" id="L220">	}</span>
+
+
+	@Override
+	public void addListener(ServiceListener l, String who) {
+<span class="fc" id="L225">		listeners.put(who, l);</span>
+<span class="fc" id="L226">	}</span>
+
+	@Override
+	public void removeListener(String who) {
+<span class="fc" id="L230">		listeners.remove(who);</span>
+<span class="fc" id="L231">	}</span>
+	
+	@Override
+	public void addAdvertisementListener(DiscoveryListener l){
+<span class="fc" id="L235">		pg.getDiscoveryService().addDiscoveryListener(l);</span>
+<span class="fc" id="L236">	}</span>
+
+	@Override
+	public void removeAdvertisementListener(DiscoveryListener l){
+<span class="fc" id="L240">		pg.getDiscoveryService().removeDiscoveryListener(l);</span>
+<span class="fc" id="L241">	}</span>
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

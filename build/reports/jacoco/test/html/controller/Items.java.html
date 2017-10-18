@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Items.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">controller</a> &gt; <span class="el_source">Items.java</span></div><h1>Items.java</h1><pre class="source lang-java linenums">package controller;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.Set;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+
+import controller.tools.JsonTools;
+import controller.tools.LoggerUtilities;
+import model.api.ItemSyncManager;
+import model.api.Manager;
+import model.api.ManagerListener;
+import model.api.UserSyncManager;
+import model.entity.ElGamalSignEntity;
+import model.entity.Item;
+import model.entity.User;
+import model.factory.ManagerFactory;
+import model.factory.SyncManagerFactory;
+import rest.api.Authentifier;
+import rest.api.ServletPath;
+
+@ServletPath(&quot;/api/items/*&quot;)
+@Path(&quot;/&quot;)
+<span class="fc" id="L37">public class Items {</span>
+
+	@POST
+	@Path(&quot;/&quot;)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public String add(Item item, @HeaderParam(Authentifier.PARAM_NAME) String token) {
+		
+<span class="fc" id="L45">		Authentifier auth = Application.getInstance().getAuth();</span>
+<span class="fc" id="L46">		UserSyncManager users = SyncManagerFactory.createUserSyncManager();</span>
+<span class="fc" id="L47">		User currentUser = users.getUser(auth.getLogin(token), auth.getPassword(token));</span>
+		
+<span class="fc" id="L49">		Manager&lt;Item&gt; em = ManagerFactory.createCryptoNetworkResilianceItemManager(Application.getInstance().getPeer(), token,currentUser);</span>
+		
+<span class="fc" id="L51">		em.begin();</span>
+		//TODO VALIDATION
+<span class="fc" id="L53">		item.setUsername(currentUser.getNick());</span>
+<span class="fc" id="L54">		item.setPbkey(currentUser.getKey().getPublicKey());</span>
+<span class="fc" id="L55">		item.setUserid(currentUser.getId());</span>
+<span class="fc" id="L56">		item.setSignature(new ElGamalSignEntity());</span>
+<span class="fc" id="L57">		item.setCreatedAt(new Date());</span>
+<span class="fc" id="L58">		em.persist(item);</span>
+<span class="fc" id="L59">		em.end();</span>
+<span class="fc" id="L60">		em.close();</span>
+<span class="fc" id="L61">		users.close();</span>
+		
+<span class="fc" id="L63">		JsonTools&lt;Item&gt; json = new JsonTools&lt;&gt;(new TypeReference&lt;Item&gt;(){});</span>
+<span class="fc" id="L64">		return json.toJson(item);</span>
+	}
+
+	@GET
+	@Path(&quot;/{id}&quot;)
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getId(
+			@PathParam(&quot;id&quot;)String id) {
+<span class="fc" id="L72">		ItemSyncManager em = SyncManagerFactory.createItemSyncManager();</span>
+<span class="fc" id="L73">		JsonTools&lt;Item&gt; json = new JsonTools&lt;&gt;(new TypeReference&lt;Item&gt;(){});</span>
+<span class="fc" id="L74">		String ret = json.toJson(em.findOneById(id));</span>
+<span class="fc" id="L75">		em.close();</span>
+<span class="fc" id="L76">		return ret;</span>
+	}
+
+	@GET
+	@Path(&quot;/&quot;)
+	@Produces(MediaType.APPLICATION_JSON)
+	public String get(@HeaderParam(Authentifier.PARAM_NAME) String token) {
+		
+<span class="fc" id="L84">		Authentifier auth = Application.getInstance().getAuth();</span>
+<span class="fc" id="L85">		UserSyncManager users = SyncManagerFactory.createUserSyncManager();</span>
+<span class="fc" id="L86">	    User currentUser = users.getUser(auth.getLogin(token), auth.getPassword(token));</span>
+<span class="fc" id="L87">	    ItemSyncManager em = SyncManagerFactory.createItemSyncManager();</span>
+<span class="fc" id="L88">		JsonTools&lt;Collection&lt;Item&gt;&gt; json = new JsonTools&lt;&gt;(new TypeReference&lt;Collection&lt;Item&gt;&gt;(){});</span>
+<span class="fc" id="L89">		String ret = json.toJson(em.findAllByAttribute(&quot;userid&quot;, currentUser.getId()));</span>
+<span class="fc" id="L90">		users.close();</span>
+<span class="fc" id="L91">		em.close();</span>
+<span class="fc" id="L92">		return ret;</span>
+	}
+
+	@PUT
+	@Path(&quot;/{id}&quot;)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public String edit(Item item,@HeaderParam(Authentifier.PARAM_NAME) String token) {
+		
+<span class="fc" id="L101">		Authentifier auth = Application.getInstance().getAuth();</span>
+<span class="fc" id="L102">		UserSyncManager users = SyncManagerFactory.createUserSyncManager();</span>
+<span class="fc" id="L103">		User currentUser = users.getUser(auth.getLogin(token), auth.getPassword(token));</span>
+<span class="fc" id="L104">		users.close();</span>
+		
+<span class="fc" id="L106">		ItemSyncManager itmn = SyncManagerFactory.createItemSyncManager();</span>
+<span class="fc" id="L107">		Manager&lt;Item&gt; entityManager = ManagerFactory.createCryptoNetworkResilianceItemManager(itmn,Application.getInstance().getPeer(), token,currentUser);</span>
+		 
+<span class="fc" id="L109">		Item it = itmn.findOneById(item.getId());</span>
+
+<span class="fc" id="L111">		entityManager.begin();</span>
+<span class="fc" id="L112">		it.setTitle(item.getTitle());</span>
+<span class="fc" id="L113">		it.setDescription(item.getDescription());</span>
+<span class="fc" id="L114">		entityManager.end();</span>
+		
+<span class="fc" id="L116">		entityManager.close();</span>
+		
+<span class="pc bpc" id="L118" title="1 of 2 branches missed.">		if (it==null)</span>
+<span class="nc" id="L119">			return &quot;{\&quot;edit\&quot;: \&quot;false\&quot;}&quot;;</span>
+		
+<span class="fc" id="L121">		JsonTools&lt;Item&gt; json = new JsonTools&lt;&gt;(new TypeReference&lt;Item&gt;(){});</span>
+<span class="fc" id="L122">	    String ret = json.toJson(it);</span>
+		
+<span class="fc" id="L124">		return ret;</span>
+	}
+
+	/** 
+	 * This only deletes items from local base.
+	 * TO DO : connect to jxta
+	 * @param id
+	 * @param token
+	 * @return
+	 */
+	@DELETE
+	@Path(&quot;/{id}&quot;)
+	@Produces(MediaType.APPLICATION_JSON)
+	public String delete(@PathParam(&quot;id&quot;)String id, @HeaderParam(Authentifier.PARAM_NAME) String token) {
+<span class="fc" id="L138">		Authentifier auth = Application.getInstance().getAuth();</span>
+<span class="fc" id="L139">		UserSyncManager users = SyncManagerFactory.createUserSyncManager();</span>
+<span class="fc" id="L140">		User currentUser = users.getUser(auth.getLogin(token), auth.getPassword(token));</span>
+<span class="fc" id="L141">		users.close();</span>
+<span class="pc bpc" id="L142" title="1 of 2 branches missed.">		if (currentUser == null)</span>
+<span class="nc" id="L143">			return &quot;{\&quot;deleted\&quot;: \&quot;false\&quot;}&quot;;</span>
+		
+<span class="fc" id="L145">		ItemSyncManager em = SyncManagerFactory.createItemSyncManager();</span>
+<span class="fc" id="L146">		boolean ret = em.begin();</span>
+<span class="fc" id="L147">		Item it = em.findOneById(id);</span>
+<span class="pc bpc" id="L148" title="1 of 2 branches missed.">		if (it.getUserid() != currentUser.getId()){</span>
+<span class="nc" id="L149">			em.end();</span>
+<span class="nc" id="L150">			em.close();</span>
+<span class="nc" id="L151">			return &quot;{\&quot;deleted\&quot;: \&quot;false\&quot;}&quot;;</span>
+		}
+<span class="pc bpc" id="L153" title="4 of 8 branches missed.">		return &quot;{\&quot;deleted\&quot;: \&quot;&quot; + (ret &amp;&amp; em.remove(it) &amp;&amp; em.end() &amp;&amp; em.close()) + &quot;\&quot;}&quot;;</span>
+	}
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

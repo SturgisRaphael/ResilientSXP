@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Receiver.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">protocol.impl.sigma</a> &gt; <span class="el_source">Receiver.java</span></div><h1>Receiver.java</h1><pre class="source lang-java linenums">/* Copyright 2015 Pablo Arrighi, Sarah Boukris, Mehdi Chtiwi, 
+   Michael Dubuis, Kevin Perrot, Julien Prudhomme.
+
+   This file is part of SXP.
+
+   SXP is free software: you can redistribute it and/or modify it 
+   under the terms of the GNU Lesser General Public License as published 
+   by the Free Software Foundation, version 3.
+
+   SXP is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+   without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+   PURPOSE.  See the GNU Lesser General Public License for more details.
+
+   You should have received a copy of the GNU Lesser General Public License along with SXP. 
+   If not, see &lt;http://www.gnu.org/licenses/&gt;. */
+package protocol.impl.sigma;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import controller.tools.LoggerUtilities;
+import model.entity.ElGamalKey;
+import model.entity.sigma.And;
+import model.entity.sigma.Masks;
+import model.entity.sigma.Or;
+import model.entity.sigma.ResEncrypt;
+import model.entity.sigma.Responses;
+
+
+/**
+ * this class simulate the receiver but in the end all users have this class
+ * the receiver verifies if all he is received is good or not
+ * @author sarah
+ *
+ */
+<span class="fc" id="L38">public class Receiver {</span>
+	
+	/**
+	 * Verify a single response
+	 * @param response
+	 * @param tKeys
+	 * @param res
+	 * @return Boolean
+	 */
+	public Boolean Verifies (Responses response, ElGamalKey tKeys, ResEncrypt res)
+	{
+<span class="fc" id="L49">		return response.Verifies(tKeys, res);</span>
+	}
+	
+	/**
+	 * Create the And response and Verify a And response
+	 * @param or (for the condition in the verify method in An)
+	 * @param rK
+	 * @param resEncrypt
+	 * @param responses
+	 * @return
+	 */
+	public Boolean Verifies(Boolean or, HashMap &lt;Responses,ElGamalKey&gt; rK,ResEncrypt resEncrypt, Responses ... responses)
+	{
+<span class="fc" id="L62">		And and = new And(rK, resEncrypt, responses);</span>
+<span class="fc" id="L63">		return and.Verifies(or);</span>
+	}
+	
+	/**
+	 * Verify a And response 
+	 * @param and
+	 * @param or (for the condition in the verify method in An)
+	 * @return
+	 */
+	public Boolean Verifies(And and, Boolean or)
+	{
+<span class="fc" id="L74">		return and.Verifies(or);</span>
+	}
+	
+	/**
+	 * Verify a Or response
+	 * @param a
+	 * @param resEncrypt
+	 * @param ands
+	 * @return Boolean
+	 */
+	public Boolean Verifies(BigInteger a,ResEncrypt resEncrypt, And... ands )
+	{	
+<span class="fc" id="L86">		Or or = new Or(a, ands);</span>
+<span class="fc" id="L87">		return or.Verifies(resEncrypt.getM());</span>
+	}
+	
+	/**
+	 * Verify if challenge is fabricated (not in Or)
+	 * @param challenge
+	 * @param mask
+	 * @param message
+	 * @return Boolean
+	 */
+	
+	public Boolean VerifiesChallenge(BigInteger challenge,Masks mask, byte[] message)
+	{
+		BigInteger test;
+		byte[] buffer, resume;
+<span class="fc" id="L102">		MessageDigest hash_function = null;</span>
+		
+<span class="fc" id="L104">		String tmp = new String(message).concat(mask.getA().toString());</span>
+		
+<span class="fc" id="L106">		buffer = tmp.getBytes();</span>
+		
+		try {
+<span class="fc" id="L109">			hash_function = MessageDigest.getInstance(&quot;SHA-256&quot;);</span>
+<span class="nc" id="L110">		} catch (NoSuchAlgorithmException e) {</span>
+<span class="nc" id="L111">			LoggerUtilities.logStackTrace(e);</span>
+<span class="fc" id="L112">		}</span>
+		
+<span class="fc" id="L114">		resume = hash_function.digest(buffer);</span>
+<span class="fc" id="L115">		test = new BigInteger(resume);</span>
+		
+<span class="fc" id="L117">		return (challenge.equals(test));</span>
+	}
+	
+	/**
+	 * Verifies the composability of challenges for the Or
+	 * @param message
+	 * @param a
+	 * @param challenge
+	 * @return Boolean
+	 */
+	public Boolean VerifiesChallenges(byte[] message, BigInteger a, ArrayList&lt;BigInteger&gt; challenge)
+	{
+		byte[] buffer, resume;
+<span class="fc" id="L130">		MessageDigest hash_function = null;</span>
+		
+<span class="fc" id="L132">		String tmp = (new String(message)).concat(a.toString());</span>
+		
+<span class="fc" id="L134">		buffer = tmp.getBytes();</span>
+		
+		try {
+<span class="fc" id="L137">			hash_function = MessageDigest.getInstance(&quot;SHA-256&quot;);</span>
+<span class="nc" id="L138">		} catch (NoSuchAlgorithmException e) {</span>
+<span class="nc" id="L139">			LoggerUtilities.logStackTrace(e);</span>
+<span class="fc" id="L140">		}</span>
+		
+<span class="fc" id="L142">		resume = hash_function.digest(buffer);</span>
+<span class="fc" id="L143">		BigInteger test = new BigInteger(resume);</span>
+		
+<span class="fc" id="L145">		BigInteger challenges = BigInteger.ZERO;</span>
+<span class="fc bfc" id="L146" title="All 2 branches covered.">		for(BigInteger c : challenge)</span>
+<span class="fc" id="L147">			challenges = challenges.xor(c);</span>
+		
+<span class="fc" id="L149">		return (challenges.equals(test));</span>
+	}
+	
+
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

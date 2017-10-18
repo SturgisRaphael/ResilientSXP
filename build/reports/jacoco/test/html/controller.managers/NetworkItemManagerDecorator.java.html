@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NetworkItemManagerDecorator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">controller.managers</a> &gt; <span class="el_source">NetworkItemManagerDecorator.java</span></div><h1>NetworkItemManagerDecorator.java</h1><pre class="source lang-java linenums">package controller.managers;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+
+import controller.tools.JsonTools;
+import crypt.api.annotation.ParserAction;
+import crypt.api.annotation.ParserAnnotation;
+import crypt.factories.ParserFactory;
+import model.api.Manager;
+import model.api.ManagerDecorator;
+import model.api.ManagerListener;
+import model.entity.Item;
+import network.api.ItemRequestService;
+import network.api.ItemService;
+import network.api.Messages;
+import network.api.Peer;
+import network.api.SearchListener;
+import network.api.ServiceListener;
+import network.api.advertisement.ItemAdvertisementInterface;
+import network.api.service.Service;
+import network.factories.AdvertisementFactory;
+
+public class NetworkItemManagerDecorator extends ManagerDecorator&lt;Item&gt;{
+
+	private Peer peer;
+	private String who;
+	
+	/**
+	 * 
+	 * @param em Item async manager
+	 * @param peer Peer instance, started
+	 * @param who who own this instance
+	 */
+	public NetworkItemManagerDecorator(Manager&lt;Item&gt; em, Peer peer, String who) {
+<span class="fc" id="L38">		super(em);</span>
+<span class="fc" id="L39">		this.peer = peer;</span>
+<span class="fc" id="L40">		this.who = who;</span>
+<span class="fc" id="L41">	}</span>
+
+	@Override
+	public void findOneById(final String id, final ManagerListener&lt;Item&gt; l) {
+<span class="nc" id="L45">		super.findOneById(id, l);</span>
+		//TODO
+		/*final ItemRequestService itemSender = (ItemRequestService) Application.getInstance().getPeer().getService(JxtaItemsSenderService.NAME);
+		Service items = Application.getInstance().getPeer().getService(JxtaItemService.NAME);
+		
+		itemSender.addListener(new ServiceListener() {
+			
+			@Override
+			public void notify(Messages messages) {
+				JsonTools&lt;ArrayList&lt;Item&gt;&gt; json = new JsonTools&lt;&gt;();
+				json.initialize(ArrayList.class);
+				l.notify(json.toEntity(messages.getMessage(&quot;items&quot;)));
+			}
+			
+		}, who == null ? &quot;test&quot;:who);
+		
+		items.search(&quot;id&quot;, id, new SearchListener&lt;ItemAdvertisement&gt;() {
+			@Override
+			public void notify(Collection&lt;ItemAdvertisement&gt; result) {
+				ArrayList&lt;String&gt; uids = new ArrayList&lt;&gt;();
+				for(ItemAdvertisement i: result) {
+					uids.add(i.getSourceURI());
+				}
+				itemSender.sendRequest(id, who == null ? &quot;test&quot;:who, uids.toArray(new String[1]));
+			}
+			
+		});*/
+		
+<span class="nc" id="L73">	}</span>
+
+	@Override
+	public void findAllByAttribute(String attribute, final String value, final ManagerListener&lt;Item&gt; l) {
+<span class="fc" id="L77">		super.findAllByAttribute(attribute, value, l);</span>
+<span class="fc" id="L78">		final ItemRequestService itemSender = (ItemRequestService) peer.getService(ItemRequestService.NAME);</span>
+<span class="fc" id="L79">		Service items = peer.getService(ItemService.NAME);</span>
+		
+<span class="fc" id="L81">		itemSender.removeListener(who);</span>
+<span class="pc bpc" id="L82" title="1 of 2 branches missed.">		itemSender.addListener(new ServiceListener() {</span>
+			
+			@Override
+			public void notify(Messages messages) {
+<span class="nc" id="L86">				JsonTools&lt;ArrayList&lt;Item&gt;&gt; json = new JsonTools&lt;&gt;(new TypeReference&lt;ArrayList&lt;Item&gt;&gt;(){});</span>
+//				ArrayList&lt;Item&gt; items = json.toEntity(messages.getMessage(&quot;items&quot;));
+//				System.out.println(&quot;items found !&quot;);
+//				System.out.println(messages.getMessage(&quot;items&quot;));
+//				for(Item i : items) {
+//					System.out.println(i.getTitle());
+//				}
+<span class="nc" id="L93">				l.notify(json.toEntity(messages.getMessage(&quot;items&quot;)));</span>
+<span class="nc" id="L94">			}</span>
+			
+		}, who == null ? &quot;test&quot;:who);
+		
+<span class="fc" id="L98">		items.search(attribute, value, new SearchListener&lt;ItemAdvertisementInterface&gt;() {</span>
+			@Override
+			public void notify(Collection&lt;ItemAdvertisementInterface&gt; result) {
+<span class="nc" id="L101">				ArrayList&lt;String&gt; uids = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">				for(ItemAdvertisementInterface i: result) {</span>
+<span class="nc" id="L103">					uids.add(i.getSourceURI());</span>
+<span class="nc" id="L104">				}</span>
+<span class="nc bnc" id="L105" title="All 2 branches missed.">				itemSender.sendRequest(value, who == null ? &quot;test&quot;:who, uids.toArray(new String[1]));</span>
+<span class="nc" id="L106">			}</span>
+			
+		});
+<span class="fc" id="L109">	}</span>
+
+	@Override
+	public void findOneByAttribute(String attribute, String value, ManagerListener&lt;Item&gt; l) {
+<span class="nc" id="L113">		super.findOneByAttribute(attribute, value, l);</span>
+		//TODO
+<span class="nc" id="L115">	}</span>
+	
+	@Override
+	public boolean persist(Item entity) {
+<span class="pc bpc" id="L119" title="1 of 2 branches missed.">		if (super.persist(entity)){</span>
+		//ItemAdvertisementInterface iadv = AdvertisementFactory.createItemAdvertisement();
+		//iadv.setTitle(entity.getTitle());
+		//iadv.publish(peer);
+<span class="fc" id="L123">		return true;</span>
+		}
+<span class="nc" id="L125">		return false;</span>
+	}
+
+	@Override
+	public boolean begin() {
+<span class="fc" id="L130">		return super.begin();</span>
+	}
+
+	@Override
+	public boolean end() {
+			
+<span class="fc" id="L136">		Collection&lt;Item&gt; collection = this.changesInWatchlist();</span>
+		
+<span class="fc bfc" id="L138" title="All 2 branches covered.">		for (Item item : collection) {</span>
+			
+<span class="fc" id="L140">			ItemAdvertisementInterface iadv = AdvertisementFactory.createItemAdvertisement();</span>
+			
+<span class="fc" id="L142">			iadv.setTitle(item.getTitle());</span>
+			
+<span class="fc" id="L144">			iadv.publish(peer);</span>
+			
+<span class="fc" id="L146">		}</span>
+		
+<span class="fc" id="L148">		return super.end();</span>
+	}
+	
+	@Override
+	public boolean check(){
+<span class="nc" id="L153">		return super.check();</span>
+	}
+	
+	@Override
+	public boolean close(){
+<span class="fc" id="L158">		return super.close();</span>
+	}
+
+
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

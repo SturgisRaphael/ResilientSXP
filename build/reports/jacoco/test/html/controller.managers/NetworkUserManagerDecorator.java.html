@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NetworkUserManagerDecorator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">controller.managers</a> &gt; <span class="el_source">NetworkUserManagerDecorator.java</span></div><h1>NetworkUserManagerDecorator.java</h1><pre class="source lang-java linenums">package controller.managers;
+
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Hashtable;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+
+import controller.tools.JsonTools;
+import model.api.Manager;
+import model.api.ManagerDecorator;
+import model.api.ManagerListener;
+import model.entity.User;
+import network.api.Messages;
+import network.api.Peer;
+import network.api.SearchListener;
+import network.api.ServiceListener;
+import network.api.UserRequestService;
+import network.api.UserService;
+import network.api.advertisement.UserAdvertisementInterface;
+import network.api.service.Service;
+import network.factories.AdvertisementFactory;
+
+public class NetworkUserManagerDecorator extends ManagerDecorator&lt;User&gt;{
+
+	private Peer peer;
+	private String who;
+	
+	/**
+	 * 
+	 * @param em User async manager
+	 * @param peer Peer instance, started
+	 * @param who who own this instance
+	 */
+	public NetworkUserManagerDecorator(Manager&lt;User&gt; em, Peer peer, String who) {
+<span class="fc" id="L37">		super(em);</span>
+<span class="fc" id="L38">		this.peer = peer;</span>
+<span class="fc" id="L39">		this.who = who;</span>
+<span class="fc" id="L40">	}	</span>
+
+	@Override
+	public void findOneByAttribute(String attribute, final String value, final ManagerListener&lt;User&gt; l) {
+		
+<span class="nc" id="L45">		super.findOneByAttribute(attribute, value, l);</span>
+		
+<span class="nc" id="L47">		final UserRequestService usersSender = (UserRequestService) peer.getService(UserRequestService.NAME);</span>
+<span class="nc" id="L48">		Service users = peer.getService(UserService.NAME);</span>
+		
+<span class="nc" id="L50">		usersSender.removeListener(who);</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">		usersSender.addListener(new ServiceListener() {</span>
+			@Override
+			public void notify(Messages messages) {
+<span class="nc" id="L54">				JsonTools&lt;ArrayList&lt;User&gt;&gt; json = new JsonTools&lt;&gt;(new TypeReference&lt;ArrayList&lt;User&gt;&gt;(){});</span>
+<span class="nc" id="L55">				Collection&lt;User&gt; collections = json.toEntity(messages.getMessage(&quot;users&quot;)); </span>
+<span class="nc" id="L56">				l.notify(collections);</span>
+<span class="nc" id="L57">			}</span>
+		}, who == null ? &quot;test&quot;:who);
+		
+<span class="nc" id="L60">		users.search(attribute, value, new SearchListener&lt;UserAdvertisementInterface&gt;() {</span>
+			@Override
+			public void notify(Collection&lt;UserAdvertisementInterface&gt; result) {
+<span class="nc" id="L63">				ArrayList&lt;String&gt; uids = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">				for(UserAdvertisementInterface i: result) {</span>
+<span class="nc" id="L65">					uids.add(i.getSourceURI());</span>
+<span class="nc" id="L66">				}</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">				usersSender.sendRequest(value, who == null ? &quot;test&quot;:who, uids.toArray(new String[1]));</span>
+<span class="nc" id="L68">			}</span>
+		});
+<span class="nc" id="L70">	}</span>
+
+	@Override
+	public void findAllByAttribute(String attribute, final String value, final ManagerListener&lt;User&gt; l) {
+		
+<span class="nc" id="L75">		super.findAllByAttribute(attribute, value, l);</span>
+		
+<span class="nc" id="L77">		final UserRequestService usersSender = (UserRequestService) peer.getService(UserRequestService.NAME);</span>
+<span class="nc" id="L78">		Service users = peer.getService(UserService.NAME);</span>
+		
+<span class="nc" id="L80">		usersSender.removeListener(who);</span>
+<span class="nc bnc" id="L81" title="All 2 branches missed.">		usersSender.addListener(new ServiceListener() {</span>
+			@Override
+			public void notify(Messages messages) {
+<span class="nc" id="L84">				JsonTools&lt;ArrayList&lt;User&gt;&gt; json = new JsonTools&lt;&gt;(new TypeReference&lt;ArrayList&lt;User&gt;&gt;(){});</span>
+<span class="nc" id="L85">				Collection&lt;User&gt; collections = json.toEntity(messages.getMessage(&quot;users&quot;)); </span>
+<span class="nc" id="L86">				l.notify(collections);</span>
+<span class="nc" id="L87">			}</span>
+		}, who == null ? &quot;test&quot;:who);
+		
+<span class="nc" id="L90">		users.search(attribute, value, new SearchListener&lt;UserAdvertisementInterface&gt;() {</span>
+			@Override
+			public void notify(Collection&lt;UserAdvertisementInterface&gt; result) {
+<span class="nc" id="L93">				ArrayList&lt;String&gt; uids = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">				for(UserAdvertisementInterface i: result) {</span>
+<span class="nc" id="L95">					uids.add(i.getSourceURI());</span>
+<span class="nc" id="L96">				}</span>
+<span class="nc bnc" id="L97" title="All 2 branches missed.">				usersSender.sendRequest(value, who == null ? &quot;test&quot;:who, uids.toArray(new String[1]));</span>
+<span class="nc" id="L98">			}</span>
+		});
+<span class="nc" id="L100">	}</span>
+	
+	@Override
+	public boolean end() {
+		
+<span class="fc" id="L105">		Collection&lt;User&gt; collection = this.changesInWatchlist();</span>
+	
+<span class="fc bfc" id="L107" title="All 2 branches covered.">		for (User u : collection) {</span>
+			
+<span class="fc" id="L109">			UserAdvertisementInterface uadv = AdvertisementFactory.createUserAdvertisement();</span>
+			
+<span class="fc" id="L111">			uadv.setNick(u.getNick());</span>
+			 
+<span class="fc" id="L113">			uadv.setPbkey(String.valueOf(u.getKey().getPublicKey()));</span>
+			
+<span class="fc" id="L115">			uadv.publish(peer);</span>
+			
+<span class="fc" id="L117">		}</span>
+			
+<span class="fc" id="L119">		return super.end();</span>
+	}
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

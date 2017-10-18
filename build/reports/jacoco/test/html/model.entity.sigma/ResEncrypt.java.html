@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ResEncrypt.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">model.entity.sigma</a> &gt; <span class="el_source">ResEncrypt.java</span></div><h1>ResEncrypt.java</h1><pre class="source lang-java linenums">/* Copyright 2015 Pablo Arrighi, Sarah Boukris, Mehdi Chtiwi, 
+   Michael Dubuis, Kevin Perrot, Julien Prudhomme.
+
+   This file is part of SXP.
+
+   SXP is free software: you can redistribute it and/or modify it 
+   under the terms of the GNU Lesser General Public License as published 
+   by the Free Software Foundation, version 3.
+
+   SXP is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+   without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+   PURPOSE.  See the GNU Lesser General Public License for more details.
+
+   You should have received a copy of the GNU Lesser General Public License along with SXP. 
+   If not, see &lt;http://www.gnu.org/licenses/&gt;. */
+package model.entity.sigma;
+
+
+import java.math.BigInteger;
+
+import javax.xml.bind.annotation.XmlElement;
+
+
+/**
+ * It's the result of encryption 
+ * @author sarah
+ *
+ */
+public class ResEncrypt {
+
+	@XmlElement(name=&quot;u&quot;)
+	private BigInteger u;
+	
+	@XmlElement(name=&quot;v&quot;)
+	private BigInteger v;
+	
+	@XmlElement(name=&quot;M&quot;)
+	private byte[] M;
+	
+	/**
+	 * Constructor
+	 * @param u
+	 * @param v
+	 * @param M
+	 */
+	public ResEncrypt(BigInteger u, BigInteger v, byte[] M)
+	{
+<span class="fc" id="L48">		super();</span>
+<span class="fc" id="L49">		this.setU(u);</span>
+<span class="fc" id="L50">		this.setV(v);</span>
+<span class="fc" id="L51">		this.setM(M);</span>
+<span class="fc" id="L52">	}</span>
+	
+	/**
+	 * Constructor
+	 * used to transform json string to java
+	 */
+	public ResEncrypt(){
+<span class="fc" id="L59">		super();</span>
+<span class="fc" id="L60">	}</span>
+	
+	/**
+	 * Create a toString method
+	 * @return : representative Sting of the instance
+	 */
+	@Override
+	public String toString(){
+<span class="fc" id="L68">		StringBuffer s = new StringBuffer();</span>
+<span class="fc" id="L69">		s.append(&quot;&lt;&quot; + this.getClass().getSimpleName().toLowerCase() + &quot;&gt;&quot;);</span>
+<span class="fc" id="L70">		s.append(&quot;&lt;u&gt;&quot; + u.toString() + &quot;&lt;/u&gt;&quot;);</span>
+<span class="fc" id="L71">		s.append(&quot;&lt;v&gt;&quot; + v.toString() + &quot;&lt;/v&gt;&quot;);</span>
+<span class="fc" id="L72">		s.append(&quot;&lt;M&gt;&quot; + M.toString() + &quot;&lt;/M&gt;&quot;);</span>
+<span class="fc" id="L73">		s.append(&quot;&lt;/&quot; + this.getClass().getSimpleName().toLowerCase() + &quot;&gt;&quot;);</span>
+<span class="fc" id="L74">		return s.toString();</span>
+	}
+
+	public BigInteger getU() {
+<span class="fc" id="L78">		return u;</span>
+	}
+
+	public void setU(BigInteger u) {
+<span class="fc" id="L82">		this.u = u;</span>
+<span class="fc" id="L83">	}</span>
+
+	public BigInteger getV() {
+<span class="fc" id="L86">		return v;</span>
+	}
+
+	public void setV(BigInteger v) {
+<span class="fc" id="L90">		this.v = v;</span>
+<span class="fc" id="L91">	}</span>
+
+	public byte[] getM() {
+<span class="fc" id="L94">		return M;</span>
+	}
+
+	public void setM(byte[] m) {
+<span class="fc" id="L98">		M = m;</span>
+<span class="fc" id="L99">	}</span>
+
+	
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

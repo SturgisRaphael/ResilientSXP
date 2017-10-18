@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JxtaNode.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">network.impl.jxta</a> &gt; <span class="el_source">JxtaNode.java</span></div><h1>JxtaNode.java</h1><pre class="source lang-java linenums">package network.impl.jxta;
+
+import java.io.File;
+import java.io.IOException;
+
+import controller.Application;
+import controller.tools.LoggerUtilities;
+import net.jxta.exception.PeerGroupException;
+import net.jxta.id.IDFactory;
+import net.jxta.peergroup.PeerGroup;
+import net.jxta.peergroup.PeerGroupID;
+import net.jxta.platform.NetworkConfigurator;
+import net.jxta.platform.NetworkManager;
+import net.jxta.protocol.ModuleImplAdvertisement;
+import network.api.Node;
+import network.utils.IpChecker;
+
+/**
+ * Default JXTA Node implementation. Represent the server node.
+ * When successfully started, yield an Advertisement that represent this node.
+ * @see Node
+ * @author Julien Prudhomme
+ */
+public class JxtaNode implements Node{
+	
+	private int port;
+	
+<span class="fc" id="L28">	public JxtaNode(){</span>
+<span class="fc" id="L29">		this.port = Application.jxtaPort;</span>
+<span class="fc" id="L30">	}</span>
+<span class="fc" id="L31">	public JxtaNode(int port){</span>
+<span class="fc" id="L32">		this.port = port;</span>
+<span class="fc" id="L33">	}</span>
+	
+<span class="fc" id="L35">	private NetworkManager networkManager = null;</span>
+<span class="fc" id="L36">	private boolean initialized = false;</span>
+<span class="fc" id="L37">	private PeerGroup defaultPeerGroup = null;</span>
+	
+	@Override
+	public void initialize(String cacheFolder, String name, boolean persistant) throws IOException {
+<span class="fc" id="L41">		File configFile = new File(&quot;.&quot; + System.getProperty(&quot;file.separator&quot;) + cacheFolder); /* file used by the networkManager */</span>
+<span class="fc" id="L42">		networkManager = initializeNetworkManager(configFile, name, persistant);</span>
+		//no errors
+<span class="fc" id="L44">		initialized = true;</span>
+<span class="fc" id="L45">	}</span>
+
+	public NetworkManager getNetworkManager() {
+<span class="fc" id="L48">		return networkManager;</span>
+	}
+	
+	@Override
+	public boolean isInitialized() {
+<span class="fc" id="L53">		return initialized;</span>
+	}
+
+	@Override
+	public void start(int port) throws IOException, PeerGroupException {
+<span class="fc bfc" id="L58" title="All 2 branches covered.">		if(!initialized) {</span>
+<span class="fc" id="L59">			throw new RuntimeException(&quot;Node must be initalized before start call&quot;);</span>
+		}
+		try {
+<span class="fc" id="L62">			NetworkConfigurator configurator = networkManager.getConfigurator();</span>
+<span class="fc" id="L63">			configurator.setTcpPort(port);</span>
+<span class="fc" id="L64">			configurator.setHttpPort(port + 1);</span>
+<span class="fc" id="L65">			PeerGroup pg = networkManager.startNetwork();</span>
+<span class="fc" id="L66">			pg.startApp(new String[0]);</span>
+			//Switch to rendez vous mode if possible, check every 60 secs
+			//pg.getRendezVousService().setAutoStart(true,15*1000);
+<span class="fc" id="L69">			pg.getRendezVousService().setAutoStart(true);</span>
+
+<span class="nc" id="L71">		} catch (IOException e) {</span>
+<span class="nc" id="L72">			throw(e);</span>
+<span class="fc" id="L73">		} catch (PeerGroupException e) {</span>
+<span class="fc" id="L74">			throw new PeerGroupException(&quot;error while creating main peer group&quot;, e);</span>
+<span class="fc" id="L75">		}</span>
+		
+<span class="fc" id="L77">		createDefaultGroup();</span>
+		
+<span class="fc" id="L79">	}</span>
+	
+	@Override
+	public boolean isStarted() {
+<span class="pc bpc" id="L83" title="1 of 4 branches missed.">		return isInitialized() &amp;&amp; networkManager.isStarted();</span>
+	}
+	
+	/**
+	 * Initialize the network manager
+	 * @param configFile
+	 * @param peerName
+	 * @param persistant
+	 * @return
+	 * @throws IOException
+	 */
+	private NetworkManager initializeNetworkManager(File configFile, String peerName, boolean persistant) throws IOException {
+<span class="fc" id="L95">		NetworkManager manager = null;</span>
+<span class="fc" id="L96">		NetworkConfigurator configurator = null;</span>
+<span class="fc" id="L97">		manager = new NetworkManager(NetworkManager.ConfigMode.RENDEZVOUS, peerName, configFile.toURI()); /* Setting network */</span>
+<span class="fc" id="L98">		configurator = manager.getConfigurator(); /* Getting configurator for future tweaks */</span>
+<span class="fc" id="L99">        configurator.setTcpEnabled(true);</span>
+<span class="fc" id="L100">        configurator.setHttpEnabled(true);</span>
+<span class="fc" id="L101">        configurator.setTcpIncoming(true);</span>
+<span class="fc" id="L102">        configurator.setHttpIncoming(true);</span>
+<span class="fc" id="L103">        configurator.setHttpOutgoing(true);</span>
+<span class="fc" id="L104">        configurator.setTcpOutgoing(true);</span>
+        
+<span class="fc" id="L106">        configurator.setUseMulticast(true);</span>
+<span class="fc" id="L107">		configurator.setTcpInterfaceAddress(&quot;0.0.0.0&quot;);</span>
+<span class="fc" id="L108">		configurator.setUseMulticast(true);</span>
+		
+		try {
+
+<span class="fc" id="L112">			configurator.setTcpPublicAddress(IpChecker.getIp()+&quot;:&quot; + this.port, false);</span>
+
+<span class="nc" id="L114">		} catch (Exception e) {</span>
+			// TODO Auto-generated catch block
+<span class="nc" id="L116">			LoggerUtilities.logStackTrace(e);</span>
+<span class="fc" id="L117">		}</span>
+<span class="fc" id="L118">		configurator.setHttpInterfaceAddress(&quot;0.0.0.0&quot;);</span>
+		try {
+
+<span class="fc" id="L121">			configurator.setHttpPublicAddress(IpChecker.getIp()+&quot;:&quot; + (this.port+1), false);</span>
+
+<span class="nc" id="L123">		} catch (Exception e) {</span>
+			// TODO Auto-generated catch block
+<span class="nc" id="L125">			LoggerUtilities.logStackTrace(e);</span>
+<span class="fc" id="L126">		}</span>
+		
+<span class="fc" id="L128">        configurator.setTcpEndPort(-1);</span>
+<span class="fc" id="L129">        configurator.setTcpStartPort(-1);</span>
+        
+        
+<span class="fc" id="L132">        configurator.setName(&quot;SXPeerGroup&quot;);</span>
+<span class="fc" id="L133">        configurator.setDescription(&quot;SXP default peer group&quot;);</span>
+<span class="fc" id="L134">        configurator.setPrincipal(&quot;SXP peer group&quot;);</span>
+<span class="fc" id="L135">        manager.setConfigPersistent(persistant);</span>
+<span class="fc" id="L136">		return manager;</span>
+	}
+
+	@Override
+	public void stop() {
+<span class="fc bfc" id="L141" title="All 2 branches covered.">		if(networkManager == null) {</span>
+<span class="fc" id="L142">			throw new RuntimeException(&quot;Serveur was not started !&quot;);</span>
+		}
+<span class="fc" id="L144">		networkManager.stopNetwork();</span>
+<span class="fc" id="L145">	}</span>
+	
+	protected PeerGroup getDefaultPeerGroup() {
+<span class="fc" id="L148">		return this.defaultPeerGroup;</span>
+	}
+	
+	private PeerGroupID generatePeerGroupID(PeerGroupID parent, String peerGroupName) {
+<span class="fc" id="L152">		return IDFactory.newPeerGroupID(PeerGroupID.defaultNetPeerGroupID, peerGroupName.getBytes());</span>
+	}
+	
+	private void createDefaultGroup() {
+		try {
+<span class="fc" id="L157">			PeerGroup netpeerGroup = networkManager.getNetPeerGroup();</span>
+			
+<span class="fc" id="L159">			ModuleImplAdvertisement madv = null;</span>
+			try {
+<span class="fc" id="L161">				madv = netpeerGroup.getAllPurposePeerGroupImplAdvertisement();</span>
+<span class="nc" id="L162">			} catch(Exception e) {</span>
+<span class="nc" id="L163">				LoggerUtilities.logStackTrace(e);</span>
+<span class="fc" id="L164">			}</span>
+			
+<span class="fc" id="L166">			defaultPeerGroup = netpeerGroup.newGroup(this.generatePeerGroupID(netpeerGroup.getPeerGroupID(), &quot;SXP group&quot;),</span>
+					madv, &quot;SXP group&quot;, &quot;SXP group&quot;, true);
+<span class="fc" id="L168">			defaultPeerGroup.startApp(new String[0]);</span>
+
+			//defaultPeerGroup.getRendezVousService().setAutoStart(true, 15*1000);
+<span class="fc" id="L171">			defaultPeerGroup.getRendezVousService().setAutoStart(true);</span>
+
+<span class="nc" id="L173">		} catch (PeerGroupException e) {</span>
+<span class="nc" id="L174">			System.err.println(&quot;impossible to create default group&quot;);</span>
+<span class="nc" id="L175">			LoggerUtilities.logStackTrace(e);</span>
+<span class="nc" id="L176">			System.exit(-1);</span>
+<span class="nc" id="L177">		} catch (Exception e) {</span>
+<span class="nc" id="L178">			LoggerUtilities.logStackTrace(e);</span>
+<span class="pc" id="L179">		}</span>
+<span class="fc" id="L180">		System.out.println(&quot;Group created !&quot;);</span>
+<span class="fc" id="L181">	}</span>
+	
+	protected PeerGroup createGroup(final String name) {
+<span class="fc" id="L184">		ModuleImplAdvertisement mAdv = null;</span>
+<span class="fc" id="L185">		PeerGroup temp = null;</span>
+<span class="fc" id="L186">		System.out.println(&quot;creating new group ..&quot;);</span>
+		try {
+<span class="fc" id="L188">			mAdv = defaultPeerGroup.getAllPurposePeerGroupImplAdvertisement();</span>
+<span class="fc" id="L189">			temp = defaultPeerGroup.newGroup(generatePeerGroupID(defaultPeerGroup.getPeerGroupID(), name), mAdv, name, name, true); /* creating &amp; publishing the group */</span>
+<span class="fc" id="L190">			getDefaultPeerGroup().getDiscoveryService().remotePublish(temp.getPeerGroupAdvertisement());</span>
+<span class="fc" id="L191">			temp.startApp(new String[0]);</span>
+			//temp.getRendezVousService().setAutoStart(true, 15*1000);
+<span class="fc" id="L193">			temp.getRendezVousService().setAutoStart(true);</span>
+<span class="nc" id="L194">		} catch (Exception e) {</span>
+<span class="nc" id="L195">			LoggerUtilities.logStackTrace(e);</span>
+<span class="fc" id="L196">		} /* Getting the advertisement of implemented modules */</span>
+<span class="fc" id="L197">		return temp;</span>
+	}
+	
+	public String getPeerId() {
+<span class="fc" id="L201">		return this.defaultPeerGroup.getPeerID().toURI().toString();</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

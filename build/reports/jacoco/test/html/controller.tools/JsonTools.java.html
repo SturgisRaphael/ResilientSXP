@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JsonTools.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">controller.tools</a> &gt; <span class="el_source">JsonTools.java</span></div><h1>JsonTools.java</h1><pre class="source lang-java linenums">package controller.tools;
+
+import java.io.IOException;
+import java.util.Map;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+
+import model.entity.ElGamalKey;
+import model.entity.ElGamalSignEntity;
+
+//TODO : check class with sigma.Responses and without
+//import protocol.impl.sigma.Responses;
+
+public class JsonTools&lt;Entity&gt; {
+	
+	private TypeReference&lt;Entity&gt; type;
+	
+	
+<span class="fc" id="L24">	public JsonTools(final TypeReference&lt;Entity&gt; type) {</span>
+<span class="fc" id="L25">		this.type = type;</span>
+<span class="fc" id="L26">	}</span>
+
+	public String toJson(Entity entity) {
+<span class="fc" id="L29">		ObjectMapper mapper = new ObjectMapper();</span>
+		try {
+<span class="fc" id="L31">			return mapper.writeValueAsString(entity);</span>
+<span class="nc" id="L32">		} catch (JsonProcessingException e) {</span>
+<span class="nc" id="L33">			LoggerUtilities.logStackTrace(e);</span>
+		}
+<span class="nc" id="L35">		return &quot;error&quot;;</span>
+	}
+	
+	@SuppressWarnings(&quot;unchecked&quot;)
+	public Entity toEntity(String json) {
+<span class="fc" id="L40">		ObjectMapper mapper = new ObjectMapper();</span>
+		try {
+<span class="fc" id="L42">			return (Entity) mapper.readValue(json, type);</span>
+<span class="fc" id="L43">		} catch (IOException e) {</span>
+<span class="fc" id="L44">			LoggerUtilities.logStackTrace(e);</span>
+<span class="fc" id="L45">			return null;</span>
+		}
+	}
+	
+	
+	/**
+	 * return a correct json string even if java objects contains Map&lt;&gt;
+	 * @param entity
+	 * 		java entity to transform in json
+	 * @param containsMap
+	 * 		differentiate from former method (true or false will do the same thing)
+	 * @return
+	 */
+	public String toJson(Entity entity, boolean containsMap) {
+<span class="fc bfc" id="L59" title="All 2 branches covered.">		if (!containsMap)</span>
+<span class="fc" id="L60">			return toJson(entity);</span>
+		
+<span class="fc" id="L62">		ObjectMapper mapper = new ObjectMapper();</span>
+<span class="fc" id="L63">		SimpleModule simpleModule = new SimpleModule(&quot;SimpleModule&quot;);</span>
+
+		//TODO: check next ligne.
+		//simpleModule.addSerializer(new MapSerializer&lt;Responses, ElGamalKey&gt;());
+		
+		//simpleModule.addSerializer(new MapSerializer&lt;String, ElGamalSignEntity&gt;());
+
+<span class="fc" id="L70">		simpleModule.addSerializer(new MapSerializer&lt;&gt;());</span>
+
+<span class="fc" id="L72">		mapper.registerModule(simpleModule);</span>
+		try {
+<span class="fc" id="L74">			return mapper.writeValueAsString(entity);</span>
+<span class="nc" id="L75">		} catch (JsonProcessingException e) {</span>
+<span class="nc" id="L76">			e.printStackTrace();</span>
+		}
+<span class="nc" id="L78">		return &quot;error&quot;;</span>
+	}
+
+	/**
+	 * return a correct java object even if it contains a Map&lt;Responses,ElGamalKey&gt;
+	 * @param json
+	 * 		json String to put into java
+	 * @param containsMap
+	 * 		differentiate from former method
+	 * @return Entity
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	public Entity toEntity(String json, boolean containsMap) {
+<span class="pc bpc" id="L91" title="1 of 2 branches missed.">		if (!containsMap)</span>
+<span class="nc" id="L92">			return toEntity(json);</span>
+		
+<span class="fc" id="L94">		ObjectMapper mapper = new ObjectMapper();</span>
+<span class="fc" id="L95">		SimpleModule simpleModule = new SimpleModule(&quot;SimpleModule&quot;);</span>
+<span class="fc" id="L96">		simpleModule.addDeserializer(Map.class, new MapResponseKeyDeserializer());</span>
+		//simpleModule.addDeserializer(Map.class, new MapResponseSignatureDeserializer());
+<span class="fc" id="L98">		mapper.registerModule(simpleModule);</span>
+		try {
+<span class="fc" id="L100">			return (Entity) mapper.readValue(json, type);</span>
+<span class="nc" id="L101">		} catch (JsonParseException ex) {</span>
+<span class="nc" id="L102">			return null;</span>
+<span class="nc" id="L103">		} catch (JsonMappingException ex){</span>
+<span class="nc" id="L104">	        System.out.println(ex);</span>
+<span class="nc" id="L105">			return null;</span>
+<span class="nc" id="L106">		}catch (IOException e){</span>
+<span class="nc" id="L107">			e.printStackTrace();</span>
+<span class="nc" id="L108">			return null;</span>
+		}
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

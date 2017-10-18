@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ElGamalAsymKey.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">crypt.impl.key</a> &gt; <span class="el_source">ElGamalAsymKey.java</span></div><h1>ElGamalAsymKey.java</h1><pre class="source lang-java linenums">package crypt.impl.key;
+
+import java.math.BigInteger;
+
+import crypt.base.AbstractAsymKey;
+
+/**
+ * ElGamal key implementations.
+ * Contain public, private keys and g, p parameters.
+ * @author Prudhomme Julien
+ *
+ */
+public class ElGamalAsymKey extends AbstractAsymKey&lt;BigInteger&gt;{
+	
+	/**
+	 * Create a new ElGamalAsymKey from p, g, and a public key, typically used for encrypting
+	 * The private key is not set.
+	 * @param p P parameters
+	 * @param g g parameters
+	 * @param publicKey the public key
+	 */
+	public ElGamalAsymKey(BigInteger p, BigInteger g, BigInteger publicKey) {
+<span class="fc" id="L23">		this(p, g, publicKey, null);</span>
+<span class="fc" id="L24">	}</span>
+	
+	/**
+	 * Create a new, full ElGamalAsymKey, used for signing and decrypting
+	 * @param p P parameters
+	 * @param g g parameters
+	 * @param publicKey the public key
+	 * @param privateKey the private key
+	 */
+<span class="fc" id="L33">	public ElGamalAsymKey(BigInteger p, BigInteger g, BigInteger publicKey, BigInteger privateKey) {</span>
+<span class="fc" id="L34">		this.publicKey = publicKey;</span>
+<span class="fc" id="L35">		this.privateKey = privateKey;</span>
+<span class="fc" id="L36">		this.params.put(&quot;p&quot;, p);</span>
+<span class="fc" id="L37">		this.params.put(&quot;g&quot;, g);</span>
+<span class="fc" id="L38">	}</span>
+	
+	/**
+	 * Create a new, empty ElGamalAsymKey
+	 */
+<span class="fc" id="L43">	public ElGamalAsymKey() {}</span>
+	
+	/**
+	 * Possible values : p, g
+	 */
+	@Override
+	public BigInteger getParam(String p) {
+<span class="fc" id="L50">		return super.getParam(p);</span>
+	}
+	
+	/**
+	 * Get the P parameters of the ElGamal key
+	 * @return the P parameters
+	 */
+	public BigInteger getP() {
+<span class="fc" id="L58">		return params.get(&quot;p&quot;);</span>
+	}
+	
+	/**
+	 * Get the G parameters of the ElGamal key
+	 * @return the G parameters
+	 */
+	public BigInteger getG() {
+<span class="fc" id="L66">		return params.get(&quot;g&quot;);</span>
+	}
+	
+	/**
+	 * Set the P parameters of the ElGamal key
+	 * @param p
+	 */
+	public void setP(BigInteger p) {
+<span class="fc" id="L74">		params.put(&quot;p&quot;, p);</span>
+<span class="fc" id="L75">	}</span>
+	
+	/**
+	 * Set the G parameters of the ElGamal key
+	 * @param g
+	 */
+	public void setG(BigInteger g) {
+<span class="fc" id="L82">		params.put(&quot;g&quot;, g);</span>
+<span class="fc" id="L83">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

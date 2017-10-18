@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Fabric.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">protocol.impl.sigma</a> &gt; <span class="el_source">Fabric.java</span></div><h1>Fabric.java</h1><pre class="source lang-java linenums">/* Copyright 2015 Pablo Arrighi, Sarah Boukris, Mehdi Chtiwi, 
+   Michael Dubuis, Kevin Perrot, Julien Prudhomme.
+
+   This file is part of SXP.
+
+   SXP is free software: you can redistribute it and/or modify it 
+   under the terms of the GNU Lesser General Public License as published 
+   by the Free Software Foundation, version 3.
+
+   SXP is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+   without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+   PURPOSE.  See the GNU Lesser General Public License for more details.
+
+   You should have received a copy of the GNU Lesser General Public License along with SXP. 
+   If not, see &lt;http://www.gnu.org/licenses/&gt;. */
+package protocol.impl.sigma;
+
+import java.math.BigInteger;
+
+import model.entity.ElGamalKey;
+import model.entity.sigma.Masks;
+import model.entity.sigma.ResEncrypt;
+import model.entity.sigma.ResponsesCCE;
+import model.entity.sigma.ResponsesSchnorr;
+
+
+/**
+ * this class is used for the PCS and especially for the OR
+ * it's a fabric for challenge, Mask and Response good for the different check
+ * @author sarah
+ *
+ */
+
+<span class="fc" id="L34">public class Fabric {</span>
+
+	/**
+	 * fabric Challenge
+	 * @param publicKeys
+	 * @return
+	 */
+	private BigInteger FabricChallenge(ElGamalKey keys)
+	{
+<span class="fc" id="L43">		BigInteger c = Utils.rand(160, keys.getP());</span>
+<span class="fc" id="L44">		return c;</span>
+	}
+	
+	/**
+	 * fabric Response
+	 * @param publicKeys
+	 * @return
+	 */
+	private BigInteger FabricResponse(ElGamalKey keys)
+	{
+<span class="fc" id="L54">		BigInteger r = Utils.rand(160, keys.getP());</span>
+<span class="fc" id="L55">		return r;</span>
+	}
+	
+	/**
+	 * fabric a good Mask to send for the SchnorrProtocol
+	 * @param c
+	 * @param r
+	 * @param publicKeys
+	 * @return mask
+	 */
+	private Masks FabricMaskSchnorr(BigInteger c, BigInteger r,ElGamalKey keys)
+	{
+<span class="fc" id="L67">		BigInteger gPowr = keys.getG().modPow(r, keys.getP());</span>
+<span class="fc" id="L68">		BigInteger modInv = keys.getPublicKey().modPow(c,  keys.getP()).modInverse(keys.getP());</span>
+<span class="fc" id="L69">		BigInteger a = gPowr.multiply(modInv);</span>
+<span class="fc" id="L70">		Masks mask = new Masks(a,null);		</span>
+<span class="fc" id="L71">		return mask;</span>
+	}
+	
+	/**
+	 * response to have send for Schnorr
+	 * @param publicKeys
+	 * @return responseSchnorr
+	 */
+	public ResponsesSchnorr SendResponseSchnorrFabric(ElGamalKey keys)
+	{
+<span class="fc" id="L81">		BigInteger challenge = this.FabricChallenge( keys);</span>
+<span class="fc" id="L82">		BigInteger response = this.FabricResponse(keys);</span>
+<span class="fc" id="L83">		Masks mask = this.FabricMaskSchnorr(challenge, response,keys);</span>
+<span class="fc" id="L84">		return new ResponsesSchnorr(mask,challenge,response);</span>
+	}
+	
+	/**
+	 * fabric a good Mask to send for the CCE
+	 * @param c
+	 * @param r
+	 * @param res
+	 * @param keys
+	 * @return
+	 */
+	private Masks FabricMaskCCE(BigInteger c, BigInteger r, ResEncrypt res, ElGamalKey keys)
+	{
+<span class="fc" id="L97">		BigInteger gPowr = keys.getG().modPow(r, keys.getP());</span>
+<span class="fc" id="L98">		BigInteger modInv = res.getU().modPow(c,  keys.getP()).modInverse(keys.getP());</span>
+<span class="fc" id="L99">		BigInteger a = gPowr.multiply(modInv);</span>
+
+<span class="fc" id="L101">		BigInteger pubPowr = keys.getPublicKey().modPow(r, keys.getP());</span>
+<span class="fc" id="L102">		BigInteger M = new BigInteger (res.getM());</span>
+<span class="fc" id="L103">		BigInteger vDivMPwc = res.getV().divide(M).modPow(c, keys.getP());</span>
+<span class="fc" id="L104">		BigInteger ModInv = vDivMPwc.modInverse(keys.getP());</span>
+<span class="fc" id="L105">		BigInteger aBis = pubPowr.multiply(ModInv);</span>
+		
+<span class="fc" id="L107">		Masks mask = new Masks(a,aBis);		</span>
+<span class="fc" id="L108">		return mask;</span>
+	}
+	
+	/**
+	 * response to have send for CCE
+	 * @param publicKeys
+	 * @return responseCCE
+	 */
+	public ResponsesCCE SendResponseCCEFabric(ResEncrypt res,ElGamalKey keys)
+	{
+<span class="fc" id="L118">		BigInteger challenge = this.FabricChallenge( keys);</span>
+<span class="fc" id="L119">		BigInteger response = this.FabricResponse(keys);</span>
+<span class="fc" id="L120">		Masks mask = this.FabricMaskCCE(challenge, response,res,keys);</span>
+<span class="fc" id="L121">		return new ResponsesCCE(mask,challenge,response);</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

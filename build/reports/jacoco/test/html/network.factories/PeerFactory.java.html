@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PeerFactory.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">network.factories</a> &gt; <span class="el_source">PeerFactory.java</span></div><h1>PeerFactory.java</h1><pre class="source lang-java linenums">package network.factories;
+
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import controller.Application;
+import controller.tools.LoggerUtilities;
+import net.jxta.document.AdvertisementFactory;
+import network.api.Peer;
+import network.api.service.InvalidServiceException;
+import network.api.service.Service;
+import network.impl.jxta.AdvertisementBridge;
+import network.impl.jxta.AdvertisementInstanciator;
+import network.impl.jxta.JxtaEstablisherService;
+import network.impl.jxta.JxtaItemService;
+import network.impl.jxta.JxtaItemsSenderService;
+import network.impl.jxta.JxtaMessageSenderService;
+import network.impl.jxta.JxtaMessageService;
+import network.impl.jxta.JxtaPeer;
+import network.impl.jxta.JxtaUserService;
+import network.impl.jxta.JxtaUsersSenderService;
+
+/**
+ * {@link Peer} factory
+ * @author Julien Prudhomme
+ *
+ */
+<span class="nc" id="L29">public class PeerFactory {</span>
+	
+	/**
+	 * create the default implementation of {@link Peer}
+	 * @return a {@link Peer}
+	 */
+	public static Peer createDefaultPeer() {
+<span class="nc" id="L36">		return createJxtaPeer();</span>
+	}
+	
+	/**
+	 * Create a the default implementation of {@link Peer} and start it
+	 * @return an initialized and started {@link Peer}
+	 */
+	public static Peer createDefaultAndStartPeer() {
+<span class="nc" id="L44">		Peer p = createAndStartPeer(&quot;jxta&quot;, &quot;.peercache&quot;, 9578);</span>
+
+		try {
+<span class="nc" id="L47">			System.out.println(&quot;\n START Services \n&quot;);</span>
+			
+<span class="nc" id="L49">			Service userService = new JxtaUserService();</span>
+<span class="nc" id="L50">			userService.initAndStart(p);</span>
+			
+<span class="nc" id="L52">			Service usersSender = new JxtaUsersSenderService();</span>
+<span class="nc" id="L53">			usersSender.initAndStart(p);</span>
+			
+<span class="nc" id="L55">			Service itemService = new JxtaItemService();</span>
+<span class="nc" id="L56">			itemService.initAndStart(p);</span>
+			
+<span class="nc" id="L58">			Service itemsSender = new JxtaItemsSenderService();</span>
+<span class="nc" id="L59">			itemsSender.initAndStart(p);</span>
+			
+<span class="nc" id="L61">			Service messageService = new JxtaMessageService();</span>
+<span class="nc" id="L62">			messageService.initAndStart(p);</span>
+			
+<span class="nc" id="L64">			Service messagesSender = new JxtaMessageSenderService();</span>
+<span class="nc" id="L65">			messagesSender.initAndStart(p);</span>
+			
+<span class="nc" id="L67">			Service establisherService = new JxtaEstablisherService();</span>
+<span class="nc" id="L68">			establisherService.initAndStart(p);</span>
+			
+<span class="nc" id="L70">		} catch (InvalidServiceException e) {</span>
+<span class="nc" id="L71">			throw new RuntimeException(e);</span>
+<span class="nc" id="L72">		}		</span>
+//		Service itemService = new JxtaItemService();
+//		Service establisherService = new JxtaEstablisherService();
+//		
+//		try {
+//			itemService.initAndStart(p);
+//			establisherService.initAndStart(p);
+//		} catch (InvalidServiceException e) {
+//			// TODO manage the exception
+//			LoggerUtilities.logStackTrace(e);
+//		}
+<span class="nc" id="L83">		return p;</span>
+	}
+
+	
+	public static Peer createDefaultAndStartPeerForTest() {
+<span class="fc" id="L88">		return createDefaultAndStartPeerForTest(Application.jxtaPort, Application.rdvPeerIds);</span>
+	}
+	
+	public static Peer createDefaultAndStartPeerForTest(int port, String[] rdvPeerIds) {
+<span class="fc" id="L92">		Random r = new Random();</span>
+<span class="fc" id="L93">		String cache = &quot;.peercache&quot; + r.nextInt(10000);</span>
+		//int port = 9800 + r.nextInt(100);
+<span class="fc" id="L95">		System.out.println(&quot;jxta will run on port &quot; + port);</span>
+<span class="fc" id="L96">		Peer p = createAndStartPeer(&quot;jxta&quot;, cache, port, rdvPeerIds);</span>
+		
+		try {
+<span class="fc" id="L99">			System.out.println(&quot;\n START Services \n&quot;);</span>
+			
+<span class="fc" id="L101">			Service userService = new JxtaUserService();</span>
+<span class="fc" id="L102">			userService.initAndStart(p);</span>
+			
+<span class="fc" id="L104">			Service usersSender = new JxtaUsersSenderService();</span>
+<span class="fc" id="L105">			usersSender.initAndStart(p);</span>
+			
+<span class="fc" id="L107">			Service itemService = new JxtaItemService();</span>
+<span class="fc" id="L108">			itemService.initAndStart(p);</span>
+			
+<span class="fc" id="L110">			Service itemsSender = new JxtaItemsSenderService();</span>
+<span class="fc" id="L111">			itemsSender.initAndStart(p);</span>
+			
+<span class="fc" id="L113">			Service messageService = new JxtaMessageService();</span>
+<span class="fc" id="L114">			messageService.initAndStart(p);</span>
+			
+<span class="fc" id="L116">			Service messagesSender = new JxtaMessageSenderService();</span>
+<span class="fc" id="L117">			messagesSender.initAndStart(p);</span>
+			
+<span class="fc" id="L119">			Service establisherService = new JxtaEstablisherService();</span>
+<span class="fc" id="L120">			establisherService.initAndStart(p);</span>
+			
+<span class="nc" id="L122">		} catch (InvalidServiceException e) {</span>
+<span class="nc" id="L123">			throw new RuntimeException(e);</span>
+<span class="fc" id="L124">		}		</span>
+<span class="fc" id="L125">		return p;</span>
+	}
+	
+	/**
+	 * Create a Jxta implementation of {@link Peer}
+	 * @return a {@link JxtaPeer}
+	 */
+	public static JxtaPeer createJxtaPeer(){
+<span class="fc" id="L133">		return createJxtaPeer(Application.jxtaPort);</span>
+	}
+	public static JxtaPeer createJxtaPeer(int port) {
+<span class="fc" id="L136">		Logger.getLogger(&quot;net.jxta&quot;).setLevel(Level.SEVERE);</span>
+<span class="fc" id="L137">		AdvertisementBridge i = new AdvertisementBridge();</span>
+<span class="fc" id="L138">		AdvertisementFactory.registerAdvertisementInstance(i.getAdvType(), new AdvertisementInstanciator(i));</span>
+<span class="fc" id="L139">		return new JxtaPeer(port);</span>
+	}
+	
+
+	public static Peer createAndStartPeer(String impl, String tmpFolder, int port){
+<span class="nc" id="L144">		return createAndStartPeer(impl, tmpFolder, port, Application.rdvPeerIds);</span>
+	}
+	/**
+	 * Create, initialize, and start a {@link JxtaPeer}
+	 * @return an initialized and started {@link Peer}
+	 */
+	public static Peer createAndStartPeer(String impl, String tmpFolder, int port, String[] rdvPeerIds){
+		Peer peer;
+<span class="pc bpc" id="L152" title="3 of 6 branches missed.">		switch(impl) {</span>
+<span class="fc" id="L153">		case &quot;jxta&quot;: peer = createJxtaPeer(port); break;</span>
+<span class="nc" id="L154">		default: throw new RuntimeException(impl + &quot;doesn't exist&quot;);</span>
+		}
+		try {
+
+<span class="fc" id="L158">			peer.start(tmpFolder, port, rdvPeerIds);</span>
+
+<span class="nc" id="L160">		} catch (Exception e) {</span>
+<span class="nc" id="L161">			throw new RuntimeException(e);</span>
+<span class="fc" id="L162">		}</span>
+<span class="fc" id="L163">		return peer;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

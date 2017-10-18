@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="controller.managers.CryptoItemManagerDecoratorTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2017-10-14T14:39:48" hostname="raphael-laptop" time="1.024">
+  <properties/>
+  <testcase name="test_A_PERSIST_and_END_function" classname="controller.managers.CryptoItemManagerDecoratorTest" time="0.492"/>
+  <testcase name="test_B_check_Signature_Item" classname="controller.managers.CryptoItemManagerDecoratorTest" time="0.053"/>
+  <testcase name="test_C_findAllByAttribute" classname="controller.managers.CryptoItemManagerDecoratorTest" time="0.058"/>
+  <testcase name="test_D_findOneById" classname="controller.managers.CryptoItemManagerDecoratorTest" time="0.065"/>
+  <testcase name="test_E_findOneByAttribute" classname="controller.managers.CryptoItemManagerDecoratorTest" time="0.066"/>
+  <testcase name="test_F_getItemWithBadSignature" classname="controller.managers.CryptoItemManagerDecoratorTest" time="0.194"/>
+  <testcase name="test_Z_cleanItems" classname="controller.managers.CryptoItemManagerDecoratorTest" time="0.094"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

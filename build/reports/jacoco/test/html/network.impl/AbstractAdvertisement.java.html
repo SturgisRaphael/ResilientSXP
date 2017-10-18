@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractAdvertisement.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">network.impl</a> &gt; <span class="el_source">AbstractAdvertisement.java</span></div><h1>AbstractAdvertisement.java</h1><pre class="source lang-java linenums">package network.impl;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+
+import org.jdom2.Document;
+import org.jdom2.Element;
+
+import network.api.Peer;
+import network.api.advertisement.Advertisement;
+import network.api.annotation.AdvertisementAttribute;
+import network.api.annotation.ServiceName;
+
+<span class="fc" id="L14">public abstract class AbstractAdvertisement implements Advertisement{</span>
+
+<span class="fc" id="L16">	protected String sourceURI = null;</span>
+	
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	/*@Override
+	public byte[] getHashableData() {
+		ArrayList&lt;String&gt; data = new ArrayList&lt;&gt;();
+		for(Field field: this.getClass().getDeclaredFields()) {
+			field.setAccessible(true);
+			AdvertisementAttribute a = field.getAnnotation(AdvertisementAttribute.class);
+			if(a != null &amp;&amp; a.enabled() &amp;&amp; a.signable()) {
+				try {
+					data.add((String) field.get(this));
+				} catch (IllegalArgumentException | IllegalAccessException e) {
+					LoggerUtilities.logStackTrace(e);
+				}
+			}
+			field.setAccessible(false);
+		}
+		
+		java.util.Collections.sort(data);
+		ArrayList&lt;byte[]&gt; bytesList = new ArrayList&lt;&gt;();
+		int total = 0;
+		for(String s : data) {
+			bytesList.add(s.getBytes());
+			total += s.getBytes().length;
+		}
+		byte[] res = new byte[total];
+		
+		int i = 0;
+		for(byte[] b : bytesList) {
+			System.arraycopy(b, 0, res, i, b.length);
+			i += b.length;
+		}
+		return res;
+	}*/
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public abstract String getName();
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public abstract String getAdvertisementType();
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void publish(Peer peer) {
+<span class="fc" id="L72">		ServiceName name = this.getClass().getAnnotation(ServiceName.class);</span>
+<span class="pc bpc" id="L73" title="1 of 2 branches missed.">		if(name == null) {</span>
+<span class="nc" id="L74">			throw new RuntimeException(&quot;No service name defined for this class&quot;);</span>
+		}
+<span class="fc" id="L76">		peer.getService(name.name()).publishAdvertisement(this);</span>
+<span class="fc" id="L77">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void initialize(Document doc) {
+<span class="fc" id="L84">		Element root = doc.getRootElement();</span>
+<span class="fc bfc" id="L85" title="All 2 branches covered.">		for(Element e: root.getChildren()) {</span>
+			try {
+<span class="fc" id="L87">				Field field = this.getClass().getDeclaredField(e.getName());</span>
+<span class="fc" id="L88">				field.setAccessible(true);</span>
+<span class="fc" id="L89">				AdvertisementAttribute a = field.getAnnotation(AdvertisementAttribute.class);</span>
+<span class="pc bpc" id="L90" title="2 of 4 branches missed.">				if(a != null &amp;&amp; a.enabled()) {</span>
+<span class="fc" id="L91">					field.set(this, e.getValue());</span>
+				} else {
+<span class="nc" id="L93">					throw new NoSuchFieldException();</span>
+				}
+<span class="fc" id="L95">				field.setAccessible(false);</span>
+<span class="nc" id="L96">			} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e1) {</span>
+<span class="nc" id="L97">				System.err.println(&quot;Field &quot; + e.getName() + &quot;not found. Is it annoted ?&quot;);</span>
+<span class="nc" id="L98">				e1.printStackTrace();</span>
+<span class="fc" id="L99">			}</span>
+			
+<span class="fc" id="L101">		}</span>
+<span class="fc" id="L102">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Document getDocument() {
+<span class="fc" id="L109">		Element root = new Element(this.getName());</span>
+		
+<span class="fc" id="L111">		Element el = new Element(&quot;advertisementClass&quot;);</span>
+<span class="fc" id="L112">		el.addContent(getClass().getCanonicalName());</span>
+<span class="fc" id="L113">		root.addContent(el);</span>
+		
+<span class="fc bfc" id="L115" title="All 2 branches covered.">		for(Field field : this.getClass().getDeclaredFields()) {</span>
+<span class="fc" id="L116">			field.setAccessible(true);</span>
+<span class="fc" id="L117">			AdvertisementAttribute a = field.getAnnotation(AdvertisementAttribute.class);</span>
+<span class="pc bpc" id="L118" title="1 of 4 branches missed.">			if(a != null &amp;&amp; a.enabled()) {</span>
+<span class="fc" id="L119">				Element e = new Element(field.getName());</span>
+<span class="fc" id="L120">				root.addContent(e);</span>
+				try {
+<span class="fc" id="L122">					e.addContent((String) field.get(this));</span>
+<span class="nc" id="L123">				} catch (IllegalArgumentException | IllegalAccessException e1) {</span>
+<span class="nc" id="L124">					e1.printStackTrace();</span>
+<span class="fc" id="L125">				}</span>
+			}
+<span class="fc" id="L127">			field.setAccessible(false);</span>
+		}
+<span class="fc" id="L129">		return new Document(root);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String[] getIndexFields() {
+<span class="fc" id="L137">		ArrayList&lt;String&gt; indexes = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L138" title="All 2 branches covered.">		for(Field field : this.getClass().getDeclaredFields()) {</span>
+<span class="fc" id="L139">			field.setAccessible(true);</span>
+<span class="fc" id="L140">			AdvertisementAttribute a = field.getAnnotation(AdvertisementAttribute.class);</span>
+<span class="pc bpc" id="L141" title="1 of 6 branches missed.">			if(a != null &amp;&amp; a.enabled() &amp;&amp; a.indexed()) {</span>
+<span class="fc" id="L142">				indexes.add(field.getName());</span>
+			}
+<span class="fc" id="L144">			field.setAccessible(false);</span>
+		}
+<span class="fc" id="L146">		return indexes.toArray(new String[1]);</span>
+	}
+
+	@Override
+	public String getSourceURI() {
+<span class="fc" id="L151">		return sourceURI;</span>
+	}
+	
+	@Override
+	public void setSourceURI(String uri) {
+<span class="fc" id="L156">		this.sourceURI = uri;</span>
+<span class="fc" id="L157">	}</span>
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

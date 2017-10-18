@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ElGamalEngineK.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">crypt</a> &gt; <span class="el_source">ElGamalEngineK.java</span></div><h1>ElGamalEngineK.java</h1><pre class="source lang-java linenums">package crypt;
+
+import java.math.BigInteger;
+import java.security.SecureRandom;
+
+import org.bouncycastle.crypto.AsymmetricBlockCipher;
+import org.bouncycastle.crypto.CipherParameters;
+import org.bouncycastle.crypto.DataLengthException;
+import org.bouncycastle.crypto.params.ElGamalKeyParameters;
+import org.bouncycastle.crypto.params.ElGamalPrivateKeyParameters;
+import org.bouncycastle.crypto.params.ElGamalPublicKeyParameters;
+import org.bouncycastle.crypto.params.ParametersWithRandom;
+import org.bouncycastle.util.BigIntegers;
+
+/**
+ * this does your basic ElGamal algorithm.
+ * This class is based on org.bouncycastle.crypto.engines.ElGamalEngine
+ * TO DO : find a way to use the original class and so to calculate k out of the processBlock method.
+ */
+<span class="fc" id="L20">public class ElGamalEngineK</span>
+    implements AsymmetricBlockCipher
+{
+    private ElGamalKeyParameters    key;
+    private SecureRandom            random;
+    private boolean                 forEncryption;
+    private int                     bitSize;
+    private BigInteger k;
+
+<span class="fc" id="L29">    private static final BigInteger ZERO = BigInteger.valueOf(0);</span>
+<span class="fc" id="L30">    private static final BigInteger ONE = BigInteger.valueOf(1);</span>
+<span class="fc" id="L31">    private static final BigInteger TWO = BigInteger.valueOf(2);</span>
+    
+    
+    public BigInteger getK() {
+<span class="fc" id="L35">    	return k;</span>
+    }
+    
+    /**
+     * initialise the ElGamal engine.
+     *
+     * @param forEncryption true if we are encrypting, false otherwise.
+     * @param param the necessary ElGamal key parameters.
+     */
+    @Override
+	public void init(
+        boolean             forEncryption,
+        CipherParameters    param)
+    {
+<span class="fc bfc" id="L49" title="All 2 branches covered.">        if (param instanceof ParametersWithRandom)</span>
+        {
+<span class="fc" id="L51">            ParametersWithRandom    p = (ParametersWithRandom)param;</span>
+
+<span class="fc" id="L53">            this.key = (ElGamalKeyParameters)p.getParameters();</span>
+<span class="fc" id="L54">            this.random = p.getRandom();</span>
+<span class="fc" id="L55">        }</span>
+        else
+        {
+<span class="fc" id="L58">            this.key = (ElGamalKeyParameters)param;</span>
+<span class="fc" id="L59">            this.random = new SecureRandom();</span>
+        }
+
+<span class="fc" id="L62">        this.forEncryption = forEncryption;</span>
+
+<span class="fc" id="L64">        BigInteger p = key.getParameters().getP();</span>
+
+<span class="fc" id="L66">        bitSize = p.bitLength();</span>
+
+<span class="fc bfc" id="L68" title="All 2 branches covered.">        if (forEncryption)</span>
+        {
+<span class="fc bfc" id="L70" title="All 2 branches covered.">            if (!(key instanceof ElGamalPublicKeyParameters))</span>
+            {
+<span class="fc" id="L72">                throw new IllegalArgumentException(&quot;ElGamalPublicKeyParameters are required for encryption.&quot;);</span>
+            }
+        }
+        else
+        {
+<span class="fc bfc" id="L77" title="All 2 branches covered.">            if (!(key instanceof ElGamalPrivateKeyParameters))</span>
+            {
+<span class="fc" id="L79">                throw new IllegalArgumentException(&quot;ElGamalPrivateKeyParameters are required for decryption.&quot;);</span>
+            }
+        }
+<span class="fc" id="L82">    }</span>
+
+    /**
+     * Return the maximum size for an input block to this engine.
+     * For ElGamal this is always one byte less than the size of P on
+     * encryption, and twice the length as the size of P on decryption.
+     *
+     * @return maximum size for an input block.
+     */
+    @Override
+	public int getInputBlockSize()
+    {
+<span class="fc bfc" id="L94" title="All 2 branches covered.">        if (forEncryption)</span>
+        {
+<span class="fc" id="L96">            return (bitSize - 1) / 8;</span>
+        }
+
+<span class="fc" id="L99">        return 2 * ((bitSize + 7) / 8);</span>
+    }
+
+    /**
+     * Return the maximum size for an output block to this engine.
+     * For ElGamal this is always one byte less than the size of P on
+     * decryption, and twice the length as the size of P on encryption.
+     *
+     * @return maximum size for an output block.
+     */
+    @Override
+	public int getOutputBlockSize()
+    {
+<span class="fc bfc" id="L112" title="All 2 branches covered.">        if (forEncryption)</span>
+        {
+<span class="fc" id="L114">            return 2 * ((bitSize + 7) / 8);</span>
+        }
+
+<span class="fc" id="L117">        return (bitSize - 1) / 8;</span>
+    }
+
+    /**
+     * Process a single block using the basic ElGamal algorithm.
+     *
+     * @param in the input array.
+     * @param inOff the offset into the input buffer where the data starts.
+     * @param inLen the length of the data to be processed.
+     * @return the result of the ElGamal process.
+     * @exception DataLengthException the input block is too large.
+     */
+    @Override
+	public byte[] processBlock(
+        byte[]  in,
+        int     inOff,
+        int     inLen)
+    {
+<span class="fc bfc" id="L135" title="All 2 branches covered.">        if (key == null)</span>
+        {
+<span class="fc" id="L137">            throw new IllegalStateException(&quot;ElGamal engine not initialised&quot;);</span>
+        }
+
+<span class="fc" id="L140">        BigInteger p = key.getParameters().getP();</span>
+<span class="fc" id="L141">        bitSize = p.bitLength();</span>
+        
+<span class="fc bfc" id="L143" title="All 2 branches covered.">        int maxLength = forEncryption</span>
+            ?   (bitSize - 1 + 7) / 8
+<span class="fc" id="L145">            :   getInputBlockSize();</span>
+        
+<span class="fc bfc" id="L147" title="All 2 branches covered.">        if (inLen &gt; maxLength)</span>
+        {
+<span class="fc" id="L149">            throw new DataLengthException(&quot;input too large for ElGamal cipher with &quot; + inLen + &quot; characters instead of  &quot;+ maxLength +&quot; total.\n&quot;);</span>
+        }
+        
+<span class="fc bfc" id="L152" title="All 2 branches covered.">        if (key instanceof ElGamalPrivateKeyParameters) // decryption</span>
+        {
+<span class="fc" id="L154">            byte[]  in1 = new byte[inLen / 2];</span>
+<span class="fc" id="L155">            byte[]  in2 = new byte[inLen / 2];</span>
+
+<span class="fc" id="L157">            System.arraycopy(in, inOff, in1, 0, in1.length);</span>
+<span class="fc" id="L158">            System.arraycopy(in, inOff + in1.length, in2, 0, in2.length);</span>
+
+<span class="fc" id="L160">            BigInteger  gamma = new BigInteger(1, in1);</span>
+<span class="fc" id="L161">            BigInteger  phi = new BigInteger(1, in2);</span>
+
+<span class="fc" id="L163">            ElGamalPrivateKeyParameters  priv = (ElGamalPrivateKeyParameters)key;</span>
+            // a shortcut, which generally relies on p being prime amongst other things.
+            // if a problem with this shows up, check the p and g values!
+<span class="fc" id="L166">            BigInteger  m = gamma.modPow(p.subtract(ONE).subtract(priv.getX()), p).multiply(phi).mod(p);</span>
+
+<span class="fc" id="L168">            return BigIntegers.asUnsignedByteArray(m);</span>
+        }
+        else // encryption
+        {
+            byte[] block;
+<span class="pc bpc" id="L173" title="1 of 4 branches missed.">            if (inOff != 0 || inLen != in.length)</span>
+            {
+<span class="fc" id="L175">                block = new byte[inLen];</span>
+
+<span class="fc" id="L177">                System.arraycopy(in, inOff, block, 0, inLen);</span>
+            }
+            else
+            {
+<span class="fc" id="L181">                block = in;</span>
+            }
+
+<span class="fc" id="L184">            BigInteger input = new BigInteger(1, block);</span>
+
+<span class="fc bfc" id="L186" title="All 2 branches covered.">            if (input.compareTo(p) &gt;= 0)</span>
+            {
+            	
+<span class="fc" id="L189">                throw new DataLengthException(&quot;input too large for ElGamal cipher.\n&quot;);</span>
+            }
+
+<span class="fc" id="L192">            ElGamalPublicKeyParameters  pub = (ElGamalPublicKeyParameters)key;</span>
+
+<span class="fc" id="L194">            int                         pBitLength = p.bitLength();</span>
+<span class="fc" id="L195">            BigInteger                  k = new BigInteger(pBitLength, random);</span>
+
+<span class="pc bpc" id="L197" title="1 of 4 branches missed.">            while (k.equals(ZERO) || (k.compareTo(p.subtract(TWO)) &gt; 0))</span>
+            {
+<span class="fc" id="L199">                k = new BigInteger(pBitLength, random);</span>
+            }
+
+<span class="fc" id="L202">            BigInteger  g = key.getParameters().getG();</span>
+<span class="fc" id="L203">            BigInteger  gamma = g.modPow(k, p);</span>
+<span class="fc" id="L204">            BigInteger  phi = input.multiply(pub.getY().modPow(k, p)).mod(p);</span>
+
+<span class="fc" id="L206">            byte[]  out1 = gamma.toByteArray();</span>
+<span class="fc" id="L207">            byte[]  out2 = phi.toByteArray();</span>
+<span class="fc" id="L208">            byte[]  output = new byte[this.getOutputBlockSize()];</span>
+
+<span class="fc bfc" id="L210" title="All 2 branches covered.">            if (out1.length &gt; output.length / 2)</span>
+            {
+<span class="fc" id="L212">                System.arraycopy(out1, 1, output, output.length / 2 - (out1.length - 1), out1.length - 1);</span>
+            }
+            else
+            {
+<span class="fc" id="L216">                System.arraycopy(out1, 0, output, output.length / 2 - out1.length, out1.length);</span>
+            }
+
+<span class="fc bfc" id="L219" title="All 2 branches covered.">            if (out2.length &gt; output.length / 2)</span>
+            {
+<span class="fc" id="L221">                System.arraycopy(out2, 1, output, output.length - (out2.length - 1), out2.length - 1);</span>
+            }
+            else
+            {
+<span class="fc" id="L225">                System.arraycopy(out2, 0, output, output.length - out2.length, out2.length);</span>
+            }
+<span class="fc" id="L227">            this.k = k;</span>
+<span class="fc" id="L228">            return output;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

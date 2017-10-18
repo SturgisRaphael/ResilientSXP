@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EstablisherMessage.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">network.impl.messages</a> &gt; <span class="el_source">EstablisherMessage.java</span></div><h1>EstablisherMessage.java</h1><pre class="source lang-java linenums">package network.impl.messages;
+
+import network.api.annotation.MessageElement;
+import network.impl.MessagesImpl;
+
+/**
+ * 
+ * @author Nathanaël EON
+ *
+ */
+<span class="fc" id="L11">public class EstablisherMessage extends MessagesImpl </span>
+{
+	@MessageElement(&quot;title&quot;)
+	private String title;
+	
+	@MessageElement(&quot;sourceId&quot;)
+	private String sourceId;
+	
+	// Contains the current Uri of the peer who sent the message
+	@MessageElement(&quot;source&quot;)
+	private String sourceUri;
+	
+<span class="fc" id="L23">	@MessageElement(&quot;type&quot;)</span>
+	private String type = &quot;establisher&quot;;
+	
+	@MessageElement(&quot;contract&quot;)
+	private String contract;
+	
+	
+	public void setTitle(String title) {
+<span class="fc" id="L31">		this.title = title;</span>
+<span class="fc" id="L32">	}</span>
+	public String getTitle() {
+<span class="nc" id="L34">		return title;</span>
+	}
+	
+	
+	public void setSourceId(String sourceI) {
+<span class="fc" id="L39">		this.sourceId = sourceI;</span>
+<span class="fc" id="L40">	}</span>
+	public String getSourceId() {
+<span class="nc" id="L42">		return sourceId;</span>
+	}
+	
+	
+	public void setSource(String source) {
+<span class="fc" id="L47">		this.sourceUri = source;</span>
+<span class="fc" id="L48">	}</span>
+	public String getSource() {
+<span class="nc" id="L50">		return sourceUri;</span>
+	}
+
+	
+	public String getContract() {
+<span class="nc" id="L55">		return contract;</span>
+	}
+	public void setContract(String c) {
+<span class="fc" id="L58">		this.contract = c;</span>
+<span class="fc" id="L59">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

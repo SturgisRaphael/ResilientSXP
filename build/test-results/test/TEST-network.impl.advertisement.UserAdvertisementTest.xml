@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="network.impl.advertisement.UserAdvertisementTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2017-10-14T14:40:10" hostname="raphael-laptop" time="0.011">
+  <properties/>
+  <testcase name="getterTest" classname="network.impl.advertisement.UserAdvertisementTest" time="0.005"/>
+  <testcase name="fieldsAnnotationsTest" classname="network.impl.advertisement.UserAdvertisementTest" time="0.005"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

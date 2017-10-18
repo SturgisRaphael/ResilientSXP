@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="model.syncManager.UserSyncManagerImplTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2017-10-14T14:38:27" hostname="raphael-laptop" time="18.821">
+  <properties/>
+  <testcase name="testA" classname="model.syncManager.UserSyncManagerImplTest" time="17.453"/>
+  <testcase name="testB" classname="model.syncManager.UserSyncManagerImplTest" time="0.266"/>
+  <testcase name="testC" classname="model.syncManager.UserSyncManagerImplTest" time="0.936"/>
+  <testcase name="testD" classname="model.syncManager.UserSyncManagerImplTest" time="0.155"/>
+  <system-out><![CDATA[[EL Info]: 2017-10-14 16:38:29.299--ServerSession(1432476948)--EclipseLink, version: Eclipse Persistence Services - 2.6.3.v20160218-180e602
+[EL Info]: connection: 2017-10-14 16:38:42.375--ServerSession(1432476948)--/file:/home/raphael/git/SXP/build/resources/main/_persistence login successful
+javax.validation.ConstraintViolationException: Bean Validation constraint(s) violated while executing Automatic Bean Validation on callback event:'prePersist'. Please refer to embedded ConstraintViolations for details.
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

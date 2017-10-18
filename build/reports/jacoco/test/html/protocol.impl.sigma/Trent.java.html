@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Trent.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">protocol.impl.sigma</a> &gt; <span class="el_source">Trent.java</span></div><h1>Trent.java</h1><pre class="source lang-java linenums">/* Copyright 2015 Pablo Arrighi, Sarah Boukris, Mehdi Chtiwi, 
+   Michael Dubuis, Kevin Perrot, Julien Prudhomme.
+
+   This file is part of SXP.
+
+   SXP is free software: you can redistribute it and/or modify it 
+   under the terms of the GNU Lesser General Public License as published 
+   by the Free Software Foundation, version 3.
+
+   SXP is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+   without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+   PURPOSE.  See the GNU Lesser General Public License for more details.
+
+   You should have received a copy of the GNU Lesser General Public License along with SXP. 
+   If not, see &lt;http://www.gnu.org/licenses/&gt;. */
+package protocol.impl.sigma;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+
+import crypt.impl.signatures.SigmaSigner;
+
+import controller.Application;
+import controller.tools.JsonTools;
+import controller.tools.LoggerUtilities;
+import crypt.api.encryption.Encrypter;
+import crypt.factories.EncrypterFactory;
+import model.entity.ContractEntity;
+import model.entity.ElGamalKey;
+import model.entity.sigma.And;
+import model.entity.sigma.Masks;
+import model.entity.sigma.Or;
+import model.entity.sigma.ResEncrypt;
+import model.entity.sigma.ResponsesCCD;
+import model.entity.sigma.SigmaSignature;
+import network.api.EstablisherService;
+import network.api.EstablisherServiceListener;
+import network.api.Peer;
+import protocol.impl.sigma.steps.ProtocolResolve;
+
+
+/**
+ * this class simulate the arbiter but in the end all users have this class
+ * the arbiter can described message, and in the protocol CCD
+ * @author sarah
+ *
+ */
+public class Trent {
+	
+	public final static String TRENT_MESSAGE = &quot;FROM_TRENT&quot;;
+	
+	protected EstablisherService establisherService;
+	
+	protected final ElGamalKey keys;
+<span class="fc" id="L59">	private HashMap&lt;Masks,BigInteger&gt; eph = new HashMap&lt;Masks, BigInteger&gt;();</span>
+	
+<span class="fc" id="L61">	private HashMap&lt;String, TrentSolver&gt; solvers = new HashMap&lt;String, TrentSolver&gt;();</span>
+
+	private Encrypter&lt;ElGamalKey&gt; encrypter;
+	
+	/**
+	 * Constructor
+	 */
+<span class="fc" id="L68">	public Trent(final ElGamalKey key){</span>
+<span class="fc" id="L69">		this.keys = key;</span>
+		
+<span class="fc" id="L71">		encrypter = EncrypterFactory.createElGamalSerpentEncrypter();</span>
+<span class="fc" id="L72">		encrypter.setKey(keys);</span>
+<span class="fc" id="L73">	 }</span>
+	
+	public void setListener(){
+<span class="fc" id="L76">		 establisherService = (EstablisherService) Application.getInstance().getPeer().getService(EstablisherService.NAME);</span>
+		// Add a listener in case someone ask to resolve
+<span class="fc" id="L78">		establisherService.setListener(&quot;title&quot;, ProtocolResolve.TITLE + this.keys.getPublicKey().toString(), &quot;TRENT&quot;+this.keys.getPublicKey().toString(),new EstablisherServiceListener() {</span>
+			@Override
+			public void notify(String title, String content, String senderId) {
+<span class="fc" id="L81">				BigInteger msgSenKey = new BigInteger(senderId);</span>
+<span class="fc" id="L82">				ElGamalKey senderK = new ElGamalKey();</span>
+<span class="fc" id="L83">				senderK.setPublicKey(msgSenKey);</span>
+<span class="fc" id="L84">				senderK.setG(keys.getG());</span>
+<span class="fc" id="L85">				senderK.setP(keys.getP());</span>
+				
+<span class="fc" id="L87">				resolve(content, senderK);</span>
+<span class="fc" id="L88">			}</span>
+		}, false);
+<span class="fc" id="L90">	}</span>
+	
+	/*
+	 * Trent resolve function
+	 * Send a message to each signer of the contract
+	 * 		Message format : ArrayList&lt;String&gt; = {title, content}
+	 */
+	private void resolve(String message, ElGamalKey senderK){
+<span class="fc" id="L98">		Peer peer = Application.getInstance().getPeer();</span>
+		
+<span class="fc" id="L100">		JsonTools&lt;String[]&gt; json = new JsonTools&lt;&gt;(new TypeReference&lt;String[]&gt;(){});</span>
+<span class="fc" id="L101">		String[] content = json.toEntity(message);</span>
+		
+		// Message received useless
+<span class="pc bpc" id="L104" title="1 of 2 branches missed.">		if (content != null){</span>
+			
+			// Data stored in the message
+<span class="fc" id="L107">			int round = Integer.parseInt(content[0]);</span>
+			
+<span class="fc" id="L109">			JsonTools&lt;ContractEntity&gt; json2 = new JsonTools&lt;&gt;(new TypeReference&lt;ContractEntity&gt;(){});</span>
+<span class="fc" id="L110">			SigmaContract contract = new SigmaContract(json2.toEntity(content[1]));</span>
+<span class="fc" id="L111">			String m = new String(encrypter.decrypt(content[2].getBytes()));</span>
+
+<span class="fc" id="L113">			JsonTools&lt;SigmaSignature&gt; json4 = new JsonTools&lt;&gt;(new TypeReference&lt;SigmaSignature&gt;(){});</span>
+<span class="fc" id="L114">			String sign = new String(encrypter.decrypt(content[3].getBytes()));</span>
+<span class="fc" id="L115">			SigmaSignature signature = json4.toEntity(sign);</span>
+			
+			
+			// Setup the necessary to check signature
+<span class="fc" id="L119">			SigmaSigner s = new SigmaSigner();</span>
+<span class="fc" id="L120">			s.setKey(this.keys);</span>
+<span class="fc" id="L121">			s.setReceiverK(senderK);</span>
+<span class="fc" id="L122">			s.setTrentK(this.keys);</span>
+
+<span class="fc" id="L124">			boolean verifiedOr = true;</span>
+<span class="fc bfc" id="L125" title="All 2 branches covered.">			if (round &gt; 0){</span>
+<span class="fc" id="L126">				byte[] data = (new String(contract.getHashableData()) + round).getBytes();</span>
+<span class="fc" id="L127">				JsonTools&lt;Or[]&gt; json3 = new JsonTools&lt;&gt;(new TypeReference&lt;Or[]&gt;(){});</span>
+<span class="fc" id="L128">				Or[] orT = json3.toEntity(m);</span>
+				
+				// Checks the signature
+<span class="fc bfc" id="L131" title="All 2 branches covered.">				for (Or o : orT){</span>
+<span class="pc bpc" id="L132" title="1 of 2 branches missed.">					verifiedOr = verifiedOr </span>
+<span class="pc bpc" id="L133" title="1 of 2 branches missed.">								&amp;&amp; o.Verifies(data) </span>
+<span class="pc bpc" id="L134" title="1 of 2 branches missed.">								&amp;&amp; this.VerifiesRes(o, senderK.getPublicKey());</span>
+				}
+			}
+<span class="pc bpc" id="L137" title="2 of 4 branches missed.">			if (s.verify(m.getBytes(), signature) &amp;&amp; verifiedOr){</span>
+<span class="fc" id="L138">				String id = new String(contract.getHashableData());</span>
+<span class="fc bfc" id="L139" title="All 2 branches covered.">				if (solvers.get(id) == null){</span>
+<span class="fc" id="L140">					solvers.put(id, new TrentSolver(contract, this));</span>
+				}
+
+				// TrentSolver is the class dealing with the message
+<span class="fc" id="L144">				TrentSolver ts = solvers.get(id);</span>
+<span class="fc" id="L145">				ArrayList&lt;String&gt; resolved = ts.resolveT(m, round, senderK.getPublicKey().toString());</span>
+
+<span class="fc bfc" id="L147" title="All 2 branches covered.">				if (resolved == null){</span>
+<span class="fc" id="L148">					establisherService.sendContract(TRENT_MESSAGE + new String(contract.getHashableData()), </span>
+<span class="fc" id="L149">							&quot;dishonest &quot; + senderK.getPublicKey().toString(),</span>
+<span class="fc" id="L150">							this.keys.getPublicKey().toString(),</span>
+							peer);
+				} else{
+<span class="fc" id="L153">					HashMap&lt;String,String&gt; signatures = new HashMap&lt;String,String&gt;();</span>
+<span class="fc bfc" id="L154" title="All 2 branches covered.">					for (ElGamalKey k : contract.getParties()){</span>
+<span class="fc" id="L155">						s.setReceiverK(k);</span>
+<span class="fc" id="L156">						SigmaSignature signa = s.sign(resolved.get(1).getBytes());</span>
+<span class="fc" id="L157">						JsonTools&lt;SigmaSignature&gt; jsons = new JsonTools&lt;&gt;(new TypeReference&lt;SigmaSignature&gt;(){});</span>
+<span class="fc" id="L158">						signatures.put(k.getPublicKey().toString(),jsons.toJson(signa));</span>
+<span class="fc" id="L159">					}</span>
+<span class="fc" id="L160">					JsonTools&lt;HashMap&lt;String,String&gt;&gt; jsona = new JsonTools&lt;&gt;(new TypeReference&lt;HashMap&lt;String,String&gt;&gt;(){});</span>
+<span class="fc" id="L161">					resolved.add(jsona.toJson(signatures));</span>
+					
+<span class="fc" id="L163">					JsonTools&lt;ArrayList&lt;String&gt;&gt; jsons = new JsonTools&lt;&gt;(new TypeReference&lt;ArrayList&lt;String&gt;&gt;(){});</span>
+<span class="fc" id="L164">					String answer = jsons.toJson(resolved);</span>
+
+<span class="fc" id="L166">					establisherService.sendContract(TRENT_MESSAGE + new String(contract.getHashableData()),</span>
+							answer,
+<span class="fc" id="L168">							this.keys.getPublicKey().toString(),</span>
+							peer);
+				}
+			}
+		}
+<span class="fc" id="L173">	}</span>
+
+	/**
+	 * Create mask for the CCD response
+	 * @param res
+	 * @return Masks
+	 */
+	public Masks SendMasks(ResEncrypt res)
+	{
+		BigInteger s;
+<span class="fc" id="L183">		s = Utils.rand(160, keys.getP());</span>
+		
+		BigInteger a, aBis;
+		
+<span class="fc" id="L187">		a = keys.getG().modPow(s, keys.getP());</span>
+<span class="fc" id="L188">		aBis = res.getU().modPow(s, keys.getP());</span>
+		
+<span class="fc" id="L190">		Masks masks = new Masks(a,aBis);</span>
+<span class="fc" id="L191">		eph.put(masks, s);</span>
+		
+<span class="fc" id="L193">		return masks;</span>
+	}
+	
+	/**
+	 * Create challenge for the not interactive version for the CCD
+	 * @param mask
+	 * @param message
+	 * @return
+	 */
+	public BigInteger SendChallenge(Masks mask, byte[] message)
+	{
+		BigInteger challenge;
+		byte[] buffer, resume;
+<span class="fc" id="L206">		MessageDigest hash_function = null;</span>
+		
+<span class="fc" id="L208">		String tmp = message.toString().concat(mask.getA().toString());</span>
+		
+<span class="fc" id="L210">		buffer = tmp.getBytes();</span>
+		
+		try {
+<span class="fc" id="L213">			hash_function = MessageDigest.getInstance(&quot;SHA-256&quot;);</span>
+<span class="nc" id="L214">		} catch (NoSuchAlgorithmException e) {</span>
+<span class="nc" id="L215">			LoggerUtilities.logStackTrace(e);</span>
+<span class="fc" id="L216">		}</span>
+		
+<span class="fc" id="L218">		resume = hash_function.digest(buffer);</span>
+<span class="fc" id="L219">		challenge = new BigInteger(resume);</span>
+<span class="fc" id="L220">		return challenge;</span>
+	}
+	
+	/**
+	 * Create reponse CCD 
+	 * @param challenge
+	 * @param mask
+	 * @return BigInteger
+	 */
+	public BigInteger SendAnswer(BigInteger challenge, Masks mask)
+	{
+<span class="fc" id="L231">		BigInteger r = (keys.getPrivateKey().multiply(challenge)).add(eph.get(mask));</span>
+<span class="fc" id="L232">		return r;	</span>
+	}
+
+	/**
+	 * Create response CCD will send
+	 * @param resEncrypt
+	 * @return
+	 */
+	public ResponsesCCD SendResponse(ResEncrypt resEncrypt)
+	{		
+<span class="fc" id="L242">		Masks mask = this.SendMasks(resEncrypt);</span>
+<span class="fc" id="L243">		BigInteger challenge = this.SendChallenge(mask, resEncrypt.getM());</span>
+<span class="fc" id="L244">		BigInteger response = this.SendAnswer(challenge, mask);</span>
+		
+<span class="fc" id="L246">		return new ResponsesCCD(mask,challenge,response);</span>
+	}
+
+	/**
+	 * Create response CCD will send
+	 * @param resEncrypt
+	 * @return
+	 */
+	public ResponsesCCD SendResponse(ResEncrypt resEncrypt, byte[] m)
+	{		
+<span class="fc" id="L256">		Masks mask = this.SendMasks(resEncrypt);</span>
+<span class="fc" id="L257">		BigInteger challenge = this.SendChallenge(mask, m);</span>
+<span class="fc" id="L258">		BigInteger response = this.SendAnswer(challenge, mask);</span>
+		
+<span class="fc" id="L260">		return new ResponsesCCD(mask,challenge,response);</span>
+	}
+	
+	public boolean VerifiesRes(Or o, BigInteger senPubK){
+<span class="fc" id="L264">		boolean isVerified = false;</span>
+<span class="fc bfc" id="L265" title="All 2 branches covered.">		for (And a : o.ands){</span>
+<span class="fc" id="L266">			byte[] data = Sender.getIdentificationData(a.rK.get(a.responses[0]));</span>
+<span class="fc" id="L267">			BigInteger k = new BigInteger(data);</span>
+<span class="fc" id="L268">			BigInteger h = decryption(a.resEncrypt);</span>
+<span class="pc bpc" id="L269" title="1 of 4 branches missed.">			isVerified = isVerified || h.equals(k);</span>
+		}
+<span class="fc" id="L271">		return isVerified;</span>
+	}
+	
+	/**
+	 * decrypt
+	 * @param cipherText
+	 * @return
+	 */
+	public  byte[] decryption (byte[]cipherText)
+	{
+<span class="fc" id="L281">		ElGamal elGamal = new ElGamal (keys);</span>
+<span class="fc" id="L282">        return elGamal.decryptWithPrivateKey(cipherText);</span>
+	}
+	
+	public BigInteger decryption(ResEncrypt res){
+<span class="fc" id="L286">		BigInteger u = res.getU();</span>
+<span class="fc" id="L287">		BigInteger v = res.getV();</span>
+<span class="fc" id="L288">		BigInteger p = keys.getP();</span>
+<span class="fc" id="L289">		BigInteger data = u.modPow(p.subtract(BigInteger.ONE).subtract(keys.getPrivateKey()), p).multiply(v).mod(p);</span>
+<span class="fc" id="L290">		return data;</span>
+	}
+	
+	/**
+	 * gives trent public keys
+	 * @return
+	 */
+	public ElGamalKey getKey(){
+<span class="fc" id="L298">		ElGamalKey pubKey = new ElGamalKey();</span>
+<span class="fc" id="L299">		pubKey.setG(this.keys.getG());</span>
+<span class="fc" id="L300">		pubKey.setP(this.keys.getP());</span>
+<span class="fc" id="L301">		pubKey.setPublicKey(this.keys.getPublicKey());</span>
+<span class="fc" id="L302">		return pubKey;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ElGamalKey.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">model.entity</a> &gt; <span class="el_source">ElGamalKey.java</span></div><h1>ElGamalKey.java</h1><pre class="source lang-java linenums">package model.entity;
+
+import java.io.Serializable;
+import java.math.BigInteger;
+
+import javax.persistence.Entity;
+import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlElement;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+//import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import crypt.api.key.AsymKey;
+
+@Entity
+<span class="fc" id="L22">public class ElGamalKey implements AsymKey&lt;BigInteger&gt;, Serializable{</span>
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6531626985325397645L;
+
+	@NotNull
+	@XmlElement(name=&quot;privateKey&quot;)
+	@JsonSerialize(using=controller.tools.BigIntegerSerializer.class)
+	@JsonDeserialize(using=controller.tools.BigIntegerDeserializer.class)
+	@JsonFormat(shape=JsonFormat.Shape.STRING)
+	@JsonIgnore
+	private BigInteger privateKey;
+	
+	@NotNull
+	@XmlElement(name=&quot;publicKey&quot;)
+	@JsonSerialize(using=controller.tools.BigIntegerSerializer.class)
+	@JsonDeserialize(using=controller.tools.BigIntegerDeserializer.class)
+	@JsonFormat(shape=JsonFormat.Shape.STRING)
+	private BigInteger publicKey;
+	
+	@NotNull
+	@XmlElement(name=&quot;p&quot;)
+	@JsonSerialize(using=controller.tools.BigIntegerSerializer.class)
+	@JsonDeserialize(using=controller.tools.BigIntegerDeserializer.class)
+	@JsonFormat(shape=JsonFormat.Shape.STRING)
+	private BigInteger p;
+	
+	@NotNull
+	@XmlElement(name=&quot;g&quot;)
+	@JsonSerialize(using=controller.tools.BigIntegerSerializer.class)
+	@JsonDeserialize(using=controller.tools.BigIntegerDeserializer.class)
+	@JsonFormat(shape=JsonFormat.Shape.STRING)
+	private BigInteger g;
+	
+	@Override
+	public BigInteger getPublicKey() {
+<span class="fc" id="L60">		return publicKey;</span>
+	}
+	@Override
+	public BigInteger getPrivateKey() {
+<span class="fc" id="L64">		return privateKey;</span>
+	}
+	@Override
+	public BigInteger getParam(String param) {
+<span class="pc bpc" id="L68" title="2 of 10 branches missed.">		switch(param) {</span>
+<span class="fc" id="L69">		case &quot;p&quot;: return p;</span>
+<span class="fc" id="L70">		case &quot;g&quot;: return g;</span>
+<span class="fc" id="L71">		default: throw new RuntimeException(&quot;param &quot; + param + &quot; undefined&quot;);</span>
+		}
+	}
+	@Override
+	public void setPublicKey(BigInteger pbk) {
+<span class="fc" id="L76">		publicKey = pbk;</span>
+<span class="fc" id="L77">	}</span>
+	@Override
+	public void setPrivateKey(BigInteger pk) {
+<span class="fc" id="L80">		privateKey = pk;</span>
+<span class="fc" id="L81">	}</span>
+	
+	public void setG(BigInteger g) {
+<span class="fc" id="L84">		this.g = g;</span>
+<span class="fc" id="L85">	}</span>
+	
+	public void setP(BigInteger p) {
+<span class="fc" id="L88">		this.p = p;</span>
+<span class="fc" id="L89">	}</span>
+	
+	public BigInteger getP() {
+<span class="fc" id="L92">		return p;</span>
+	}
+	
+	public BigInteger getG() {
+<span class="fc" id="L96">		return g;</span>
+	}
+	
+	@Override
+	public String toString(){
+<span class="fc" id="L101">		StringBuffer s = new StringBuffer();</span>
+<span class="fc" id="L102">		s.append(&quot;&lt;&quot; + this.getClass().getSimpleName().toLowerCase() + &quot;&gt;&quot;);</span>
+<span class="fc" id="L103">		s.append(&quot;&lt;g&gt;&quot; + this.getG() + &quot;&lt;/g&gt;&quot;);</span>
+<span class="fc" id="L104">		s.append(&quot;&lt;p&gt;&quot; + this.getP() + &quot;&lt;/p&gt;&quot;);</span>
+<span class="fc" id="L105">		s.append(&quot;&lt;pbK&gt;&quot; + this.getPublicKey() + &quot;&lt;/pbK&gt;&quot;);</span>
+<span class="fc" id="L106">		s.append(&quot;&lt;/&quot; + this.getClass().getSimpleName().toLowerCase() + &quot;&gt;&quot;);</span>
+<span class="fc" id="L107">		return s.toString();</span>
+	}
+	
+	@Override
+	public boolean equals(Object o){
+<span class="pc bpc" id="L112" title="1 of 2 branches missed.">		if (! (o instanceof ElGamalKey))</span>
+<span class="nc" id="L113">			return false;</span>
+<span class="fc" id="L114">		ElGamalKey k = (ElGamalKey) o;</span>
+<span class="pc bpc" id="L115" title="1 of 2 branches missed.">		return k.getP().equals(this.getP())</span>
+<span class="pc bpc" id="L116" title="1 of 2 branches missed.">				&amp;&amp; k.getG().equals(this.getG())</span>
+<span class="fc bfc" id="L117" title="All 2 branches covered.">				&amp;&amp; k.getPublicKey().equals(this.getPublicKey());</span>
+	}
+	
+	@Override
+	public int hashCode(){
+<span class="fc" id="L122">		return this.getPublicKey().hashCode();</span>
+	}
+	
+	public ElGamalKey copy(){
+<span class="nc" id="L126">		ElGamalKey copy = new ElGamalKey();</span>
+<span class="nc" id="L127">		copy.setPrivateKey(this.getPrivateKey());</span>
+<span class="nc" id="L128">		copy.setPublicKey(this.getPublicKey());</span>
+<span class="nc" id="L129">		copy.setG(this.getG());</span>
+<span class="nc" id="L130">		copy.setP(this.getP());</span>
+<span class="nc" id="L131">		return copy;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

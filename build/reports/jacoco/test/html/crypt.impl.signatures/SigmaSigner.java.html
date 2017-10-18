@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SigmaSigner.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">crypt.impl.signatures</a> &gt; <span class="el_source">SigmaSigner.java</span></div><h1>SigmaSigner.java</h1><pre class="source lang-java linenums">package crypt.impl.signatures;
+
+import java.math.BigInteger;
+
+import crypt.base.AbstractSigner;
+import model.entity.ElGamalKey;
+import model.entity.sigma.Or;
+import model.entity.sigma.ResEncrypt;
+import model.entity.sigma.Responses;
+import model.entity.sigma.SigmaSignature;
+import protocol.impl.sigma.PCS;
+import protocol.impl.sigma.Sender;
+
+<span class="fc" id="L14">public class SigmaSigner  extends AbstractSigner&lt;SigmaSignature, ElGamalKey&gt;{</span>
+
+	
+	private ElGamalKey trentK;
+	private ElGamalKey receiverK;
+	
+	public ElGamalKey getTrentK(){
+<span class="fc" id="L21">		return trentK;</span>
+	}
+	public void setTrentK(ElGamalKey t){
+<span class="fc" id="L24">		this.trentK = t;</span>
+<span class="fc" id="L25">	}</span>
+	
+	public ElGamalKey getReceiverK(){
+<span class="fc" id="L28">		return receiverK;</span>
+	}
+	public void setReceiverK(ElGamalKey r){
+<span class="fc" id="L31">		this.receiverK = r;</span>
+<span class="fc" id="L32">	}</span>
+	
+	
+	/* Sign the message 
+	 */
+	@Override
+	public SigmaSignature sign(byte[] message) {
+<span class="pc bpc" id="L39" title="2 of 4 branches missed.">		if (this.getReceiverK() == null || this.getTrentK() == null){</span>
+<span class="nc" id="L40">			throw new RuntimeException(&quot;Trent and receiver keys not set&quot;);</span>
+		}
+		
+<span class="fc" id="L43">		Sender sender = new Sender(this.key);</span>
+		// Need to setup the &quot;encrypt
+<span class="fc" id="L45">		byte[] b = Sender.getIdentificationData(this.key);</span>
+<span class="fc" id="L46">		sender.Encryption(b, this.getTrentK());</span>
+		
+<span class="fc" id="L48">		Responses rpcs = sender.SendResponseCCE(message, this.trentK);</span>
+<span class="fc" id="L49">		PCS p = new PCS(sender, this.trentK);</span>
+<span class="fc" id="L50">		Or pcs = p.getPcs(message, this.receiverK, false);</span>
+		
+<span class="fc" id="L52">		SigmaSignature s = new SigmaSignature(pcs, rpcs);</span>
+<span class="fc" id="L53">		s.setTrenK(trentK);</span>
+<span class="fc" id="L54">		return s;</span>
+	}
+	
+	
+	/* Verify the signature 
+	 */
+	@Override
+	public boolean verify(byte[] message, SigmaSignature sign) {
+<span class="fc" id="L62">		ElGamalKey trentKey = sign.getTrentK();</span>
+		
+<span class="fc" id="L64">		ResEncrypt resE = sign.getPcs().ands[0].resEncrypt;</span>
+		
+		// checks the resEncrypt according to the receiverK
+<span class="fc bfc" id="L67" title="All 2 branches covered.">		if (this.getReceiverK() != null){</span>
+<span class="fc" id="L68">			BigInteger m = new BigInteger(resE.getM()).mod(trentKey.getP());</span>
+<span class="fc" id="L69">			BigInteger n = new BigInteger(Sender.getIdentificationData(getReceiverK()));</span>
+<span class="pc bpc" id="L70" title="1 of 2 branches missed.">			if (!m.equals(n)){</span>
+<span class="nc" id="L71">				return false;</span>
+			}
+		}
+
+		// If trent and sender keys not set, just check signature
+<span class="fc bfc" id="L76" title="All 2 branches covered.">		if (this.getTrentK() == null){</span>
+<span class="pc bpc" id="L77" title="2 of 4 branches missed.">			return sign.getPcs().Verifies(message) &amp;&amp; sign.getRpcs().Verifies(trentKey, resE);</span>
+		}
+		
+		// Check the signature and if keys match (Trent and sender keys)
+<span class="pc bpc" id="L81" title="1 of 4 branches missed.">		return sign.getPcs().Verifies(message) &amp;&amp; sign.getRpcs().Verifies(trentKey, resE)</span>
+<span class="pc bpc" id="L82" title="1 of 2 branches missed.">				&amp;&amp; trentK.getPublicKey().equals(trentKey.getPublicKey());</span>
+	}
+	
+	
+	@Override
+	public ElGamalKey getKey(){
+<span class="nc" id="L88">		return this.key;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

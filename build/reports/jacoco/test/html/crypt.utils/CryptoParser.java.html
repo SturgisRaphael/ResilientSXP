@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CryptoParser.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">crypt.utils</a> &gt; <span class="el_source">CryptoParser.java</span></div><h1>CryptoParser.java</h1><pre class="source lang-java linenums">package crypt.utils;
+
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Hashtable;
+import java.util.Map.Entry;
+
+import org.bouncycastle.crypto.params.ElGamalParameters;
+
+import controller.tools.LoggerUtilities;
+import crypt.annotations.CryptCryptAnnotation;
+import crypt.annotations.CryptHashAnnotation;
+import crypt.annotations.CryptSigneAnnotation;
+import crypt.api.annotation.ParserAction;
+import crypt.api.hashs.Hasher;
+import crypt.api.key.AsymKey;
+import crypt.api.signatures.Signer;
+import crypt.factories.AsymKeyFactory;
+import crypt.factories.ElGamalAsymKeyFactory;
+import crypt.factories.EncrypterFactory;
+import crypt.factories.HasherFactory;
+import crypt.factories.SignerFactory;
+import crypt.impl.encryption.ElGamalEncrypter;
+import crypt.impl.signatures.ElGamalSignature;
+import crypt.impl.signatures.ElGamalSigner;
+import model.entity.ElGamalKey;
+import model.entity.ElGamalSignEntity;
+import model.entity.User;
+
+/**
+ * Class represent the parser implementation. 
+ * @author radoua abderrahim
+ * @param &lt;Entity&gt; Type of Object generic type. 
+ */
+public class CryptoParser&lt;Entity&gt; extends AbstractParser&lt;Entity&gt; {
+
+	public CryptoParser(Entity entity) {
+<span class="nc" id="L43">		super(entity);</span>
+<span class="nc" id="L44">	}</span>
+	
+	public CryptoParser(Entity entity,AsymKey&lt;BigInteger&gt; key) {
+<span class="fc" id="L47">		super(entity,key);</span>
+<span class="fc" id="L48">	}</span>
+	
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Entity parseAnnotation(ParserAction ... actions) {
+		
+<span class="fc bfc" id="L57" title="All 2 branches covered.">		for (ParserAction action : actions) {</span>
+<span class="pc bpc" id="L58" title="2 of 7 branches missed.">			switch (action) {</span>
+			case HasherAction:
+<span class="fc" id="L60">				hasherFields();</span>
+<span class="fc" id="L61">				break;</span>
+			case CryptAction:
+<span class="fc" id="L63">				cryptFields();</span>
+<span class="fc" id="L64">				break;</span>
+			case DecryptAction:
+<span class="fc" id="L66">				decryptFields();</span>
+<span class="fc" id="L67">				break;</span>
+			case SigneAction:
+<span class="fc" id="L69">				signeFields();</span>
+<span class="fc" id="L70">				break;</span>
+			case CheckAction:
+<span class="fc" id="L72">				checkSignature();</span>
+<span class="fc" id="L73">				break;</span>
+			case Resilience:
+<span class="nc" id="L75">				resilienceFields();</span>
+				break;
+			}
+		}
+
+<span class="fc" id="L80">		return getEntity();</span>
+	}
+
+	/**
+	 * hasher action implementation
+	 */
+	private void hasherFields() {
+
+<span class="fc" id="L88">		Hashtable&lt;Field,CryptHashAnnotation&gt; fieldsMap = getFieldsToHash(); //get fields to hash </span>
+		
+<span class="fc bfc" id="L90" title="All 2 branches covered.">		for (Entry&lt;Field, CryptHashAnnotation&gt; entry : fieldsMap.entrySet()) {</span>
+			
+<span class="fc" id="L92">			Field field = entry.getKey();</span>
+			
+<span class="fc" id="L94">			CryptHashAnnotation annotation = entry.getValue();</span>
+			
+			try {
+
+<span class="fc" id="L98">				field.setAccessible(true);</span>
+
+<span class="fc" id="L100">				Object valueOfField = field.get(getEntity());</span>
+
+<span class="fc" id="L102">				Hasher hasher = HasherFactory.createDefaultHasher();</span>
+
+<span class="fc" id="L104">				hasher.setSalt(getSalt());</span>
+
+<span class="fc" id="L106">				valueOfField = hasher.getHash((byte[]) valueOfField);</span>
+
+<span class="fc" id="L108">				field.set(getEntity(), valueOfField);</span>
+
+<span class="nc" id="L110">			} catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L111">				LoggerUtilities.logStackTrace(e);</span>
+<span class="nc" id="L112">			} catch (IllegalAccessException e) {</span>
+<span class="nc" id="L113">				LoggerUtilities.logStackTrace(e);</span>
+<span class="pc" id="L114">			}</span>
+<span class="fc" id="L115">		}</span>
+<span class="fc" id="L116">	}</span>
+
+	/**
+	 * encrypt action implementation
+	 */
+	private void cryptFields() {
+		
+<span class="fc" id="L123">		Hashtable&lt;Field,CryptCryptAnnotation&gt; fieldsMap = getFieldsToCrypt();</span>
+		
+<span class="fc bfc" id="L125" title="All 2 branches covered.">		for (Entry&lt;Field, CryptCryptAnnotation&gt; entry : fieldsMap.entrySet()) {</span>
+			
+<span class="fc" id="L127">			Field field = entry.getKey();</span>
+			
+<span class="fc" id="L129">			CryptCryptAnnotation annotation = entry.getValue();</span>
+			
+<span class="fc" id="L131">			field.setAccessible(true);</span>
+			
+			try {
+
+<span class="fc" id="L135">				String valueOfField = String.valueOf(field.get(getEntity()));</span>
+				
+<span class="pc bpc" id="L137" title="1 of 2 branches missed.">				if(annotation.isCryptBySecondKey()){</span>
+					
+<span class="fc" id="L139">					ElGamalKey elgamalkey = AsymKeyFactory.createElGamalAsymKey(false);</span>
+					
+<span class="fc" id="L141">					Field keyField = getEntity().getClass().getDeclaredField(annotation.secondKey());</span>
+					
+					//key is BigInteger
+<span class="fc" id="L144">					keyField.setAccessible(true);</span>
+					
+<span class="pc bpc" id="L146" title="1 of 2 branches missed.">					if(! (keyField.get(getEntity()) instanceof BigInteger) ){ //not BigIntger throw exception</span>
+<span class="nc" id="L147">						throw new RuntimeException(&quot;Check-key must be a BigInteger!&quot;);</span>
+					}
+					
+<span class="fc" id="L150">					elgamalkey.setPublicKey((BigInteger) keyField.get(getEntity()));</span>
+					
+<span class="fc" id="L152">					field.set(getEntity(), this.encrypt(valueOfField,elgamalkey,annotation.isEncryptKeyPublic()));</span>
+					
+<span class="fc" id="L154">				}else{</span>
+<span class="nc" id="L155">					field.set(getEntity(), this.encrypt(valueOfField,annotation.isEncryptKeyPublic()));	</span>
+				}
+				
+<span class="nc" id="L158">			} catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L159">				LoggerUtilities.logStackTrace(e);</span>
+<span class="nc" id="L160">			} catch (IllegalAccessException e) {</span>
+<span class="nc" id="L161">				LoggerUtilities.logStackTrace(e);</span>
+<span class="nc" id="L162">			} catch (NoSuchFieldException e) {</span>
+<span class="nc" id="L163">				LoggerUtilities.logStackTrace(e);</span>
+<span class="nc" id="L164">			} catch (SecurityException e) {</span>
+<span class="nc" id="L165">				LoggerUtilities.logStackTrace(e);</span>
+<span class="pc" id="L166">			}</span>
+<span class="fc" id="L167">		}</span>
+<span class="fc" id="L168">	}</span>
+
+	/**
+	 * decrypt action implementation
+	 */
+	private void decryptFields() {
+		
+<span class="fc" id="L175">		Hashtable&lt;Field,CryptCryptAnnotation&gt; fieldsMap = getFieldsToCrypt();</span>
+		
+<span class="fc bfc" id="L177" title="All 2 branches covered.">		for (Entry&lt;Field, CryptCryptAnnotation&gt; entry : fieldsMap.entrySet()) {</span>
+			
+<span class="fc" id="L179">			Field field = entry.getKey();</span>
+			
+<span class="fc" id="L181">			CryptCryptAnnotation annotation = entry.getValue();</span>
+			
+<span class="fc" id="L183">			field.setAccessible(true);</span>
+
+			try {
+				
+<span class="fc" id="L187">				String valueOfField = String.valueOf(field.get(getEntity()));</span>
+				
+<span class="pc bpc" id="L189" title="1 of 2 branches missed.">				if(annotation.isCryptBySecondKey()){</span>
+					
+<span class="fc" id="L191">					ElGamalKey elgamalkey = AsymKeyFactory.createElGamalAsymKey(false);</span>
+					
+<span class="fc" id="L193">					Field keyField = getEntity().getClass().getDeclaredField(annotation.secondKey());</span>
+					
+					//key is BigInteger
+<span class="fc" id="L196">					keyField.setAccessible(true);</span>
+					
+<span class="pc bpc" id="L198" title="1 of 2 branches missed.">					if(! (keyField.get(getEntity()) instanceof BigInteger) ){</span>
+<span class="nc" id="L199">						throw new RuntimeException(&quot;Check-key must be a BigInteger!&quot;);</span>
+					}
+					
+<span class="fc" id="L202">					elgamalkey.setPublicKey((BigInteger) keyField.get(getEntity()));</span>
+					
+<span class="fc" id="L204">					field.set(getEntity(), this.decrypt(valueOfField,elgamalkey,annotation.isEncryptKeyPublic()));</span>
+					
+<span class="fc" id="L206">				}else{</span>
+<span class="nc" id="L207">					field.set(getEntity(), this.decrypt(valueOfField,annotation.isEncryptKeyPublic()));	</span>
+				}
+				
+<span class="nc" id="L210">			} catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L211">				LoggerUtilities.logStackTrace(e);</span>
+<span class="nc" id="L212">			} catch (IllegalAccessException e) {</span>
+<span class="nc" id="L213">				LoggerUtilities.logStackTrace(e);</span>
+<span class="nc" id="L214">			} catch (NoSuchFieldException e) {</span>
+<span class="nc" id="L215">				LoggerUtilities.logStackTrace(e);</span>
+<span class="nc" id="L216">			} catch (SecurityException e) {</span>
+<span class="nc" id="L217">				LoggerUtilities.logStackTrace(e);</span>
+<span class="pc" id="L218">			}</span>
+<span class="fc" id="L219">		}</span>
+<span class="fc" id="L220">	}</span>
+
+	/**
+	 * signed action implementation
+	 */
+	private void signeFields() {
+		
+<span class="fc" id="L227">		Hashtable&lt;Field,CryptSigneAnnotation&gt; fieldsMap = getFieldsToSign();</span>
+		
+<span class="fc bfc" id="L229" title="All 2 branches covered.">		for (Entry&lt;Field, CryptSigneAnnotation&gt; entry : fieldsMap.entrySet()) {</span>
+			
+<span class="fc" id="L231">			Field field = entry.getKey();</span>
+			
+<span class="fc" id="L233">			CryptSigneAnnotation annotation = entry.getValue();</span>
+			
+<span class="fc" id="L235">			field.setAccessible(true);</span>
+			
+<span class="fc" id="L237">			StringBuilder sb = new StringBuilder();</span>
+			
+<span class="fc bfc" id="L239" title="All 2 branches covered.">			for (String nameOfField : annotation.signeWithFields()) {</span>
+				try {
+					
+<span class="fc" id="L242">					Field f = getEntity().getClass().getDeclaredField(nameOfField);</span>
+					
+<span class="fc" id="L244">					f.setAccessible(true);</span>
+					
+<span class="fc bfc" id="L246" title="All 2 branches covered.">					if(f.get(getEntity()) instanceof byte[]){</span>
+<span class="fc" id="L247">						sb.append(new String((byte[])f.get(getEntity()), &quot;UTF-8&quot;));</span>
+					}else{
+<span class="fc" id="L249">						sb.append(String.valueOf(f.get(getEntity())));</span>
+					}
+<span class="nc" id="L251">				} catch (Exception e) {</span>
+<span class="nc" id="L252">					LoggerUtilities.logStackTrace(e);</span>
+<span class="fc" id="L253">				}</span>
+			}
+			
+<span class="fc" id="L256">			Signer&lt;ElGamalSignature, ElGamalKey&gt; signer = SignerFactory.createElGamalSigner();</span>
+			
+<span class="fc" id="L258">			ElGamalKey elgamalkey = AsymKeyFactory.createElGamalAsymKey(false);</span>
+			
+<span class="fc" id="L260">			elgamalkey.setPrivateKey(getPrivateKey());</span>
+			//elgamalkey.setPublicKey(null);
+			
+<span class="fc" id="L263">			signer.setKey(elgamalkey);</span>
+			//System.out.println(&quot;sign : { &quot;+sb.toString()+&quot; }&quot;);
+<span class="fc" id="L265">			ElGamalSignature elGamalSignature = signer.sign(sb.toString().getBytes());</span>
+			
+<span class="fc" id="L267">			ElGamalSignEntity signatureEntity = new ElGamalSignEntity(); //save signature in entity Item as a ElGamalSignEntity object</span>
+<span class="fc" id="L268">			signatureEntity.setR(elGamalSignature.getR());</span>
+		
+<span class="fc" id="L270">			signatureEntity.setS(elGamalSignature.getS());</span>
+
+			
+			try {
+				
+<span class="fc" id="L275">				field.set(getEntity(), signatureEntity);</span>
+
+<span class="nc" id="L277">			} catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L278">				LoggerUtilities.logStackTrace(e);</span>
+<span class="nc" id="L279">			} catch (IllegalAccessException e) {</span>
+<span class="nc" id="L280">				LoggerUtilities.logStackTrace(e);</span>
+<span class="pc" id="L281">			}</span>
+			
+<span class="fc" id="L283">		}</span>
+<span class="fc" id="L284">	}</span>
+	
+	/**
+	 * check the signature action implementation
+	 */
+	private void checkSignature(){
+		
+<span class="fc" id="L291">		Hashtable&lt;Field,CryptSigneAnnotation&gt; fieldsMap = getFieldsToSign();</span>
+		
+<span class="fc bfc" id="L293" title="All 2 branches covered.">		for (Entry&lt;Field, CryptSigneAnnotation&gt; entry : fieldsMap.entrySet()) {</span>
+			
+<span class="fc" id="L295">			Field field = entry.getKey();</span>
+			
+<span class="fc" id="L297">			CryptSigneAnnotation annotation = entry.getValue();</span>
+			
+<span class="fc" id="L299">			field.setAccessible(true);</span>
+			
+<span class="fc" id="L301">			StringBuilder sb = new StringBuilder();</span>
+			
+<span class="fc bfc" id="L303" title="All 2 branches covered.">			for (String nameOfField : annotation.signeWithFields()) {</span>
+				try {
+					
+<span class="fc" id="L306">					Field f = getEntity().getClass().getDeclaredField(nameOfField);</span>
+					
+<span class="fc" id="L308">					f.setAccessible(true);</span>
+					
+<span class="pc bpc" id="L310" title="1 of 2 branches missed.">					if(f.get(getEntity()) instanceof byte[]){</span>
+<span class="nc" id="L311">						sb.append(new String((byte[])f.get(getEntity()), &quot;UTF-8&quot;));</span>
+					}else{
+<span class="fc" id="L313">						sb.append(String.valueOf(f.get(getEntity())));</span>
+					}
+					
+<span class="nc" id="L316">				} catch (Exception e) {</span>
+<span class="nc" id="L317">					LoggerUtilities.logStackTrace(e);</span>
+<span class="fc" id="L318">				}</span>
+			}
+			
+			try {
+				
+<span class="fc" id="L323">				Signer&lt;ElGamalSignature, ElGamalKey&gt; signer = SignerFactory.createElGamalSigner();</span>
+				
+<span class="fc" id="L325">				ElGamalKey elgamalkey = AsymKeyFactory.createElGamalAsymKey(false);</span>
+				
+				//elgamalkey.setPrivateKey(null);
+				
+<span class="fc" id="L329">				Field keyField = getEntity().getClass().getDeclaredField(annotation.checkByKey());</span>
+				
+<span class="fc" id="L331">				keyField.setAccessible(true);</span>
+				
+<span class="pc bpc" id="L333" title="1 of 2 branches missed.">				if(keyField.get(getEntity()) instanceof ElGamalKey){</span>
+					
+<span class="nc" id="L335">					elgamalkey.setPublicKey(((ElGamalKey) keyField.get(getEntity())).getPublicKey());</span>
+					
+<span class="pc bpc" id="L337" title="1 of 2 branches missed.">				}else if(keyField.get(getEntity()) instanceof BigInteger){					//key is BigInteger</span>
+				
+<span class="fc" id="L339">					elgamalkey.setPublicKey((BigInteger) keyField.get(getEntity()));</span>
+				
+				}else{
+					
+<span class="nc" id="L343">					throw new RuntimeException(&quot;Check-key must be a BigInteger or ElGamalKey !&quot;);</span>
+				}
+				
+<span class="fc" id="L346">				signer.setKey(elgamalkey);</span>
+				
+<span class="fc" id="L348">				ElGamalSignEntity signEntity = (ElGamalSignEntity) field.get(getEntity());</span>
+				
+<span class="fc" id="L350">				ElGamalSignature signatue = new ElGamalSignature(signEntity.getR(), signEntity.getS());</span>
+				//System.out.println(&quot;check : { &quot;+sb.toString()+&quot; }&quot;);
+<span class="fc bfc" id="L352" title="All 2 branches covered.">				if(!signer.verify(sb.toString().getBytes(), signatue)){</span>
+<span class="fc" id="L353">					setEntityToNull();</span>
+<span class="fc" id="L354">					return;</span>
+				}
+<span class="nc" id="L356">			} catch (Exception e) {</span>
+<span class="nc" id="L357">				LoggerUtilities.logStackTrace(e);</span>
+<span class="fc" id="L358">			}</span>
+<span class="fc" id="L359">		}</span>
+		
+<span class="fc" id="L361">	}</span>
+	
+	/**
+	 * resilience action implementation
+	 */
+	private void resilienceFields() {
+
+<span class="nc" id="L368">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

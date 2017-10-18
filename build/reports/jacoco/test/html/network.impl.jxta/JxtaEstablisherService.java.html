@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JxtaEstablisherService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">network.impl.jxta</a> &gt; <span class="el_source">JxtaEstablisherService.java</span></div><h1>JxtaEstablisherService.java</h1><pre class="source lang-java linenums">package network.impl.jxta;
+
+import java.io.IOException;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
+
+import crypt.api.key.AsymKey;
+import net.jxta.discovery.DiscoveryEvent;
+import net.jxta.discovery.DiscoveryListener;
+import net.jxta.discovery.DiscoveryService;
+import net.jxta.pipe.PipeMsgEvent;
+import network.api.EstablisherService;
+import network.api.EstablisherServiceListener;
+import network.api.Messages;
+import network.api.Peer;
+import network.api.SearchListener;
+import network.api.ServiceListener;
+import network.api.advertisement.EstablisherAdvertisementInterface;
+import network.factories.AdvertisementFactory;
+import network.impl.advertisement.EstablisherAdvertisement;
+import network.impl.messages.EstablisherMessage;
+
+/**
+ * @author Nathanaël EON
+ *
+ */
+public class JxtaEstablisherService extends JxtaService implements EstablisherService{
+	public static final String NAME = &quot;establisher&quot;;
+
+	private ConcurrentHashMap&lt;String, DiscoveryListener&gt; advertisementListeners;
+	// Hashmap of localListeners
+	private ConcurrentHashMap&lt;String, ListenerWithParam&gt; establisherServiceListeners;
+	
+	// Local listener (to be able to notify local users connected if this peer send an advertisement)
+	private class ListenerWithParam{
+		public final String param;
+		public final EstablisherServiceListener listener;
+		
+<span class="fc" id="L41">		public ListenerWithParam(String p, EstablisherServiceListener l){</span>
+<span class="fc" id="L42">			this.param = p;</span>
+<span class="fc" id="L43">			this.listener = l;</span>
+<span class="fc" id="L44">		}</span>
+	}
+	
+	
+	
+<span class="fc" id="L49">	public JxtaEstablisherService (){ </span>
+<span class="fc" id="L50">		this.name = NAME;</span>
+<span class="fc" id="L51">		advertisementListeners = new ConcurrentHashMap&lt;String, DiscoveryListener&gt;();</span>
+<span class="fc" id="L52">		establisherServiceListeners = new ConcurrentHashMap&lt;String, ListenerWithParam&gt;();</span>
+<span class="fc" id="L53">	}</span>
+	
+
+
+	/*
+	 *  Encapsulate contract sending, through Advertisement or Messages
+	 *  If uris == null &amp; peer != null =&gt; Use Advertisements
+	 *  Else if uris != null =&gt; Use messages
+	 *  
+	 *  Careful, we send on the listener : title + receiverPublicKey
+	 *  If you use this system, you must set the listener according to this
+	 */
+	@Override
+	public &lt;Key extends AsymKey&lt;?&gt;&gt; void sendContract(String title, String data, String senderK, Peer peer, HashMap&lt;Key,String&gt; uris){
+		// Using an Advertisement
+<span class="pc bpc" id="L68" title="1 of 4 branches missed.">		if (uris == null &amp;&amp; peer != null){</span>
+<span class="fc" id="L69">			this.sendContract(title, data, senderK, peer);</span>
+		}
+		// Using a Message
+<span class="pc bpc" id="L72" title="1 of 2 branches missed.">		else if(uris != null){</span>
+<span class="pc bpc" id="L73" title="1 of 2 branches missed.">			for (Key u : uris.keySet()){</span>
+<span class="fc" id="L74">				this.sendContract(title,</span>
+<span class="fc" id="L75">						title + u.getPublicKey().toString(), </span>
+						senderK,
+						data,
+<span class="fc" id="L78">						uris.get(u));				</span>
+<span class="fc" id="L79">			}</span>
+		}
+<span class="fc" id="L81">	}</span>
+	
+	// Send a message
+	@Override
+	public EstablisherMessage sendContract(String title, String who, String sourceId, String contract, String... peerURIs) 
+	{
+<span class="fc" id="L87">		EstablisherMessage m = new EstablisherMessage();</span>
+<span class="fc" id="L88">		m.setTitle(title);</span>
+<span class="fc" id="L89">		m.setWho(who);</span>
+<span class="fc" id="L90">		m.setSourceId(sourceId);</span>
+<span class="fc" id="L91">		m.setSource(this.peerUri);</span>
+<span class="fc" id="L92">		m.setContract(contract);</span>
+<span class="fc" id="L93">		this.sendMessages(m, peerURIs);</span>
+<span class="fc" id="L94">		return m;</span>
+	}
+	
+	// Send an advertisement
+	@Override
+	public void sendContract(String title, String data, String sourceKey, Peer peer){
+<span class="fc" id="L100">		EstablisherAdvertisementInterface cadv = AdvertisementFactory.createEstablisherAdvertisement();</span>
+<span class="fc" id="L101">		cadv.setTitle(title);</span>
+<span class="fc" id="L102">		cadv.setContract(data);</span>
+<span class="fc" id="L103">		cadv.setKey(sourceKey);</span>
+<span class="fc" id="L104">		cadv.publish(peer);</span>
+		// Notify local listeners of an event
+<span class="fc bfc" id="L106" title="All 2 branches covered.">		for (ListenerWithParam l :  establisherServiceListeners.values()){</span>
+<span class="pc bpc" id="L107" title="1 of 4 branches missed.">			if (l.param == null || l.param.equals(title))</span>
+<span class="fc" id="L108">				l.listener.notify(title, data, sourceKey);</span>
+<span class="fc" id="L109">		}</span>
+<span class="fc" id="L110">	}</span>
+	
+	
+	
+	/**
+	 * Method called when a message is caught in the pipe
+	 */
+	@Override
+	public void pipeMsgEvent(PipeMsgEvent event) {
+<span class="fc" id="L119">		super.pipeMsgEvent(event);</span>
+<span class="fc" id="L120">	}</span>
+	
+	
+	
+	/*
+	 * Encapsulate listener adding
+	 */
+	public void setListener(final String field, final String value, String listenerId, final EstablisherServiceListener l, boolean useMessage){
+<span class="fc bfc" id="L128" title="All 2 branches covered.">		if (useMessage){</span>
+			// Set a Message listener
+<span class="fc" id="L130">			this.addListener(new ServiceListener() {</span>
+				@Override
+				public void notify(Messages messages) {
+<span class="nc bnc" id="L133" title="All 2 branches missed.">					if (messages.getMessage(field).equals(value)){</span>
+<span class="nc" id="L134">						l.notify(messages.getMessage(&quot;title&quot;), messages.getMessage(&quot;contract&quot;), messages.getMessage(&quot;sourceId&quot;));</span>
+					}
+<span class="nc" id="L136">				}</span>
+			}, listenerId);
+		}else{
+			// Set an Advertisement
+<span class="fc" id="L140">			this.listens(field, value, listenerId, l);</span>
+		}
+<span class="fc" id="L142">	}</span>
+	
+	// Advertisement listener
+	@Override
+	public void listens(final String field, final String value, String listenerId, final EstablisherServiceListener l){
+		
+		// Create the synchrone listener
+<span class="fc" id="L149">		DiscoveryListener dl = new DiscoveryListener(){</span>
+			@Override
+			public void discoveryEvent(DiscoveryEvent event){
+<span class="fc" id="L152">				Enumeration&lt;net.jxta.document.Advertisement&gt; adverts = event.getResponse().getAdvertisements();</span>
+<span class="fc bfc" id="L153" title="All 2 branches covered.">				while (adverts.hasMoreElements()){</span>
+<span class="fc" id="L154">					AdvertisementBridge adv = (AdvertisementBridge) adverts.nextElement();</span>
+<span class="pc bpc" id="L155" title="1 of 2 branches missed.">					if (adv.getAdvertisement().getClass().equals(EstablisherAdvertisement.class)){</span>
+<span class="fc" id="L156">						EstablisherAdvertisementInterface c = (EstablisherAdvertisementInterface) adv.getAdvertisement();</span>
+						// If the field on which to listen is the title, then we check its validity 
+<span class="pc bpc" id="L158" title="1 of 4 branches missed.">						if (!field.equals(&quot;title&quot;) || c.getTitle().equals(value))</span>
+<span class="fc" id="L159">							l.notify(c.getTitle(), c.getContract(), c.getKey());</span>
+					}
+<span class="fc" id="L161">				}</span>
+<span class="fc" id="L162">			}</span>
+		};
+<span class="fc" id="L164">		this.addAdvertisementListener(dl);</span>
+		
+		// Search in remote adverts
+<span class="fc" id="L167">		this.search(field, value, new SearchListener&lt;EstablisherAdvertisementInterface&gt;() {</span>
+			@Override
+			public void notify(Collection&lt;EstablisherAdvertisementInterface&gt; adverts) {
+<span class="fc bfc" id="L170" title="All 2 branches covered.">				for(EstablisherAdvertisementInterface adv : adverts) {</span>
+<span class="fc" id="L171">					l.notify(adv.getTitle(), adv.getContract(), adv.getKey());</span>
+<span class="fc" id="L172">				}</span>
+<span class="fc" id="L173">			}</span>
+		});
+		
+		// Search in local adverts
+		try {
+<span class="fc" id="L178">			Enumeration&lt;net.jxta.document.Advertisement&gt; adverts = pg.getDiscoveryService().getLocalAdvertisements(DiscoveryService.ADV, field, value);</span>
+<span class="fc bfc" id="L179" title="All 2 branches covered.">			while (adverts.hasMoreElements()){</span>
+<span class="fc" id="L180">				AdvertisementBridge adv = (AdvertisementBridge) adverts.nextElement();</span>
+<span class="pc bpc" id="L181" title="1 of 2 branches missed.">				if (adv.getAdvertisement().getClass().equals(EstablisherAdvertisement.class)){</span>
+<span class="fc" id="L182">					EstablisherAdvertisementInterface c = (EstablisherAdvertisementInterface) adv.getAdvertisement();</span>
+					// If the field on which to listen is the title, then we check its validity 
+<span class="pc bpc" id="L184" title="2 of 4 branches missed.">					if (!field.equals(&quot;title&quot;) || c.getTitle().equals(value)){</span>
+<span class="fc" id="L185">						l.notify(c.getTitle(), c.getContract(), c.getKey());</span>
+					}
+				}
+<span class="fc" id="L188">			}</span>
+<span class="nc" id="L189">		} catch (IOException e) {</span>
+<span class="nc" id="L190">			e.printStackTrace();</span>
+<span class="fc" id="L191">		}</span>
+
+		// Add listeners in the hashmap to be able to delete it and enable it
+<span class="fc" id="L194">		establisherServiceListeners.put(listenerId, new ListenerWithParam(value, l));</span>
+<span class="fc" id="L195">		advertisementListeners.put(listenerId, dl);</span>
+<span class="fc" id="L196">	};</span>
+
+	// Remove any listener (message and Advertisement) with the given id
+	@Override
+	public void removeListener(String listenerId){
+<span class="fc bfc" id="L201" title="All 2 branches covered.">		if (advertisementListeners.containsKey(listenerId)){</span>
+<span class="fc" id="L202">			this.removeAdvertisementListener(advertisementListeners.get(listenerId));</span>
+<span class="fc" id="L203">			advertisementListeners.remove(listenerId);</span>
+		}
+<span class="fc bfc" id="L205" title="All 2 branches covered.">		if (establisherServiceListeners.containsKey(listenerId)){</span>
+<span class="fc" id="L206">			establisherServiceListeners.remove(listenerId);</span>
+		}else{
+<span class="fc" id="L208">			super.removeListener(listenerId);</span>
+		}
+<span class="fc" id="L210">	}</span>
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

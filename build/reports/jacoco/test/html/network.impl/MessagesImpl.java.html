@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MessagesImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">network.impl</a> &gt; <span class="el_source">MessagesImpl.java</span></div><h1>MessagesImpl.java</h1><pre class="source lang-java linenums">package network.impl;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+
+import controller.tools.LoggerUtilities;
+import network.api.Messages;
+import network.api.annotation.MessageElement;
+
+<span class="fc" id="L10">public class MessagesImpl implements Messages{</span>
+
+	private String who;
+	
+	@Override
+	public String getMessage(String name) {
+<span class="fc bfc" id="L16" title="All 2 branches covered.">		if(name.equals(&quot;WHO&quot;)) return who;</span>
+<span class="fc bfc" id="L17" title="All 2 branches covered.">		for(Field f : this.getClass().getDeclaredFields()) {</span>
+<span class="fc" id="L18">			f.setAccessible(true);</span>
+<span class="fc" id="L19">			MessageElement m = f.getAnnotation(MessageElement.class);</span>
+<span class="fc bfc" id="L20" title="All 4 branches covered.">			if(m != null &amp;&amp; m.value().equals(name)) {</span>
+				try {
+<span class="fc" id="L22">					return (String) f.get(this);</span>
+<span class="nc" id="L23">				} catch (IllegalArgumentException | IllegalAccessException e) {</span>
+					// TODO Auto-generated catch block
+<span class="nc" id="L25">					LoggerUtilities.logStackTrace(e);</span>
+				}
+			}
+<span class="fc" id="L28">			f.setAccessible(false);</span>
+		}
+<span class="fc" id="L30">		throw new RuntimeException(&quot;field doesn't exist !&quot;);</span>
+	}
+
+	@Override
+	public String[] getNames() {
+<span class="fc" id="L35">		ArrayList&lt;String&gt; names = new ArrayList&lt;&gt;();</span>
+		
+<span class="fc bfc" id="L37" title="All 2 branches covered.">		for(Field f : this.getClass().getDeclaredFields()) {</span>
+<span class="fc" id="L38">			f.setAccessible(true);</span>
+<span class="fc" id="L39">			MessageElement m = f.getAnnotation(MessageElement.class);</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">			if(m != null) {</span>
+<span class="fc" id="L41">				names.add(m.value());</span>
+			}
+<span class="fc" id="L43">			f.setAccessible(false);</span>
+		}
+<span class="fc" id="L45">		names.add(&quot;WHO&quot;);</span>
+<span class="fc" id="L46">		return names.toArray(new String[1]);</span>
+	}
+
+	@Override
+	public void setWho(String who) {
+<span class="fc" id="L51">		this.who = who;</span>
+<span class="fc" id="L52">	}</span>
+	
+	@Override
+	public String getWho() {
+<span class="fc" id="L56">		return who;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

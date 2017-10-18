@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="model.syncManager.MessageSyncManagerImplTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2017-10-14T14:38:46" hostname="raphael-laptop" time="0.338">
+  <properties/>
+  <testcase name="testA" classname="model.syncManager.MessageSyncManagerImplTest" time="0.052"/>
+  <testcase name="testB" classname="model.syncManager.MessageSyncManagerImplTest" time="0.121"/>
+  <testcase name="testC" classname="model.syncManager.MessageSyncManagerImplTest" time="0.065"/>
+  <testcase name="testD" classname="model.syncManager.MessageSyncManagerImplTest" time="0.095"/>
+  <system-out><![CDATA[javax.validation.ConstraintViolationException: Bean Validation constraint(s) violated while executing Automatic Bean Validation on callback event:'prePersist'. Please refer to embedded ConstraintViolations for details.
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

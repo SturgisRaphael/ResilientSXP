@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Sender.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">protocol.impl.sigma</a> &gt; <span class="el_source">Sender.java</span></div><h1>Sender.java</h1><pre class="source lang-java linenums">/* Copyright 2015 Pablo Arrighi, Sarah Boukris, Mehdi Chtiwi, 
+   Michael Dubuis, Kevin Perrot, Julien Prudhomme.
+
+   This file is part of SXP.
+
+   SXP is free software: you can redistribute it and/or modify it 
+   under the terms of the GNU Lesser General Public License as published 
+   by the Free Software Foundation, version 3.
+
+   SXP is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+   without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+   PURPOSE.  See the GNU Lesser General Public License for more details.
+
+   You should have received a copy of the GNU Lesser General Public License along with SXP. 
+   If not, see &lt;http://www.gnu.org/licenses/&gt;. */
+package protocol.impl.sigma;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.util.HashMap;
+
+import controller.tools.LoggerUtilities;
+import model.entity.ElGamalKey;
+import model.entity.sigma.Masks;
+import model.entity.sigma.ResEncrypt;
+import model.entity.sigma.ResponsesCCE;
+import model.entity.sigma.ResponsesSchnorr;
+
+
+/**
+ * this class simulate the sender but in the end all users have this class
+ * the sender sends all we need in the protocol (mask, responses), and encrypt
+ * the sender extend Fabric, he has to be able to fabricated mask, challenge and response for the composability
+ * @author sarah
+ *
+ */
+public class Sender extends Fabric{
+	
+<span class="fc" id="L40">	SecureRandom  random = new SecureRandom();</span>
+
+	
+	ElGamalKey keys;
+	private ElGamalEncrypt encrypt;
+	
+	private ResEncrypt resEncrypt;
+	
+<span class="fc" id="L48">	private HashMap&lt;Masks,BigInteger&gt; eph = new HashMap&lt;Masks, BigInteger&gt;();</span>
+
+	/**
+	 * Constructor
+	 * publicKey and PrivateKey are fixed
+	 * @param publicKeys
+	 * @param privateKeyAs
+	 */
+	public Sender (ElGamalKey bobK)
+<span class="fc" id="L57">	{</span>
+		// TODO Keys verifications !
+<span class="fc" id="L59">		this.keys = bobK;</span>
+<span class="fc" id="L60">	}</span>
+	
+	
+	/**
+	 * Create mask to need send for the Shnorr 
+	 * @return Masks
+	 */
+	public Masks SendMasksSchnorr() {
+			
+		BigInteger s, a;
+<span class="fc" id="L70">		s = Utils.rand(1024, keys.getP());</span>
+<span class="fc" id="L71">		a = keys.getG().modPow(s,keys.getP());</span>
+		
+<span class="fc" id="L73">		Masks mask = new Masks(a,null);</span>
+<span class="fc" id="L74">		eph.put(mask, s);</span>
+		
+<span class="fc" id="L76">		return mask;</span>
+	}
+	
+	/**
+	 * Create response to need send for the Shnorr
+	 * @return response in bigInteger
+	 */
+	private BigInteger ResponseSchnorr(BigInteger challenge,Masks mask)
+	{
+<span class="fc" id="L85">		BigInteger response = (keys.getPrivateKey().multiply(challenge)).add(eph.get(mask));</span>
+<span class="fc" id="L86">		return response;</span>
+	}
+	
+	/**
+	 * Create responseSchnorr will send 
+	 * @return response in bigInteger
+	 */
+	public ResponsesSchnorr SendResponseSchnorr(byte[] message)
+	{
+<span class="fc" id="L95">		Masks mask = this.SendMasksSchnorr();</span>
+<span class="fc" id="L96">		BigInteger challenge = this.SendChallenge(mask, message);</span>
+<span class="fc" id="L97">		BigInteger response = this.ResponseSchnorr(challenge, mask);</span>
+		
+<span class="fc" id="L99">		return new ResponsesSchnorr(mask,challenge,response);</span>
+	}
+	
+	/**
+	 * Create responseSchnorr will send, with challenge fixed
+	 * @return response in bigInteger
+	 */
+	public ResponsesSchnorr SendResponseSchnorr(byte[] message, BigInteger challenge)
+	{
+<span class="fc" id="L108">		Masks mask = this.SendMasksSchnorr();</span>
+<span class="fc" id="L109">		BigInteger response = this.ResponseSchnorr(challenge, mask);</span>
+		
+<span class="fc" id="L111">		return new ResponsesSchnorr(mask,challenge,response);</span>
+	}
+	
+	/**
+	 * Create responseSchnorr will send, with challenge fixed
+	 * @return response in bigInteger
+	 */
+	public ResponsesSchnorr SendResponseSchnorr(Masks mask, BigInteger challenge)
+	{
+<span class="fc" id="L120">		BigInteger response = this.ResponseSchnorr(challenge, mask);</span>
+		
+<span class="fc" id="L122">		return new ResponsesSchnorr(mask,challenge,response);</span>
+	}
+	
+	/**
+	 * Create mask to need send for the CCE 
+	 * @return Masks
+	 */
+	private Masks SendMasksCCE(ElGamalKey tKeys) {
+		
+		BigInteger s, a, aBis;
+<span class="fc" id="L132">		s = Utils.rand(1024, tKeys.getP());</span>
+		
+<span class="fc" id="L134">		a = tKeys.getG().modPow(s,tKeys.getP());		</span>
+<span class="fc" id="L135">		aBis = tKeys.getPublicKey().modPow(s, tKeys.getP());</span>
+		
+<span class="fc" id="L137">		Masks masks = new Masks(a,aBis);</span>
+<span class="fc" id="L138">		eph.put(masks, s);</span>
+		
+<span class="fc" id="L140">		return masks;</span>
+	}
+	
+	/**
+	 * Create response to need send for the CCE
+	 * @return response in bigInteger
+	 */
+	private BigInteger ResponseCCE(BigInteger challenge, Masks mask) {
+		
+<span class="fc" id="L149">		BigInteger k = encrypt.getK();</span>
+<span class="fc" id="L150">		BigInteger response = (k.multiply(challenge)).add(eph.get(mask));</span>
+<span class="fc" id="L151">		return response;</span>
+	}
+	
+	/**
+	 * Create responseCCE will send 
+	 * @return response in bigInteger
+	 */
+	public ResponsesCCE SendResponseCCE(byte[] message, ElGamalKey tKeys)
+	{
+<span class="fc" id="L160">		Masks mask = this.SendMasksCCE(tKeys);</span>
+<span class="fc" id="L161">		BigInteger challenge = this.SendChallenge(mask, message);</span>
+<span class="fc" id="L162">		BigInteger response = this.ResponseCCE(challenge, mask);</span>
+		
+<span class="fc" id="L164">		return new ResponsesCCE(mask,challenge,response);</span>
+	}
+	
+	/**
+	 * Create responseCCE will send, with challenge fixed
+	 * @return response in bigInteger
+	 */
+	public ResponsesCCE SendResponseCCE(byte[] message, ElGamalKey tKeys, BigInteger challenge)
+	{
+<span class="fc" id="L173">		Masks mask = this.SendMasksCCE(tKeys);</span>
+<span class="fc" id="L174">		BigInteger response = this.ResponseCCE(challenge, mask);</span>
+		
+<span class="fc" id="L176">		return new ResponsesCCE(mask,challenge,response);</span>
+	}
+	
+	/**
+	 * in not interactiv method the challenge is build, but we don't provide its
+	 * @param mask
+	 * @param message
+	 * @return BigInteger (challenge)
+	 */
+	public BigInteger SendChallenge(Masks mask, byte[] message)
+	{
+		BigInteger challenge;
+		byte[] buffer, resume;
+<span class="fc" id="L189">		MessageDigest hash_function = null;</span>
+		
+<span class="fc" id="L191">		String tmp = (new String(message)).concat(mask.getA().toString());</span>
+		
+<span class="fc" id="L193">		buffer = tmp.getBytes();</span>
+		
+		try {
+<span class="fc" id="L196">			hash_function = MessageDigest.getInstance(&quot;SHA-256&quot;);</span>
+<span class="nc" id="L197">		} catch (NoSuchAlgorithmException e) {</span>
+<span class="nc" id="L198">			LoggerUtilities.logStackTrace(e);</span>
+<span class="fc" id="L199">		}</span>
+		
+<span class="fc" id="L201">		resume = hash_function.digest(buffer);</span>
+<span class="fc" id="L202">		challenge = new BigInteger(resume);</span>
+<span class="fc" id="L203">		return challenge;</span>
+	}
+	
+	
+	/**
+	 * Encryption
+	 * @param input
+	 * @param tpublicKeyAs
+	 * @param tKeys
+	 * @return resEncrypt (result of encryption)
+	 */
+	public  ResEncrypt Encryption(byte[] input, ElGamalKey tKeys)
+	{
+<span class="fc" id="L216">		ElGamal elGamal = new ElGamal(tKeys);</span>
+<span class="fc" id="L217">		encrypt  = elGamal.encryptForContract(input);</span>
+<span class="fc" id="L218">        resEncrypt = new ResEncrypt(encrypt.getU(),encrypt.getV(), input);</span>
+<span class="fc" id="L219">        return resEncrypt;</span>
+	}
+	
+	public ResEncrypt getResEncrypt(){
+<span class="fc" id="L223">		return resEncrypt;</span>
+	}
+	
+	
+	public ElGamalKey getKeys() {
+<span class="fc" id="L228">		return keys;</span>
+	}
+	
+	public ElGamalKey getPublicKeys() {
+<span class="fc" id="L232">		ElGamalKey k = new ElGamalKey();</span>
+<span class="fc" id="L233">		k.setG(keys.getG());</span>
+<span class="fc" id="L234">		k.setP(keys.getP());</span>
+<span class="fc" id="L235">		k.setPublicKey(keys.getPublicKey());</span>
+<span class="fc" id="L236">		return k;</span>
+	}
+	
+	// Returns a byte[] that is not too long for ElGamal
+	public static byte[] getIdentificationData(ElGamalKey k){
+<span class="fc" id="L241">		String data = k.getPublicKey().toString();</span>
+<span class="fc" id="L242">		return data.substring(0, 125).getBytes();</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="protocol.impl.sigma.ReceiverTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2017-10-14T14:39:20" hostname="raphael-laptop" time="0.335">
+  <properties/>
+  <testcase name="singleResponseVerifyTest" classname="protocol.impl.sigma.ReceiverTest" time="0.126"/>
+  <testcase name="multipleResponseVerifyTest" classname="protocol.impl.sigma.ReceiverTest" time="0.206"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

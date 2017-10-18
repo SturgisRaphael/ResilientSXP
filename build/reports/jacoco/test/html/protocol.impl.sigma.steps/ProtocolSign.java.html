@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ProtocolSign.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">protocol.impl.sigma.steps</a> &gt; <span class="el_source">ProtocolSign.java</span></div><h1>ProtocolSign.java</h1><pre class="source lang-java linenums">package protocol.impl.sigma.steps;
+
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import javax.xml.bind.annotation.XmlElement;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.type.TypeReference;
+
+import controller.tools.JsonTools;
+import crypt.api.encryption.Encrypter;
+import crypt.factories.EncrypterFactory;
+import crypt.impl.signatures.SigmaSigner;
+import model.api.Status;
+import model.api.Wish;
+import model.entity.ElGamalKey;
+import model.entity.sigma.Or;
+import model.entity.sigma.SigmaSignature;
+import network.api.EstablisherService;
+import network.api.EstablisherServiceListener;
+import network.api.Peer;
+import protocol.impl.SigmaEstablisher;
+import protocol.impl.sigma.PCS;
+import protocol.impl.sigma.Sender;
+import protocol.impl.sigma.SigmaContract;
+
+/**
+ * The signing step, sigma protocol happens here
+ * @author Nathanaël Eon
+ *
+ *	Data format : HashMap&lt;String,String&gt;
+ *		It contains the round of the protocol (Map.get(&quot;round&quot;))
+ *		It contains the different signatures, correctly encrypted for each receiver using publicKey as Map Key
+ */
+public class ProtocolSign implements ProtocolStep {
+
+	public final static String TITLE = &quot;SIGNING&quot;;
+
+	@XmlElement(name=&quot;round&quot;)
+	protected int round;
+	
+	@XmlElement(name=&quot;key&quot;)
+	protected ElGamalKey key;
+	
+	protected SigmaEstablisher sigmaEstablisher;
+	protected EstablisherService es;
+	protected Peer peer;
+	protected HashMap&lt;ElGamalKey,String&gt; uris;
+	protected SigmaContract contract;
+	protected int N;
+	protected PCS pcs;
+	
+	
+	@JsonCreator
+<span class="nc" id="L58">	public ProtocolSign(@JsonProperty(&quot;key&quot;) ElGamalKey key, @JsonProperty(&quot;round&quot;) int round){</span>
+<span class="nc" id="L59">		this.key = key;</span>
+<span class="nc" id="L60">		this.round = round;</span>
+
+<span class="nc" id="L62">		Sender sender = new Sender(key);</span>
+<span class="nc" id="L63">		pcs = new PCS(sender, sigmaEstablisher.sigmaEstablisherData.getTrentKey());</span>
+<span class="nc" id="L64">	}</span>
+	
+	public ProtocolSign(SigmaEstablisher sigmaE, 
+<span class="fc" id="L67">			ElGamalKey key){</span>
+<span class="fc" id="L68">		this.sigmaEstablisher = sigmaE;</span>
+<span class="fc" id="L69">		this.key = key;</span>
+		
+<span class="fc" id="L71">		this.es = sigmaE.establisherService;</span>
+<span class="fc" id="L72">		this.peer = sigmaE.peer;</span>
+<span class="fc" id="L73">		this.uris = sigmaE.sigmaEstablisherData.getUris();</span>
+<span class="fc" id="L74">		this.contract = sigmaE.sigmaEstablisherData.getContract();</span>
+<span class="fc" id="L75">		this.N = this.contract.getParties().size();</span>
+<span class="fc" id="L76">		sigmaEstablisher.sigmaEstablisherData.setRoundReceived(new Or[N+2][N]);</span>
+		
+<span class="fc" id="L78">		Sender sender = new Sender(key);</span>
+<span class="fc" id="L79">		pcs = new PCS(sender, sigmaEstablisher.sigmaEstablisherData.getTrentKey());</span>
+<span class="fc" id="L80">		round = 1;</span>
+		
+<span class="fc" id="L82">		this.setupListener();</span>
+<span class="fc" id="L83">	}</span>
+	
+	
+	@Override
+	public void restore(SigmaEstablisher sigmaE){
+<span class="nc" id="L88">		this.sigmaEstablisher = sigmaE;</span>
+<span class="nc" id="L89">		this.es = sigmaE.establisherService;</span>
+<span class="nc" id="L90">		this.peer = sigmaE.peer;</span>
+<span class="nc" id="L91">		this.uris = sigmaE.sigmaEstablisherData.getUris();</span>
+<span class="nc" id="L92">		this.contract = sigmaE.sigmaEstablisherData.getContract();</span>
+<span class="nc" id="L93">		this.N = this.contract.getParties().size();</span>
+		
+<span class="nc" id="L95">		this.setupListener();</span>
+<span class="nc" id="L96">	}</span>
+	
+	
+	@Override
+	public String getName(){
+<span class="fc" id="L101">		return TITLE;</span>
+	}
+	
+	@Override
+	public int getRound(){
+<span class="fc" id="L106">		return this.round;</span>
+	}
+	
+	@Override
+	public void sendMessage() {
+		// Check the wish of the user each time we send a message
+<span class="pc bpc" id="L112" title="1 of 2 branches missed.">		if (contract.getWish().equals(Wish.REFUSE)){</span>
+<span class="nc" id="L113">			this.sigmaEstablisher.resolvingStep.sendMessage();</span>
+		}else{
+			// Content of the message which will be sent
+<span class="fc" id="L116">			HashMap&lt;String, String&gt; content = new HashMap&lt;String, String&gt;();</span>
+<span class="fc" id="L117">			BigInteger senPubK = key.getPublicKey();</span>
+			
+<span class="fc bfc" id="L119" title="All 2 branches covered.">			for (int k=0; k&lt;N; k++){</span>
+	
+				// Public key of the receiver
+<span class="fc" id="L122">				ElGamalKey receiverK = contract.getParties().get(k);</span>
+				
+				// If the receiver is the sender, isSender = true 
+<span class="fc" id="L125">				boolean isSender = receiverK.getPublicKey().equals(senPubK);</span>
+				
+				// On the last round, send the clear signature
+<span class="fc bfc" id="L128" title="All 2 branches covered.">				if (round==(N+2)){</span>
+<span class="fc" id="L129">					JsonTools&lt;SigmaSignature&gt; json = new JsonTools&lt;&gt;(new TypeReference&lt;SigmaSignature&gt;(){});</span>
+<span class="fc" id="L130">					SigmaSignature signature = pcs.getClearSignature(contract, receiverK);</span>
+<span class="fc bfc" id="L131" title="All 2 branches covered.">					if (isSender)</span>
+<span class="fc" id="L132">						contract.addSignature(contract.getParties().get(k), signature);</span>
+<span class="fc" id="L133">					content.put(receiverK.getPublicKey().toString(), json.toJson(signature, true));</span>
+				// Otherwise send round k
+<span class="fc" id="L135">				}else {</span>
+<span class="fc" id="L136">					byte[] data = (new String(contract.getHashableData()) + round).getBytes();</span>
+<span class="fc" id="L137">					Or p = pcs.getPcs(data, receiverK, true);</span>
+<span class="fc" id="L138">					content.put(receiverK.getPublicKey().toString(), encryptMsg(getJson(p), receiverK));</span>
+<span class="fc bfc" id="L139" title="All 2 branches covered.">					if (isSender){</span>
+<span class="fc" id="L140">						sigmaEstablisher.sigmaEstablisherData.getRoundReceived()[round][k] = p;</span>
+					}
+				} 
+			}
+			
+			// Adding the round to data sent
+<span class="fc" id="L146">			content.put(&quot;ROUND&quot;, String.valueOf(round));</span>
+			
+			// Convert map to String
+<span class="fc" id="L149">			JsonTools&lt;HashMap&lt;String,String&gt;&gt; json2 = new JsonTools&lt;&gt;(new TypeReference&lt;HashMap&lt;String,String&gt;&gt;(){});</span>
+<span class="fc" id="L150">			String dataToBeSent = json2.toJson(content);</span>
+			
+			// Getting the sender public key index 
+<span class="fc" id="L153">			int i = 0;</span>
+<span class="fc bfc" id="L154" title="All 2 branches covered.">			while (!(contract.getParties().get(i).getPublicKey().equals(senPubK))){i++;}</span>
+<span class="fc" id="L155">			System.out.println(&quot;Sending Round : &quot; + round + &quot; : by &quot; + i);</span>
+			
+			// Sending an advertisement
+<span class="fc" id="L158">			es.sendContract(TITLE+new String(contract.getHashableData()), dataToBeSent, senPubK.toString(), peer, uris);</span>
+		}
+<span class="fc" id="L160">	}</span>
+
+	@Override
+	public void setupListener() {
+<span class="fc" id="L164">		String contractId = new String(contract.getHashableData());</span>
+<span class="fc" id="L165">		String senPubK = key.getPublicKey().toString();</span>
+<span class="fc" id="L166">		es.removeListener(TITLE+contractId+senPubK);</span>
+<span class="pc bpc" id="L167" title="1 of 2 branches missed.">		es.setListener(&quot;title&quot;, TITLE+contractId, TITLE+contractId+senPubK, new EstablisherServiceListener() {</span>
+			@Override
+			public void notify(String title, String msg, String senderId) {
+				// Checks if the message is a PCS, if yes store it in &quot;pcs[round][k]&quot;
+<span class="fc" id="L171">				verifyAndStoreSignature(msg, senderId);</span>
+	
+				// Check if the round is complete
+<span class="fc" id="L174">				boolean claimFormed = true;</span>
+<span class="fc bfc" id="L175" title="All 2 branches covered.">				for (int k=0; k&lt;N; k++){</span>
+<span class="pc bpc" id="L176" title="1 of 4 branches missed.">					if (round &lt; N+2 &amp;&amp; sigmaEstablisher.sigmaEstablisherData.getRoundReceived()[round][k] == null)</span>
+<span class="fc" id="L177">						claimFormed= false;</span>
+				}
+				
+				/*	Send the rounds (if we have the claim needed):
+				 *  	We do a loop because sometimes, we receive the PCS for round+1 before the one for the current round
+				 */  
+<span class="pc bpc" id="L183" title="1 of 6 branches missed.">				while (round&lt;=(N+1) &amp;&amp; claimFormed &amp;&amp; contract.getStatus().equals(Status.SIGNING)){</span>
+<span class="fc" id="L184">					round++;</span>
+<span class="fc" id="L185">					sendMessage();</span>
+<span class="fc bfc" id="L186" title="All 2 branches covered.">					for (int k=0; k&lt;N; k++){</span>
+<span class="pc bpc" id="L187" title="1 of 4 branches missed.">						if (round &lt; N+2 &amp;&amp; sigmaEstablisher.sigmaEstablisherData.getRoundReceived()[round][k] == null)</span>
+<span class="fc" id="L188">							claimFormed= false;</span>
+					}
+				}
+<span class="fc" id="L191">			}</span>
+		}, uris != null);
+<span class="fc" id="L193">	}</span>
+
+	@Override
+	public void stop(){
+<span class="fc" id="L197">		String contractId = new String(contract.getHashableData());</span>
+<span class="fc" id="L198">		String senPubK = key.getPublicKey().toString();</span>
+<span class="fc" id="L199">		es.removeListener(TITLE+contractId+senPubK);</span>
+<span class="fc" id="L200">	}</span>
+	
+	
+
+	/*
+	 * Verify the message received (if the message is the last, check if the signature is ok)
+	 * 		called in sign() method
+	 * @param message : message we receive (messages.getMessage(&quot;contract&quot;))
+	 * @param pubK : the sender ElGamal public key
+	 * @param pcs : 
+	 * @return
+	 */
+	protected void verifyAndStoreSignature(String message, String pubK){
+<span class="fc" id="L213">		BigInteger senPubK = key.getPublicKey();		</span>
+		
+		// Get the keys of the sender of the message
+<span class="fc" id="L216">		BigInteger msgSenKey = new BigInteger(pubK);</span>
+<span class="fc" id="L217">		int i = 0;</span>
+<span class="fc" id="L218">		ArrayList&lt;ElGamalKey&gt; keys = contract.getParties();</span>
+<span class="fc bfc" id="L219" title="All 2 branches covered.">		while (!(keys.get(i).getPublicKey().equals(msgSenKey))){i++;}</span>
+<span class="fc" id="L220">		ElGamalKey senderKey = keys.get(i);</span>
+
+		// From json message to the object {&quot;k&quot;, PCS}
+<span class="fc" id="L223">		JsonTools&lt;HashMap&lt;String,String&gt;&gt; json0 = new JsonTools&lt;&gt;(new TypeReference&lt;HashMap&lt;String,String&gt;&gt;(){});</span>
+<span class="fc" id="L224">		HashMap&lt;String,String&gt; content = json0.toEntity(message);</span>
+		
+<span class="fc" id="L226">		int k= Integer.parseInt(content.get(&quot;ROUND&quot;));</span>
+		// Don't do anything if the sender is the actual user (shouldn't happen though)
+<span class="fc bfc" id="L228" title="All 2 branches covered.">		if (!(senderKey.getPublicKey().equals(senPubK))){</span>
+			// If it's the last round, test the clear signature
+<span class="fc bfc" id="L230" title="All 2 branches covered.">			if (k == (N+2)){</span>
+<span class="fc" id="L231">				JsonTools&lt;SigmaSignature&gt; json2 = new JsonTools&lt;&gt;(new TypeReference&lt;SigmaSignature&gt;(){});</span>
+<span class="fc" id="L232">				SigmaSignature signature =  json2.toEntity(content.get(senPubK.toString()), true);</span>
+				
+<span class="fc" id="L234">				SigmaSigner s = new SigmaSigner();</span>
+<span class="fc" id="L235">				ElGamalKey ke = new ElGamalKey();</span>
+<span class="fc" id="L236">				ke.setPublicKey(senPubK);</span>
+<span class="fc" id="L237">				s.setKey(ke);</span>
+<span class="fc" id="L238">				s.setTrentK(sigmaEstablisher.sigmaEstablisherData.getTrentKey());</span>
+				
+<span class="pc bpc" id="L240" title="1 of 2 branches missed.">				if (pcs.verifySignature(signature, s, contract)) {</span>
+<span class="fc" id="L241">					contract.addSignature(keys.get(i), signature);</span>
+<span class="fc bfc" id="L242" title="All 2 branches covered.">					if (contract.isFinalized()){</span>
+<span class="fc" id="L243">						int j = 0;</span>
+<span class="fc bfc" id="L244" title="All 2 branches covered.">						while (!(keys.get(j).getPublicKey().equals(senPubK))){j++;}</span>
+<span class="fc" id="L245">						System.out.println(&quot;--- CONTRACT FINALIZED -- id : &quot; + j);</span>
+<span class="fc" id="L246">						sigmaEstablisher.setStatus(Status.FINALIZED);</span>
+<span class="fc" id="L247">						es.removeListener(TITLE + new String(contract.getHashableData()) + senPubK.toString());</span>
+					}
+				}
+			// Otherwise, test if it is the correct PCS, if so : store it
+<span class="pc bpc" id="L251" title="1 of 2 branches missed.">			}else if (sigmaEstablisher.sigmaEstablisherData.getRoundReceived()[k][i] == null){</span>
+<span class="fc" id="L252">				String msg = decryptMsg(content.get(senPubK.toString()), key);</span>
+<span class="fc" id="L253">				byte[] data = (new String(contract.getHashableData()) + k).getBytes();</span>
+<span class="pc bpc" id="L254" title="1 of 2 branches missed.">				if (getPrivateCS(msg).Verifies(data)){</span>
+<span class="fc" id="L255">					sigmaEstablisher.sigmaEstablisherData.getRoundReceived()[k][i]=getPrivateCS(msg);</span>
+				}
+			}
+		}
+<span class="fc" id="L259">	}</span>
+	
+
+	/*
+	 * Primitives
+	 * 		Transformation json &lt;-&gt; object
+	 * 		Decrypting &lt;-&gt; Encrypting
+	 */
+	
+	// Return the string representing the private contract signature
+	protected String getJson(Or pcs){
+<span class="fc" id="L270">		JsonTools&lt;Or&gt; json = new JsonTools&lt;&gt;(new TypeReference&lt;Or&gt;(){});</span>
+<span class="fc" id="L271">		return json.toJson(pcs, true);</span>
+	}
+	// Return the PCS (Or Object) from json
+	protected Or getPrivateCS(String pcs){
+<span class="fc" id="L275">		JsonTools&lt;Or&gt; json = new JsonTools&lt;&gt;(new TypeReference&lt;Or&gt;(){});</span>
+<span class="fc" id="L276">		return json.toEntity(pcs, true);</span>
+	}
+	
+	// Return the message encrypted with public key
+	protected String encryptMsg(String msg, ElGamalKey key){
+<span class="fc" id="L281">		Encrypter&lt;ElGamalKey&gt; encrypter = EncrypterFactory.createElGamalSerpentEncrypter();</span>
+<span class="fc" id="L282">		encrypter.setKey(key);</span>
+<span class="fc" id="L283">		return new String(encrypter.encrypt(msg.getBytes()));</span>
+	}
+	// Return the message decrypted with private key 
+	protected String decryptMsg(String msg, ElGamalKey key){
+<span class="fc" id="L287">		Encrypter&lt;ElGamalKey&gt; encrypter = EncrypterFactory.createElGamalSerpentEncrypter();</span>
+<span class="fc" id="L288">		encrypter.setKey(key);</span>
+<span class="fc" id="L289">		return new String(encrypter.decrypt(msg.getBytes()));</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

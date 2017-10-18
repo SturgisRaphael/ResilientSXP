@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ContractEntity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">model.entity</a> &gt; <span class="el_source">ContractEntity.java</span></div><h1>ContractEntity.java</h1><pre class="source lang-java linenums">package model.entity;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+import org.eclipse.persistence.annotations.UuidGenerator;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import model.api.EstablisherType;
+import model.api.Status;
+import model.api.Wish;
+
+@XmlRootElement
+@Entity
+<span class="fc" id="L29">public class ContractEntity {</span>
+	@XmlElement(name=&quot;id&quot;)
+	@UuidGenerator(name=&quot;uuid&quot;)
+    @Id
+    @GeneratedValue(generator=&quot;uuid&quot;)
+	private String id;
+	
+	@XmlElement(name=&quot;userid&quot;)
+	@NotNull
+	private String userid;
+	
+	@XmlElement(name=&quot;createdAt&quot;)
+	@NotNull
+	@Temporal(TemporalType.TIMESTAMP)
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern=&quot;dd-MM-yyyy&quot;)
+	private Date createdAt;
+	
+	@XmlElement(name=&quot;title&quot;)
+	private String title;
+	
+	@XmlElement(name=&quot;clauses&quot;)
+	private ArrayList&lt;String&gt; clauses;
+	
+	// Id of the parties
+	@XmlElement(name=&quot;parties&quot;)
+	@Lob
+	@JsonFormat(shape=JsonFormat.Shape.STRING)
+	private ArrayList&lt;String&gt; parties;
+	
+	// Maps the id with the name
+	@XmlElement(name=&quot;partiesNames&quot;)
+	@Lob
+	@JsonSerialize(using=controller.tools.MapSerializer.class)
+	@JsonDeserialize(using=controller.tools.MapStringDeserializer.class)
+	@JsonFormat(shape=JsonFormat.Shape.STRING)
+	private HashMap&lt;String,String&gt; partiesNames;
+
+	@XmlElement(name=&quot;wish&quot;)
+	@NotNull
+	@JsonFormat(shape=JsonFormat.Shape.STRING)
+	private Wish wish;
+
+	@XmlElement(name=&quot;status&quot;)
+	@NotNull
+	@JsonFormat(shape=JsonFormat.Shape.STRING)
+	private Status status;
+
+	@XmlElement(name=&quot;signatures&quot;)
+	@JsonSerialize(using=controller.tools.MapSerializer.class)
+	@JsonDeserialize(using=controller.tools.MapStringDeserializer.class)
+	@JsonFormat(shape=JsonFormat.Shape.STRING)
+	private HashMap&lt;String, String&gt; signatures;
+
+	@XmlElement(name=&quot;establisherType&quot;)
+	@JsonFormat(shape=JsonFormat.Shape.STRING)
+	private EstablisherType establisherType;
+	
+	@XmlElement(name=&quot;establishementData&quot;)
+	@Lob
+	@JsonFormat(shape=JsonFormat.Shape.STRING)
+	private String establishementData;
+	
+	
+	public String getId() {
+<span class="fc" id="L93">		return id;</span>
+	}
+	
+	
+	public String getUserid() {
+<span class="fc" id="L98">		return userid;</span>
+	}
+	public void setUserid(String u) {
+<span class="fc" id="L101">		this.userid=u;</span>
+<span class="fc" id="L102">	}</span>
+	
+
+	public String getTitle() {
+<span class="fc" id="L106">		return title;</span>
+	}
+	public void setTitle(String t) {
+<span class="fc" id="L109">		this.title=t;</span>
+<span class="fc" id="L110">	}</span>
+	
+	
+	public void setCreatedAt(Date date) {
+<span class="fc" id="L114">		createdAt = date;</span>
+<span class="fc" id="L115">	}</span>
+	
+	public Date getCreatedAt() {
+<span class="fc" id="L118">		return createdAt;</span>
+	}
+
+	
+	public ArrayList&lt;String&gt; getClauses() {
+<span class="fc" id="L123">		return clauses;</span>
+	}
+	public void setClauses(ArrayList&lt;String&gt; c) {
+<span class="fc" id="L126">		this.clauses=c;</span>
+<span class="fc" id="L127">	}</span>
+	
+	
+	public ArrayList&lt;String&gt; getParties() {
+<span class="fc" id="L131">		return parties;</span>
+	}
+	public void setParties(ArrayList&lt;String&gt; p) {
+<span class="fc" id="L134">		this.parties=p;</span>
+<span class="fc" id="L135">	}</span>
+	
+	
+	public HashMap&lt;String,String&gt; getPartiesNames() {
+<span class="fc" id="L139">		return partiesNames;</span>
+	}
+	public void setPartiesNames(HashMap&lt;String,String&gt; n) {
+<span class="fc" id="L142">		this.partiesNames=n;</span>
+<span class="fc" id="L143">	}</span>
+	
+	
+	public Wish getWish() {
+<span class="fc" id="L147">		return wish;</span>
+	}
+	public void setWish(Wish w) {
+<span class="fc" id="L150">		this.wish=w;</span>
+<span class="fc" id="L151">	}</span>
+	
+	
+	public Status getStatus() {
+<span class="fc" id="L155">		return status;</span>
+	}
+	public void setStatus(Status s) {
+<span class="fc" id="L158">		this.status=s;</span>
+<span class="fc" id="L159">	}</span>
+	
+	
+	public HashMap&lt;String,String&gt; getSignatures() {
+<span class="fc" id="L163">		return signatures;</span>
+	}
+	public void setSignatures(HashMap&lt;String,String&gt; s) {
+<span class="fc" id="L166">		this.signatures=s;</span>
+<span class="fc" id="L167">	}</span>
+	
+	
+	public EstablisherType getEstablisherType() {
+<span class="fc" id="L171">		return establisherType;</span>
+	}
+	public void setEstablisherType(EstablisherType e) {
+<span class="fc" id="L174">		this.establisherType = e;</span>
+<span class="fc" id="L175">	}</span>
+	
+	
+	public String getEstablishementData() {
+<span class="fc" id="L179">		return establishementData;</span>
+	}
+	public void setEstablishementData(String e) {
+<span class="fc" id="L182">		this.establishementData = e;</span>
+<span class="fc" id="L183">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

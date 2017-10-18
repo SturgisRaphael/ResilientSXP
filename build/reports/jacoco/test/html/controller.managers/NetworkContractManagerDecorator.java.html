@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NetworkContractManagerDecorator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">controller.managers</a> &gt; <span class="el_source">NetworkContractManagerDecorator.java</span></div><h1>NetworkContractManagerDecorator.java</h1><pre class="source lang-java linenums">package controller.managers;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+
+import controller.tools.JsonTools;
+import model.api.Manager;
+import model.api.ManagerDecorator;
+import model.api.ManagerListener;
+import model.entity.ContractEntity;
+import model.entity.Item;
+import model.syncManager.ContractSyncManagerImpl;
+import network.api.EstablisherService;
+import network.api.Messages;
+import network.api.Peer;
+import network.api.SearchListener;
+import network.api.ServiceListener;
+import network.api.advertisement.EstablisherAdvertisementInterface;
+import network.api.service.Service;
+import network.factories.AdvertisementFactory;
+
+public class NetworkContractManagerDecorator extends ManagerDecorator&lt;ContractEntity&gt; {
+	private Peer peer;
+	private String who;
+	
+	/**
+	 * 
+	 * @param em Contract async manager
+	 * @param peer Peer instance, started
+	 * @param who who own this instance
+	 */
+	public NetworkContractManagerDecorator(Manager&lt;ContractEntity&gt; em, Peer peer, String who) {
+<span class="fc" id="L36">		super(em);</span>
+<span class="fc" id="L37">		this.peer = peer;</span>
+<span class="fc" id="L38">		this.who = who;</span>
+<span class="fc" id="L39">	}</span>
+
+	@Override
+	public void findOneById(final String id, final ManagerListener&lt;ContractEntity&gt; l) {
+<span class="nc" id="L43">		super.findOneById(id, l);</span>
+		//TODO
+<span class="nc" id="L45">	}</span>
+
+	@Override
+	public void findAllByAttribute(String attribute, final String value, final ManagerListener&lt;ContractEntity&gt; l) {
+<span class="nc" id="L49">		super.findAllByAttribute(attribute, value, l);</span>
+<span class="nc" id="L50">		final EstablisherService establisher = (EstablisherService) peer.getService(EstablisherService.NAME);</span>
+<span class="nc" id="L51">		Service service = peer.getService(EstablisherService.NAME);</span>
+		
+<span class="nc" id="L53">		establisher.removeListener(who);</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">		establisher.addListener(new ServiceListener() {</span>
+			
+			@Override
+			public void notify(Messages messages) {
+<span class="nc" id="L58">				JsonTools&lt;ArrayList&lt;ContractEntity&gt;&gt; json = new JsonTools&lt;&gt;(new TypeReference&lt;ArrayList&lt;ContractEntity&gt;&gt;(){});</span>
+<span class="nc" id="L59">				ArrayList&lt;ContractEntity&gt; contracts = json.toEntity(messages.getMessage(&quot;contract&quot;));</span>
+<span class="nc" id="L60">				System.out.println(&quot;contract found !&quot;);</span>
+<span class="nc" id="L61">				System.out.println(messages.getMessage(&quot;contract&quot;));</span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">				for(ContractEntity c : contracts) {</span>
+<span class="nc" id="L63">					System.out.println(c.getId());</span>
+<span class="nc" id="L64">				}</span>
+<span class="nc" id="L65">				l.notify(json.toEntity(messages.getMessage(&quot;contract&quot;)));</span>
+<span class="nc" id="L66">			}</span>
+			
+		}, who == null ? &quot;test&quot;:who);
+		
+<span class="nc" id="L70">		service.search(attribute, value, new SearchListener&lt;EstablisherAdvertisementInterface&gt;() {</span>
+			@Override
+			public void notify(Collection&lt;EstablisherAdvertisementInterface&gt; result) {
+<span class="nc" id="L73">				ArrayList&lt;String&gt; uids = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">				for(EstablisherAdvertisementInterface i: result) {</span>
+<span class="nc" id="L75">					uids.add(i.getSourceURI());</span>
+<span class="nc" id="L76">				}</span>
+<span class="nc" id="L77">				ContractSyncManagerImpl co = new ContractSyncManagerImpl();</span>
+<span class="nc" id="L78">				Collection&lt;ContractEntity&gt; c = co.findAllByAttribute(&quot;id&quot;, value);</span>
+<span class="nc" id="L79">				JsonTools&lt;Collection&lt;ContractEntity&gt;&gt; json = new JsonTools&lt;&gt;(new TypeReference&lt;Collection&lt;ContractEntity&gt;&gt;(){});</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">				establisher.sendContract(value, who == null ? &quot;test&quot;:who, &quot;&quot;,json.toJson(c) , uids.toArray(new String[1]));</span>
+<span class="nc" id="L81">			}</span>
+			
+		});
+<span class="nc" id="L84">	}</span>
+
+	@Override
+	public void findOneByAttribute(String attribute, String value, ManagerListener&lt;ContractEntity&gt; l) {
+<span class="nc" id="L88">		super.findOneByAttribute(attribute, value, l);</span>
+		//TODO
+<span class="nc" id="L90">	}</span>
+
+	@Override
+	public boolean persist(ContractEntity entity) {
+<span class="fc" id="L94">		return super.persist(entity);</span>
+	}
+
+	@Override
+	public boolean begin() {
+<span class="fc" id="L99">		return super.begin();</span>
+	}
+
+	@Override
+	public boolean end() {
+		
+<span class="pc bpc" id="L105" title="1 of 2 branches missed.">		if(super.end()){</span>
+			
+<span class="fc" id="L107">			Collection&lt;ContractEntity&gt; collection = this.watchlist();</span>
+			
+<span class="pc bpc" id="L109" title="1 of 2 branches missed.">			for (Iterator iterator = collection.iterator(); iterator.hasNext();) {</span>
+				
+<span class="nc" id="L111">				ContractEntity contractEntity = (ContractEntity) iterator.next();</span>
+				
+<span class="nc" id="L113">				EstablisherAdvertisementInterface iadv = AdvertisementFactory.createEstablisherAdvertisement();</span>
+				
+<span class="nc" id="L115">				iadv.setTitle(contractEntity.getId());</span>
+				
+<span class="nc" id="L117">				iadv.publish(peer);</span>
+<span class="nc" id="L118">			}</span>
+			
+<span class="fc" id="L120">			return true;</span>
+		}
+		
+<span class="nc" id="L123">		return false;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

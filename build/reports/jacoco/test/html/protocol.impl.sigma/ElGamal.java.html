@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ElGamal.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">protocol.impl.sigma</a> &gt; <span class="el_source">ElGamal.java</span></div><h1>ElGamal.java</h1><pre class="source lang-java linenums">/* Copyright 2015 Pablo Arrighi, Sarah Boukris, Mehdi Chtiwi, 
+   Michael Dubuis, Kevin Perrot, Julien Prudhomme.
+
+   This file is part of SXP.
+
+   SXP is free software: you can redistribute it and/or modify it 
+   under the terms of the GNU Lesser General Public License as published 
+   by the Free Software Foundation, version 3.
+
+   SXP is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+   without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+   PURPOSE.  See the GNU Lesser General Public License for more details.
+
+   You should have received a copy of the GNU Lesser General Public License along with SXP. 
+   If not, see &lt;http://www.gnu.org/licenses/&gt;. */
+package protocol.impl.sigma;
+
+import java.math.BigInteger;
+import java.security.SecureRandom;
+
+import org.bouncycastle.crypto.params.ElGamalParameters;
+import org.bouncycastle.crypto.params.ElGamalPrivateKeyParameters;
+import org.bouncycastle.crypto.params.ElGamalPublicKeyParameters;
+
+import controller.tools.LoggerUtilities;
+import crypt.ElGamalEngineK;
+import crypt.impl.hashs.SHA256Hasher;
+import crypt.impl.signatures.ElGamalSignature;
+import model.entity.ElGamalKey;
+
+/**
+ * This class is used for encryption, decryption, signs and verify signature.
+ * @author michael
+ *
+ */
+public class ElGamal  {
+	
+<span class="fc" id="L38">	public SecureRandom  random = new SecureRandom();</span>
+	
+	private ElGamalKey keys;
+	
+	
+	/**
+	 * Constructor
+	 * @param keys2
+	 */
+<span class="fc" id="L47">	public ElGamal(ElGamalKey keys2){</span>
+<span class="fc" id="L48">		this.keys = keys2;</span>
+<span class="fc" id="L49">	}</span>
+	
+	/**
+	 * Empty constructor
+	 */
+<span class="fc" id="L54">	public ElGamal(){}</span>
+	
+	public void setKeys(ElGamalKey keys){
+<span class="fc" id="L57">		this.keys = keys;</span>
+<span class="fc" id="L58">	}</span>
+	
+	/**
+	 * To sign a message
+	 * @param M - byte[]
+	 */
+	public ElGamalSignature getMessageSignature(byte[] M)
+	{
+<span class="fc bfc" id="L66" title="All 2 branches covered.">		if(keys.getPrivateKey() == null)</span>
+			//try {
+<span class="fc" id="L68">			throw new NullPointerException(&quot;Private key unknown&quot;);</span>
+		//	} catch (Exception e) {
+		//		LoggerUtilities.logStackTrace(e);
+		//	}
+		BigInteger k;
+		BigInteger l;
+		BigInteger r;
+		BigInteger s;
+		
+	//	BigInteger m = new BigInteger(Hasher.SHA256(M).getBytes());
+<span class="fc" id="L78">		BigInteger m = new BigInteger(new SHA256Hasher().getHash(M));</span>
+<span class="fc" id="L79">		k = BigInteger.probablePrime(1023, random);</span>
+<span class="pc bpc" id="L80" title="2 of 4 branches missed.">		while(k.compareTo(BigInteger.ONE)&lt;= 0 || k.gcd(keys.getP()).compareTo(BigInteger.ONE)!= 0 )</span>
+		{
+<span class="nc" id="L82">			k = BigInteger.probablePrime(1023, random);</span>
+		}
+<span class="fc" id="L84">		l = k.modInverse(keys.getP().subtract(BigInteger.ONE));</span>
+		
+<span class="fc" id="L86">		r = keys.getG().modPow(k,keys.getP());</span>
+<span class="fc" id="L87">		s = l.multiply(m.subtract(r.multiply(keys.getPrivateKey())).mod(keys.getP().subtract(BigInteger.ONE)));</span>
+<span class="fc" id="L88">		return new ElGamalSignature(r, s);</span>
+	}
+	
+	/**
+	 * To verify a signature
+	 * @param M - byte[]
+	 * @return true if the signature is from public Key, false else
+	 */
+	public boolean verifySignature(byte[] M, ElGamalSignature sign){
+		try {
+<span class="fc bfc" id="L98" title="All 6 branches covered.">			if(sign == null || sign.getR() == null || sign.getS() == null){</span>
+<span class="fc" id="L99">				throw new Exception(&quot;R or S unknown&quot;);</span>
+			}
+<span class="pc bpc" id="L101" title="1 of 2 branches missed.">			if(keys.getPublicKey() == null){</span>
+<span class="nc" id="L102">				throw new Exception(&quot;Public key unknown&quot;);</span>
+			}
+<span class="fc" id="L104">		} catch(Exception e) {</span>
+<span class="fc" id="L105">			LoggerUtilities.logStackTrace(e);</span>
+<span class="fc" id="L106">		}</span>
+		
+		
+		//BigInteger m = new BigInteger(Hasher.SHA256(M).getBytes());
+<span class="fc" id="L110">		BigInteger m = new BigInteger(new SHA256Hasher().getHash(M));</span>
+<span class="fc" id="L111">		BigInteger v = keys.getG().modPow(m, keys.getP());</span>
+<span class="fc" id="L112">		BigInteger w = (keys.getPublicKey().modPow(sign.getR(), keys.getP()).multiply(sign.getR().modPow(sign.getS(), keys.getP())).mod(keys.getP()));</span>
+		
+<span class="fc" id="L114">		return (v.equals(w));</span>
+	}
+	
+	
+	public byte[] encryptWithPublicKey(byte[] data) {
+<span class="fc" id="L119">		ElGamalParameters params = new ElGamalParameters(keys.getP(), keys.getG());</span>
+<span class="fc" id="L120">		ElGamalPublicKeyParameters pubKey = new ElGamalPublicKeyParameters(keys.getPublicKey(), params);</span>
+		
+<span class="fc" id="L122">		ElGamalEngineK e = new ElGamalEngineK();</span>
+<span class="fc" id="L123">		e.init(true, pubKey);</span>
+<span class="fc" id="L124">        return e.processBlock(data, 0, data.length) ;</span>
+	}
+	
+	public ElGamalEncrypt encryptForContract(byte[] data) {
+<span class="fc" id="L128">		ElGamalParameters params = new ElGamalParameters(keys.getP(), keys.getG());</span>
+<span class="fc" id="L129">		ElGamalPublicKeyParameters pubKey = new ElGamalPublicKeyParameters(keys.getPublicKey(), params);</span>
+		
+<span class="fc" id="L131">		ElGamalEngineK e = new ElGamalEngineK();</span>
+<span class="fc" id="L132">		e.init(true, pubKey);</span>
+<span class="fc" id="L133">		byte[] m = e.processBlock(data, 0, data.length);</span>
+<span class="fc" id="L134">		BigInteger k = e.getK();</span>
+<span class="fc" id="L135">        BigInteger u = keys.getG().modPow(k,keys.getP());</span>
+<span class="fc" id="L136">        BigInteger v = (keys.getPublicKey().modPow(k, keys.getP()).multiply(new BigInteger(data)));</span>
+<span class="fc" id="L137">        return new ElGamalEncrypt (u,v,k, m);</span>
+	}
+
+	
+	public  byte[] decryptWithPrivateKey(byte[] data) {
+<span class="fc" id="L142">		ElGamalParameters params = new ElGamalParameters(keys.getP(), keys.getG());</span>
+<span class="fc" id="L143">		ElGamalPrivateKeyParameters privKey = new ElGamalPrivateKeyParameters(keys.getPrivateKey(), params);</span>
+		
+<span class="fc" id="L145">		ElGamalEngineK e = new ElGamalEngineK();</span>
+<span class="fc" id="L146">		e.init(false, privKey);</span>
+		
+<span class="fc" id="L148">        return e.processBlock(data, 0, data.length) ;</span>
+	}
+
+	
+	public void setAsymsKeys(ElGamalKey keys) {
+<span class="fc" id="L153">		this.keys = keys;</span>
+<span class="fc" id="L154">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

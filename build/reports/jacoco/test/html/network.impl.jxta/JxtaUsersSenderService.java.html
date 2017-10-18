@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JxtaUsersSenderService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">network.impl.jxta</a> &gt; <span class="el_source">JxtaUsersSenderService.java</span></div><h1>JxtaUsersSenderService.java</h1><pre class="source lang-java linenums">package network.impl.jxta;
+
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Hashtable;
+import java.util.Iterator;
+
+import javax.print.attribute.standard.RequestingUserName;
+
+import org.eclipse.persistence.internal.jpa.metadata.structures.ArrayAccessor;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+
+import controller.tools.JsonTools;
+import model.api.UserSyncManager;
+import model.entity.User;
+import model.factory.SyncManagerFactory;
+import net.jxta.pipe.PipeMsgEvent;
+import network.api.Messages;
+import network.api.UserRequestService;
+import network.impl.MessagesGeneric;
+import network.impl.messages.RequestUserMessage;
+
+public class JxtaUsersSenderService extends JxtaService implements UserRequestService{
+	
+	public static final String NAME = &quot;usersSender&quot;;
+	
+<span class="fc" id="L29">	public JxtaUsersSenderService() {</span>
+<span class="fc" id="L30">		this.name = NAME;</span>
+<span class="fc" id="L31">	}</span>
+	
+	@Override
+	public void sendRequest(String nick, String who, String ... peerURIs) {
+		
+<span class="nc" id="L36">		RequestUserMessage m = new RequestUserMessage();</span>
+		
+<span class="nc" id="L38">		m.setNick(nick);</span>
+		
+<span class="nc" id="L40">		m.setAttribute(&quot;&quot;);</span>
+		
+<span class="nc" id="L42">		m.setType(&quot;request&quot;);</span>
+		
+<span class="nc" id="L44">		m.setWho(who);</span>
+		
+<span class="nc" id="L46">		m.setSource(this.peerUri);</span>
+		
+<span class="nc" id="L48">		this.sendMessages(m, peerURIs);</span>
+<span class="nc" id="L49">	}</span>
+	
+	@Override
+	public void sendRequest(String id, String nick, String who, String... targetPeers) {
+		
+<span class="nc" id="L54">		RequestUserMessage m = new RequestUserMessage();</span>
+		
+<span class="nc" id="L56">		m.setNick(nick);</span>
+		
+<span class="nc" id="L58">		m.setAttribute(id);</span>
+		
+<span class="nc" id="L60">		m.setType(&quot;requestById&quot;);</span>
+		
+<span class="nc" id="L62">		m.setWho(who);</span>
+		
+<span class="nc" id="L64">		m.setSource(this.peerUri);</span>
+		
+<span class="nc" id="L66">		this.sendMessages(m, targetPeers);</span>
+<span class="nc" id="L67">	}</span>
+	
+	@Override
+	public void sendRequest(String nick, BigInteger pbkey,String who, String ... peerURIs) {
+		
+<span class="nc" id="L72">		RequestUserMessage m = new RequestUserMessage();</span>
+		
+<span class="nc" id="L74">		m.setNick(nick);</span>
+		
+<span class="nc" id="L76">		m.setAttribute(String.valueOf(pbkey));</span>
+		
+<span class="nc" id="L78">		m.setType(&quot;requestByPbkey&quot;);</span>
+		
+<span class="nc" id="L80">		m.setWho(who);</span>
+		
+<span class="nc" id="L82">		m.setSource(this.peerUri);</span>
+		
+<span class="nc" id="L84">		this.sendMessages(m, peerURIs);</span>
+<span class="nc" id="L85">	}</span>
+	
+	private Messages getResponseMessage(Messages msg) {
+		
+<span class="nc" id="L89">		ArrayList&lt;User&gt; resultat = new ArrayList&lt;&gt;();</span>
+		
+<span class="nc" id="L91">		MessagesGeneric m = new MessagesGeneric();</span>
+		
+<span class="nc" id="L93">		UserSyncManager em = SyncManagerFactory.createUserSyncManager();</span>
+		
+<span class="nc" id="L95">		m.setWho(msg.getWho());</span>
+		
+<span class="nc" id="L97">		m.addField(&quot;type&quot;, &quot;response&quot;);</span>
+		
+<span class="nc bnc" id="L99" title="All 2 branches missed.">		if(msg.getMessage(&quot;type&quot;).equals(&quot;request&quot;)){</span>
+			
+<span class="nc" id="L101">			resultat.addAll(em.findAllByAttribute(&quot;nick&quot;, msg.getMessage(&quot;nick&quot;)));</span>
+		
+<span class="nc bnc" id="L103" title="All 2 branches missed.">		}else if(msg.getMessage(&quot;type&quot;).equals(&quot;requestById&quot;)){</span>
+			
+<span class="nc" id="L105">			Collection&lt;User&gt; tmpList=em.findAllByAttribute(&quot;nick&quot;, msg.getMessage(&quot;nick&quot;));</span>
+			
+<span class="nc bnc" id="L107" title="All 2 branches missed.">			for (Iterator iterator = tmpList.iterator(); iterator.hasNext();) {</span>
+<span class="nc" id="L108">				User user = (User) iterator.next();</span>
+				
+<span class="nc bnc" id="L110" title="All 2 branches missed.">				if(user.getId().equals(msg.getMessage(&quot;attribute&quot;))){</span>
+<span class="nc" id="L111">					resultat.add(user);</span>
+				}
+<span class="nc" id="L113">			}</span>
+			
+<span class="nc bnc" id="L115" title="All 2 branches missed.">		}else if(msg.getMessage(&quot;type&quot;).equals(&quot;requestByPbkey&quot;)){</span>
+			
+<span class="nc" id="L117">			Collection&lt;User&gt; users = em.findAllByAttribute(&quot;nick&quot;, msg.getMessage(&quot;nick&quot;));</span>
+			
+<span class="nc bnc" id="L119" title="All 2 branches missed.">			for (Iterator iterator = users.iterator(); iterator.hasNext();) {</span>
+<span class="nc" id="L120">				User user = (User) iterator.next();</span>
+<span class="nc bnc" id="L121" title="All 2 branches missed.">				if(user.getKey().getPublicKey().equals(new BigInteger(msg.getMessage(&quot;attribute&quot;),16))){</span>
+<span class="nc" id="L122">					resultat.add(user);</span>
+<span class="nc" id="L123">					break; //return first user with the same nickName and pbkey</span>
+				}
+<span class="nc" id="L125">			}</span>
+			
+		}
+		
+<span class="nc" id="L129">		em.close();</span>
+		
+<span class="nc" id="L131">		JsonTools&lt;Collection&lt;User&gt;&gt; json = new JsonTools&lt;&gt;(new TypeReference&lt;Collection&lt;User&gt;&gt;(){});</span>
+		
+<span class="nc" id="L133">		m.addField(&quot;users&quot;, json.toJson(resultat));</span>
+		
+<span class="nc" id="L135">		return m;</span>
+	}
+	
+	
+	@Override
+	public void pipeMsgEvent(PipeMsgEvent event) {
+		
+<span class="nc" id="L142">		Messages message = toMessages(event.getMessage());</span>
+		
+<span class="nc bnc" id="L144" title="All 2 branches missed.">		if(message.getMessage(&quot;type&quot;).equals(&quot;response&quot;)) {			</span>
+<span class="nc" id="L145">			super.pipeMsgEvent(event);</span>
+<span class="nc" id="L146">			return;</span>
+		}
+
+<span class="nc" id="L149">		this.sendMessages(getResponseMessage(message), message.getMessage(&quot;source&quot;));</span>
+<span class="nc" id="L150">	}</span>
+
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

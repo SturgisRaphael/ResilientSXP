@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="crypt.utils.BigIntegerRandomTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2017-10-14T14:38:24" hostname="raphael-laptop" time="0.004">
+  <properties/>
+  <testcase name="testRand" classname="crypt.utils.BigIntegerRandomTest" time="0.004"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

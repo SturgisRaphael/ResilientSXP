@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Users.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">controller</a> &gt; <span class="el_source">Users.java</span></div><h1>Users.java</h1><pre class="source lang-java linenums">package controller;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+
+import controller.managers.CryptoUserManagerDecorator;
+import controller.tools.JsonTools;
+import crypt.api.hashs.Hasher;
+import crypt.factories.ElGamalAsymKeyFactory;
+import crypt.factories.HasherFactory;
+import model.api.Manager;
+import model.api.SyncManager;
+import model.api.UserSyncManager;
+import model.entity.ElGamalSignEntity;
+import model.entity.LoginToken;
+import model.entity.User;
+import model.factory.ManagerFactory;
+import model.factory.SyncManagerFactory;
+import model.manager.ManagerAdapter;
+import model.syncManager.UserSyncManagerImpl;
+import network.api.advertisement.UserAdvertisementInterface;
+import network.factories.AdvertisementFactory;
+import rest.api.Authentifier;
+import rest.api.ServletPath;
+
+@ServletPath(&quot;/api/users/*&quot;)
+@Path(&quot;/&quot;)
+<span class="fc" id="L45">public class Users {</span>
+<span class="fc" id="L46">	private final static Logger log = LogManager.getLogger(Users.class);</span>
+	
+	//@GET
+	@POST
+	@Path(&quot;/login&quot;)
+	@Produces(MediaType.APPLICATION_JSON)	
+	public String login(String jsonCredentials) {
+		
+<span class="fc" id="L54">		String[] credentials = jsonCredentials.split(&quot;&amp;&quot;);</span>
+		
+<span class="fc" id="L56">		String login = credentials[0].split(&quot;=&quot;)[1];</span>
+<span class="fc" id="L57">		String password = credentials[1].split(&quot;=&quot;)[1];</span>
+
+<span class="fc" id="L59">		Authentifier auth = Application.getInstance().getAuth();</span>
+		
+<span class="fc" id="L61">		UserSyncManager em = SyncManagerFactory.createUserSyncManager();</span>
+		
+<span class="fc" id="L63">		User u = em.getUser(login, password);</span>
+		
+<span class="fc" id="L65">		log.info(login + &quot; - &quot; + password);</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">		if(u != null) {</span>
+<span class="fc" id="L67">			LoginToken token = new LoginToken();</span>
+<span class="fc" id="L68">			token.setToken(auth.getToken(login, password));</span>
+<span class="fc" id="L69">			token.setUserid(u.getId());</span>
+<span class="fc" id="L70">			JsonTools&lt;LoginToken&gt; json = new JsonTools&lt;&gt;(new TypeReference&lt;LoginToken&gt;(){});</span>
+<span class="fc" id="L71">			em.close();</span>
+<span class="fc" id="L72">			return json.toJson(token);</span>
+		}
+<span class="fc" id="L74">		em.close();</span>
+<span class="fc" id="L75">		return &quot;{\&quot;error\&quot;: \&quot;true\&quot;}&quot;;</span>
+	}
+
+	@GET
+	@Path(&quot;/logout&quot;)
+	public String logout(@HeaderParam(Authentifier.PARAM_NAME) String token) {
+<span class="fc" id="L81">		Authentifier auth = Application.getInstance().getAuth();</span>
+<span class="fc" id="L82">		auth.deleteToken(token);</span>
+<span class="fc" id="L83">		return null;</span>
+	}
+
+	//@GET
+	@POST
+	@Path(&quot;/subscribe&quot;)
+	@Produces(MediaType.APPLICATION_JSON)
+	public String subscribe(String jsonCredentials) {
+<span class="fc" id="L91">		String[] credentials = jsonCredentials.split(&quot;&amp;&quot;);</span>
+<span class="fc" id="L92">		String login = credentials[0].split(&quot;=&quot;)[1];</span>
+<span class="fc" id="L93">		String password = credentials[1].split(&quot;=&quot;)[1];</span>
+		
+<span class="fc" id="L95">		User u = new User();</span>
+<span class="fc" id="L96">		u.setNick(login);</span>
+<span class="fc" id="L97">		u.setSalt(HasherFactory.generateSalt());</span>
+<span class="fc" id="L98">		u.setPasswordHash(password.getBytes());</span>
+<span class="fc" id="L99">		u.setCreatedAt(new Date());</span>
+<span class="fc" id="L100">		u.setKey(ElGamalAsymKeyFactory.create(false));</span>
+<span class="fc" id="L101">		u.setSignature(new ElGamalSignEntity());</span>
+		
+<span class="fc" id="L103">		Manager&lt;User&gt; hasherDecoratorManager = ManagerFactory.createCryptoNetworkUserManager(Application.getInstance().getPeer(), null, u);</span>
+		
+<span class="fc" id="L105">		hasherDecoratorManager.begin();</span>
+<span class="fc" id="L106">		hasherDecoratorManager.persist(u);</span>
+<span class="fc" id="L107">		hasherDecoratorManager.end();</span>
+<span class="fc" id="L108">		hasherDecoratorManager.close();</span>
+		
+<span class="fc" id="L110">		Authentifier auth = Application.getInstance().getAuth();</span>
+<span class="fc" id="L111">		LoginToken token = new LoginToken();</span>
+<span class="fc" id="L112">		token.setToken(auth.getToken(login, password));</span>
+<span class="fc" id="L113">		token.setUserid(u.getId());</span>
+		
+<span class="fc" id="L115">		JsonTools&lt;LoginToken&gt; json = new JsonTools&lt;&gt;(new TypeReference&lt;LoginToken&gt;(){});</span>
+<span class="fc" id="L116">		return json.toJson(token);</span>
+	}
+
+	@POST
+	@Path(&quot;/&quot;)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public String add(User user) {
+
+<span class="nc" id="L125">		return null;</span>
+	}
+
+	@GET
+	@Path(&quot;/{id}&quot;)
+	@Produces(MediaType.APPLICATION_JSON)
+	public String get(
+			@PathParam(&quot;id&quot;) String id) {
+		
+<span class="fc" id="L134">		UserSyncManager em = SyncManagerFactory.createUserSyncManager();</span>
+		
+<span class="fc" id="L136">		JsonTools&lt;User&gt; json = new JsonTools&lt;&gt;(new TypeReference&lt;User&gt;(){});</span>
+<span class="fc" id="L137">		return json.toJson(em.findOneById(id));</span>
+	}
+
+	@GET
+	@Path(&quot;/&quot;)
+	@Produces(MediaType.APPLICATION_JSON)
+	public String get() {
+		
+<span class="fc" id="L145">		UserSyncManager em = SyncManagerFactory.createUserSyncManager();</span>
+		
+<span class="fc" id="L147">		JsonTools&lt;Collection&lt;User&gt;&gt; json = new JsonTools&lt;&gt;(new TypeReference&lt;Collection&lt;User&gt;&gt;(){});</span>
+<span class="fc" id="L148">		return json.toJson(em.findAll());</span>
+		//return JsonUtils.collectionStringify(em.findAll());
+	}
+
+	@PUT
+	@Path(&quot;/{id}&quot;)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public String edit(User user) {
+
+<span class="nc" id="L158">		return null;</span>
+	}
+
+	@POST
+	@Path(&quot;/password&quot;)
+	@Produces(MediaType.APPLICATION_JSON)
+	public String changePassword(@HeaderParam(Authentifier.PARAM_NAME) String token, String jsonCredentials) {
+		
+<span class="nc" id="L166">		String[] credentials = jsonCredentials.split(&quot;&amp;&quot;);</span>
+<span class="nc" id="L167">		String passwordOld = credentials[0].split(&quot;=&quot;)[1];</span>
+<span class="nc" id="L168">		String passwordNew = credentials[1].split(&quot;=&quot;)[1];</span>
+<span class="nc" id="L169">		String passwordNewConfirm = credentials[2].split(&quot;=&quot;)[1];</span>
+		
+<span class="nc bnc" id="L171" title="All 2 branches missed.">		if(!passwordNew.equals(passwordNewConfirm)){</span>
+<span class="nc" id="L172">			return &quot;{\&quot;error\&quot;: \&quot;true\&quot;}&quot;;</span>
+		}
+		
+<span class="nc" id="L175">		Authentifier auth = Application.getInstance().getAuth();</span>
+		
+<span class="nc" id="L177">		UserSyncManager em = SyncManagerFactory.createUserSyncManager();</span>
+		
+<span class="nc" id="L179">		User u = em.getUser(auth.getLogin(token), passwordOld);  //search in local</span>
+		
+<span class="nc" id="L181">		Manager&lt;User&gt; decoratorUserMg = ManagerFactory.createCryptoUserManager(em,u); // encapsulation of UserSyncManager to hash the new password using decorator pattern</span>
+		
+<span class="nc bnc" id="L183" title="All 2 branches missed.">		if(u != null) {</span>
+			
+<span class="nc" id="L185">			decoratorUserMg.begin();</span>
+			
+<span class="nc" id="L187">			LoginToken newToken = new LoginToken();</span>
+<span class="nc" id="L188">			newToken.setToken(auth.getToken(u.getNick(), passwordNew));</span>
+<span class="nc" id="L189">			newToken.setUserid(u.getId());		</span>
+
+<span class="nc" id="L191">			Hasher hasher = HasherFactory.createDefaultHasher();</span>
+<span class="nc" id="L192">			u.setSalt(HasherFactory.generateSalt());</span>
+<span class="nc" id="L193">			u.setPasswordHash(passwordNew.getBytes());</span>
+			
+<span class="nc bnc" id="L195" title="All 2 branches missed.">			if (decoratorUserMg.end()){</span>
+<span class="nc" id="L196">				decoratorUserMg.close();</span>
+<span class="nc" id="L197">				JsonTools&lt;LoginToken&gt; json = new JsonTools&lt;&gt;(new TypeReference&lt;LoginToken&gt;(){});</span>
+<span class="nc" id="L198">				return json.toJson(newToken);</span>
+			}
+		}
+		
+<span class="nc" id="L202">		decoratorUserMg.close();</span>
+<span class="nc" id="L203">		return null;</span>
+	}
+
+	/** 
+	 * This only deletes users from local base.
+	 * TO DO : connect to jxta
+	 * @param id
+	 * @param token
+	 * @return
+	 */
+	@DELETE
+	@Path(&quot;/{id}&quot;)
+	@Produces(MediaType.APPLICATION_JSON)
+	public String delete(@PathParam(&quot;id&quot;) String id, @HeaderParam(Authentifier.PARAM_NAME) String token) {
+<span class="fc" id="L217">		Authentifier auth = Application.getInstance().getAuth();</span>
+		
+<span class="fc" id="L219">		UserSyncManager users = SyncManagerFactory.createUserSyncManager();</span>
+		
+<span class="fc" id="L221">		User currentUser = users.getUser(auth.getLogin(token), auth.getPassword(token));</span>
+<span class="pc bpc" id="L222" title="1 of 2 branches missed.">		if (currentUser == null){</span>
+<span class="nc" id="L223">			users.close();</span>
+<span class="nc" id="L224">			return &quot;{\&quot;deleted\&quot;: \&quot;false\&quot;}&quot;;</span>
+		}
+<span class="fc" id="L226">		Boolean ret = users.begin();</span>
+<span class="fc" id="L227">		User us = users.findOneById(id);</span>
+<span class="pc bpc" id="L228" title="4 of 8 branches missed.">		return &quot;{\&quot;deleted\&quot;: \&quot;&quot; + (ret &amp;&amp; users.remove(us) &amp;&amp; users.end() &amp;&amp; users.close()) + &quot;\&quot;}&quot;;		</span>
+	}
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

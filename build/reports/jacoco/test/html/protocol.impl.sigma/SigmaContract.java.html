@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SigmaContract.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">protocol.impl.sigma</a> &gt; <span class="el_source">SigmaContract.java</span></div><h1>SigmaContract.java</h1><pre class="source lang-java linenums">package protocol.impl.sigma;
+
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+
+import org.bouncycastle.util.Arrays;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+
+import controller.Users;
+import controller.tools.JsonTools;
+import crypt.api.signatures.Signable;
+import crypt.impl.signatures.SigmaSigner;
+import model.api.EstablisherType;
+import model.api.Status;
+import model.api.Wish;
+import model.entity.ContractEntity;
+import model.entity.ElGamalKey;
+import model.entity.User;
+import model.entity.sigma.SigmaSignature;
+import protocol.api.EstablisherContract;
+
+/**
+ * This class aims to create an adapter between ContractEntity and EstablisherContract. We want everything
+ * to be in the ContractEntity and an establisher will use an EstablisherContract. That's why we use this
+ * adapter in the establishers
+ * 
+ * @author Nathanaël Eon
+ *
+ */
+public class SigmaContract extends EstablisherContract&lt;BigInteger, ElGamalKey, SigmaSignature, SigmaSigner&gt;{
+	
+	// List of parties keys
+<span class="fc" id="L36">	protected ArrayList&lt;ElGamalKey&gt; parties = new ArrayList&lt;&gt;();</span>
+	// Maps the keys with the id of a user
+<span class="fc" id="L38">	protected HashMap&lt;ElGamalKey,String&gt; partiesId = new HashMap&lt;ElGamalKey, String&gt;();</span>
+	// Maps the keys with the signatures
+<span class="fc" id="L40">	protected HashMap&lt;ElGamalKey, SigmaSignature&gt; signatures = new HashMap&lt;ElGamalKey, SigmaSignature&gt;();</span>
+	// Clauses in the format we need them
+<span class="fc" id="L42">	protected Signable&lt;SigmaSignature&gt; clauses = null;</span>
+	// Signer object
+	protected SigmaSigner signer;
+	
+	// Basic constructor
+	public SigmaContract(){
+<span class="fc" id="L48">		super();</span>
+<span class="fc" id="L49">		this.signer = new SigmaSigner();</span>
+<span class="fc" id="L50">		this.contract = new ContractEntity();</span>
+<span class="fc" id="L51">		contract.setClauses(new ArrayList&lt;String&gt;());</span>
+<span class="fc" id="L52">		contract.setParties(new ArrayList&lt;String&gt;());</span>
+<span class="fc" id="L53">		contract.setSignatures(new HashMap&lt;String,String&gt;());</span>
+<span class="fc" id="L54">		contract.setEstablisherType(EstablisherType.Sigma);</span>
+<span class="fc" id="L55">	}</span>
+	
+	// Constructor from clauses (problem when resolve, because no partiesId set)
+	public SigmaContract(Signable&lt;SigmaSignature&gt; clauses){
+<span class="fc" id="L59">		super();</span>
+<span class="fc" id="L60">		this.signer = new SigmaSigner();</span>
+<span class="fc" id="L61">		this.contract = new ContractEntity();</span>
+<span class="fc" id="L62">		this.setClauses(clauses);</span>
+<span class="fc" id="L63">		this.contract.setParties(new ArrayList&lt;String&gt;());</span>
+<span class="fc" id="L64">		this.contract.setSignatures(new HashMap&lt;String,String&gt;());</span>
+<span class="fc" id="L65">		this.contract.setEstablisherType(EstablisherType.Sigma);</span>
+<span class="fc" id="L66">	}</span>
+	
+	// Constructor from a ContractEntity (what will be most used)
+	public SigmaContract(ContractEntity c){
+<span class="fc" id="L70">		super();</span>
+<span class="fc" id="L71">		this.contract=c;</span>
+<span class="fc" id="L72">		this.signer = new SigmaSigner();</span>
+<span class="fc" id="L73">		this.setClauses(contract.getClauses());</span>
+<span class="fc" id="L74">		this.setParties(contract.getParties());</span>
+<span class="fc" id="L75">		this.contract.setEstablisherType(EstablisherType.Sigma);</span>
+<span class="fc" id="L76">	}</span>
+
+	/************* GETTERS ***********/
+	public Signable&lt;SigmaSignature&gt; getClauses(){
+<span class="fc" id="L80">		return clauses;</span>
+	}
+	public ArrayList&lt;ElGamalKey&gt; getParties(){
+<span class="fc" id="L83">		return parties;</span>
+	}
+	public ElGamalKey getTrentKey(){
+<span class="fc" id="L86">		return signer.getTrentK();</span>
+	}
+	
+	/************* SETTERS ***********/
+	public void setClauses(ArrayList&lt;String&gt; c){
+<span class="fc" id="L91">		this.clauses = new SigmaClauses(c);</span>
+<span class="fc" id="L92">		this.contract.setClauses(c);</span>
+<span class="fc" id="L93">	}</span>
+	public void setClauses(Signable&lt;SigmaSignature&gt; c){
+<span class="fc" id="L95">		this.clauses = c;</span>
+<span class="fc" id="L96">		ArrayList&lt;String&gt; a = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L97">		a.add(new String(c.getHashableData()));</span>
+<span class="fc" id="L98">		this.contract.setClauses(a);</span>
+<span class="fc" id="L99">	}</span>
+	
+	/**
+	 * Find the parties keys
+	 * @param s : List of user ids
+	 */
+	public void setParties(ArrayList&lt;String&gt; s){
+<span class="fc bfc" id="L106" title="All 2 branches covered.">		for (String u : s){</span>
+<span class="fc" id="L107">			JsonTools&lt;User&gt; json = new JsonTools&lt;&gt;(new TypeReference&lt;User&gt;(){});</span>
+<span class="fc" id="L108">			Users users = new Users();</span>
+<span class="fc" id="L109">			User user = json.toEntity(users.get(u));</span>
+<span class="fc" id="L110">			this.parties.add(user.getKey());</span>
+<span class="fc" id="L111">			this.partiesId.put(user.getKey(), user.getId());</span>
+<span class="fc" id="L112">		}</span>
+<span class="fc" id="L113">		this.contract.setParties(s);</span>
+		
+		// Order parties by publicKey (useful to get hashable data
+<span class="fc" id="L116">		this.parties.sort(new Comparator&lt;ElGamalKey&gt;(){</span>
+			@Override
+			public int compare(ElGamalKey k1, ElGamalKey k2){
+<span class="fc" id="L119">				return k1.getPublicKey().compareTo(k2.getPublicKey());</span>
+			}
+		});
+<span class="fc" id="L122">	}</span>
+	/**
+	 * Set the parties from a list of ElGamalKey
+	 * WARNING : this won't set the partiesId
+	 */
+	public void setParties(ArrayList&lt;ElGamalKey&gt; p, boolean isSigmaParty){
+<span class="fc" id="L128">		this.parties = p;</span>
+<span class="fc" id="L129">	}</span>
+
+	/**
+	 * Set Trent key and store it into Establishement data
+	 */
+	public void setTrentKey (ElGamalKey k){
+<span class="fc" id="L135">		signer.setTrentK(k);</span>
+<span class="fc" id="L136">	}</span>
+	
+	/************* STATUS / WISH ***********/
+	@Override
+	public Status getStatus(){
+<span class="fc" id="L141">		return contract.getStatus();</span>
+	}
+	@Override
+	public void setStatus(Status s){
+<span class="fc" id="L145">		contract.setStatus(s);</span>
+<span class="fc" id="L146">	}</span>
+	
+	@Override
+	public Wish getWish(){
+<span class="fc" id="L150">		return contract.getWish();</span>
+	}
+	@Override
+	public void setWish(Wish w){
+<span class="fc" id="L154">		contract.setWish(w);</span>
+<span class="fc" id="L155">	}</span>
+	
+	/************* Abstract method implementation **********/
+	
+	@Override
+	public boolean isFinalized() {
+<span class="fc" id="L161">		boolean result = false;</span>
+		
+<span class="fc bfc" id="L163" title="All 2 branches covered.">		if (this.getTrentKey() == null){</span>
+<span class="fc" id="L164">			return false;}</span>
+		
+		
+<span class="fc bfc" id="L167" title="All 2 branches covered.">		for(ElGamalKey k: parties) {</span>
+<span class="fc" id="L168">			signer.setReceiverK(k);</span>
+<span class="fc bfc" id="L169" title="All 2 branches covered.">			if(signatures.get(k) == null){</span>
+<span class="fc" id="L170">				return false;</span>
+			}
+			
+<span class="fc" id="L173">			byte[] data = (new String(this.getHashableData())).getBytes();</span>
+<span class="fc bfc" id="L174" title="All 2 branches covered.">			if (signer.verify(data, signatures.get(k)))</span>
+<span class="fc" id="L175">				return true;</span>
+			
+<span class="pc bpc" id="L177" title="1 of 2 branches missed.">			for (int round=1; round&lt;parties.size() + 2; round++){</span>
+<span class="fc" id="L178">				data = (new String(this.getHashableData()) + round).getBytes();</span>
+<span class="pc bpc" id="L179" title="1 of 2 branches missed.">				if (signer.verify(data, signatures.get(k))){</span>
+<span class="fc" id="L180">					result = true;</span>
+<span class="fc" id="L181">					break;</span>
+				}
+			}
+<span class="fc" id="L184">		}</span>
+<span class="fc" id="L185">		return result;</span>
+	}
+
+	@Override
+	public void addSignature(ElGamalKey k, SigmaSignature s) {
+<span class="fc bfc" id="L190" title="All 4 branches covered.">		if(k == null || !this.parties.contains(k)) {</span>
+<span class="fc" id="L191">			throw new RuntimeException(&quot;invalid key&quot;);</span>
+		}
+<span class="fc" id="L193">		signatures.put(k, s);</span>
+<span class="fc" id="L194">		contract.getSignatures().put(this.partiesId.get(k), s.toString());</span>
+		
+<span class="fc bfc" id="L196" title="All 2 branches covered.">		if (this.isFinalized())</span>
+<span class="fc" id="L197">			this.setStatus(Status.FINALIZED);</span>
+<span class="fc" id="L198">	}</span>
+	
+	@Override
+	public boolean checkContrat(EstablisherContract&lt;BigInteger, ElGamalKey, SigmaSignature, SigmaSigner&gt; contract) {
+<span class="fc bfc" id="L202" title="All 4 branches covered.">		return this.equals(contract) &amp;&amp; this.isFinalized();</span>
+	}
+	
+	@Override
+	public boolean equals(EstablisherContract&lt;BigInteger, ElGamalKey, SigmaSignature, SigmaSigner&gt; c) {
+<span class="pc bpc" id="L207" title="1 of 2 branches missed.">		if (!(c instanceof SigmaContract))</span>
+<span class="nc" id="L208">			return false;</span>
+<span class="fc" id="L209">		SigmaContract contract = (SigmaContract) c;</span>
+<span class="fc bfc" id="L210" title="All 2 branches covered.">		if (contract.clauses == null)</span>
+<span class="fc" id="L211">			return false;</span>
+<span class="fc" id="L212">		return Arrays.areEqual(this.getHashableData(), contract.getHashableData());</span>
+	}
+	
+	
+	@Override
+	public byte[] getHashableData() {
+<span class="fc" id="L218">		BigInteger sum = BigInteger.ZERO;</span>
+<span class="fc bfc" id="L219" title="All 2 branches covered.">		for(ElGamalKey k: parties) {</span>
+<span class="fc" id="L220">			sum = sum.add(k.getPublicKey());</span>
+<span class="fc" id="L221">		}</span>
+
+<span class="fc" id="L223">		StringBuffer buffer = new StringBuffer();</span>
+<span class="fc" id="L224">		buffer.append(sum.toString());</span>
+<span class="fc" id="L225">		byte[] signable = this.clauses.getHashableData();</span>
+		
+<span class="fc" id="L227">		int signableL = signable.length;</span>
+<span class="fc" id="L228">		int bufferL = buffer.toString().getBytes().length;</span>
+<span class="fc" id="L229">		byte[] concate = new byte[signableL + bufferL];</span>
+<span class="fc" id="L230">		System.arraycopy(new String(buffer).getBytes(), 0, concate, 0, bufferL);</span>
+<span class="fc" id="L231">		System.arraycopy(signable, 0, concate, bufferL, signableL);</span>
+		
+<span class="fc" id="L233">		return concate;</span>
+	}
+	
+	@Override
+	public SigmaSignature sign(SigmaSigner signer, ElGamalKey k) {
+<span class="fc" id="L238">		signer.setKey(k);</span>
+<span class="fc" id="L239">		return signer.sign(this.getHashableData());</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="crypt.utils.CryptoParserTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2017-10-14T14:38:21" hostname="raphael-laptop" time="2.375">
+  <properties/>
+  <testcase name="test_A_HashUser" classname="crypt.utils.CryptoParserTest" time="0.051"/>
+  <testcase name="test_B_SignuatureUser" classname="crypt.utils.CryptoParserTest" time="0.174"/>
+  <testcase name="test_C_signatureItem" classname="crypt.utils.CryptoParserTest" time="0.342"/>
+  <testcase name="test_D_signMessage" classname="crypt.utils.CryptoParserTest" time="1.635"/>
+  <testcase name="test_E_cryptAndDecryptMessage" classname="crypt.utils.CryptoParserTest" time="0.166"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

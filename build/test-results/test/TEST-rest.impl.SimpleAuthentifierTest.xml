@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="rest.impl.SimpleAuthentifierTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2017-10-14T14:38:11" hostname="raphael-laptop" time="0.14">
+  <properties/>
+  <testcase name="idsGetterTest" classname="rest.impl.SimpleAuthentifierTest" time="0.14"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

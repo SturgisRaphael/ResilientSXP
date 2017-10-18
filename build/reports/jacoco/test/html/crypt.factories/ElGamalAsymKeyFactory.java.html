@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ElGamalAsymKeyFactory.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">crypt.factories</a> &gt; <span class="el_source">ElGamalAsymKeyFactory.java</span></div><h1>ElGamalAsymKeyFactory.java</h1><pre class="source lang-java linenums">package crypt.factories;
+
+import java.math.BigInteger;
+import java.security.SecureRandom;
+
+import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
+import org.bouncycastle.crypto.generators.ElGamalKeyPairGenerator;
+import org.bouncycastle.crypto.generators.ElGamalParametersGenerator;
+import org.bouncycastle.crypto.params.ElGamalKeyGenerationParameters;
+import org.bouncycastle.crypto.params.ElGamalParameters;
+import org.bouncycastle.crypto.params.ElGamalPrivateKeyParameters;
+import org.bouncycastle.crypto.params.ElGamalPublicKeyParameters;
+
+import model.entity.ElGamalKey;
+
+/**
+ * Factory to create ElGamal keys with given or random parameters.
+ * Contain default pre-calculated parameters {@link ElGamalAsymKeyFactory#P} and {@link ElGamalAsymKeyFactory#G}
+ * @author Prudhomme Julien
+ *
+ */
+<span class="nc" id="L22">public class ElGamalAsymKeyFactory {</span>
+	
+	
+<span class="fc" id="L25">	private static SecureRandom R = new SecureRandom();</span>
+	
+	//Defaults parameters
+<span class="fc" id="L28">	public static final BigInteger P = new BigInteger (&quot;124233341635855292420681698148845681014844866056212176632655173602444135581779341928584451946831820357622587249219477577145009300106828967466602146104562163160400103396735672041344557638270362523343149686623705761738910044071399582025053147811261321814632661084042311141045136246602979886564584763268994320823&quot;);</span>
+<span class="fc" id="L29">	public static final BigInteger G = new BigInteger (&quot;57879985263161130068016239981615161174385902716647642452899971198439084259551250230041086427537114453738884538337956090286524329552098304591825815816298805245947460536391128315522193556464285417135160058086869161063941463490748168352401178939129440934609861888674726565294073773971086710395310743717916632171&quot;);</span>
+	
+	/**
+	 * Randomly generate El Gamal parameters
+	 * @return ElGamalParameters instance containing P &amp; G 
+	 */
+	private static ElGamalParameters generatePG() {
+		ElGamalParameters params;
+		ElGamalParametersGenerator apg;
+<span class="nc" id="L38">		apg = new ElGamalParametersGenerator();</span>
+<span class="nc" id="L39">		apg.init(1024, 20, R);</span>
+<span class="nc" id="L40">		params = apg.generateParameters();</span>
+<span class="nc" id="L41">		return params;</span>
+	}
+	
+	/**
+	 * Generate and set El Gamal public &amp; private key according to parameters.
+	 * @param k the ElGamalAsymKey instance to set
+	 * @param params Params used for public and private key generation
+	 */
+	private static void generateElGamalKey(ElGamalKey k, ElGamalParameters params) {
+<span class="fc" id="L50">		ElGamalKeyGenerationParameters elGP = new ElGamalKeyGenerationParameters(R,params);</span>
+<span class="fc" id="L51">		ElGamalKeyPairGenerator KeyPair = new ElGamalKeyPairGenerator();</span>
+<span class="fc" id="L52">		KeyPair.init(elGP);</span>
+<span class="fc" id="L53">		AsymmetricCipherKeyPair cipher1 = KeyPair.generateKeyPair();</span>
+<span class="fc" id="L54">		k.setPublicKey(((ElGamalPublicKeyParameters) cipher1.getPublic()).getY()); </span>
+<span class="fc" id="L55">		k.setPrivateKey(((ElGamalPrivateKeyParameters)cipher1.getPrivate()).getX());</span>
+<span class="fc" id="L56">	}</span>
+	
+	/**
+	 * Create a new ElGamalAsymKey with a random public/private key according to p and g parameters
+	 * @param param ElGamal parameters containing p/g
+	 * @return a new ElGamalAsymKey instance
+	 */
+	public static ElGamalKey createFromParameters(ElGamalParameters params) {
+<span class="fc" id="L64">		ElGamalKey k = new ElGamalKey();</span>
+<span class="fc" id="L65">		generateElGamalKey(k, params);</span>
+<span class="fc" id="L66">		k.setG(params.getG());</span>
+<span class="fc" id="L67">		k.setP(params.getP());</span>
+<span class="fc" id="L68">		return k;</span>
+	}
+	
+	/**
+	 * Create a new ElGamalAsymKey with a random public/private key according to default or random parameters
+	 * @param generateParams True - Generate random parameters. It can take several minutes.
+	 *  False - Take default parameters {@link ElGamalAsymKeyFactory#P} and {@link ElGamalAsymKeyFactory#G}
+	 * @return
+	 */
+	public static ElGamalKey create(boolean generateParams) {
+<span class="pc bpc" id="L78" title="1 of 2 branches missed.">		return createFromParameters(generateParams?(generatePG()):(new ElGamalParameters(P, G)));</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

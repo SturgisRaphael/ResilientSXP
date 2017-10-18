@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>X509V3Generator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">crypt.impl.certificate</a> &gt; <span class="el_source">X509V3Generator.java</span></div><h1>X509V3Generator.java</h1><pre class="source lang-java linenums">package crypt.impl.certificate;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.math.BigInteger;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.KeyStore;
+import java.security.Security;
+import java.security.cert.Certificate;
+import java.security.cert.X509Certificate;
+import java.util.Date;
+
+import javax.security.auth.x500.X500Principal;
+
+import org.bouncycastle.x509.X509V3CertificateGenerator;
+
+import crypt.api.certificate.CertificateGenerator;
+
+
+<span class="fc" id="L26">public class X509V3Generator implements CertificateGenerator</span>
+{
+	/**
+	 * Use this methode to create an instance of X509V3Genertor.
+	 * @param config_file Name of the file that will be used by the instance.
+	 */
+	static public X509V3Generator getInstance(String config_file) throws Exception
+	{
+<span class="fc" id="L34">		X509V3Generator cert_gen = new X509V3Generator();</span>
+<span class="fc" id="L35">		cert_gen.setConfigFile(config_file);</span>
+<span class="fc" id="L36">		cert_gen.initDatas();</span>
+<span class="fc" id="L37">		return cert_gen;</span>
+	}
+	///////////////////////////// private //////////////////////////////////
+
+	private String config_file;        //Configuration file (certificate datas).
+<span class="fc" id="L42">	private boolean flag = false;	   //To kown if a certifictae has already been created.</span>
+
+	private String keystore_password;  //Password for the keystore. can use toCharArray()
+	private String ks_alias;
+	private Certificate cert;          //The certificate.
+	private KeyPair key_pair;          //Generated keys for the certificate.
+
+	//Certificate datas.
+	private BigInteger serial_number;
+	private String domain_name;		   //Server's IP.
+	//private Date begin;              //Start validity date.
+	//private Date end;                //End validity date.
+	private String sign_alg;           //Algorithm used to sign.
+
+
+	////////////////////////////// Public ////////////////////////////////
+
+	//// Geters&amp;Seters ////
+
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public KeyPair getKeysPair() throws RuntimeException
+	{
+<span class="fc bfc" id="L68" title="All 2 branches covered.">		if( !this.flag )</span>
+		{
+<span class="fc" id="L70">			throw new RuntimeException(&quot;getKeyPair() used wihout certificate genererated&quot;);</span>
+		}
+<span class="fc" id="L72">		return key_pair;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getKsPassword() throws Exception
+	{
+<span class="fc" id="L81">		return keystore_password;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setConfigFile(String file) throws Exception
+	{
+<span class="fc" id="L90">		this.config_file = file;</span>
+<span class="fc" id="L91">	}</span>
+
+	///// Methodes /////
+
+	/**
+	 * {@inheritDoc}
+	 * file pattern : 
+	 * data=value
+	 * data1=value1
+	 */
+	@Override
+	public void initDatas() throws Exception
+	{
+		try
+		{
+<span class="fc" id="L106">			File file = new File(this.config_file);</span>
+
+			//Create file if it does not exists.
+<span class="fc bfc" id="L109" title="All 2 branches covered.">			if( !file.exists() )</span>
+			{
+<span class="fc" id="L111">				createDefaultConfigFile();</span>
+			}
+
+<span class="fc" id="L114">			InputStream input_stream              = new FileInputStream(file); </span>
+<span class="fc" id="L115">			InputStreamReader input_stream_reader = new InputStreamReader(input_stream);</span>
+<span class="fc" id="L116">			BufferedReader buffered_reader        = new BufferedReader(input_stream_reader);</span>
+			String line;
+
+			String name;	//Configuration name.
+			String value;   //Value to this name.
+			String[] temp;
+
+
+<span class="fc bfc" id="L124" title="All 2 branches covered.">			while( (line = buffered_reader.readLine()) != null )</span>
+			{
+<span class="pc bpc" id="L126" title="1 of 6 branches missed.">				if( !line.isEmpty() &amp;&amp; !line.startsWith(&quot;#&quot;) &amp;&amp; !line.startsWith(&quot; &quot;) ) //if not a comment or newline.</span>
+				{
+<span class="fc" id="L128">					line = line.split(&quot;#&quot;)[0];  //Delete comments.</span>
+<span class="fc" id="L129">					line = line.split(&quot; &quot;)[0];  //Delete useless spaces.</span>
+<span class="fc" id="L130">					line = line.split(&quot;\t&quot;)[0]; //Delete useless tabs.</span>
+<span class="fc" id="L131">					temp = line.split(&quot;=&quot;);</span>
+<span class="fc" id="L132">					name = temp[0];</span>
+<span class="fc" id="L133">					value = temp[1];</span>
+<span class="pc bpc" id="L134" title="5 of 22 branches missed.">					switch(name)</span>
+					{
+					case &quot;kspassword&quot; :
+<span class="fc" id="L137">						this.keystore_password = value;</span>
+<span class="fc" id="L138">						break;</span>
+					case &quot;ksalias&quot;:
+<span class="fc" id="L140">						this.ks_alias = value;</span>
+<span class="fc" id="L141">						break;</span>
+					case &quot;serialnumber&quot; :
+<span class="fc" id="L143">						this.serial_number = new BigInteger(value);</span>
+<span class="fc" id="L144">						break;</span>
+					case &quot;signalgorithm&quot;:
+<span class="fc" id="L146">						this.sign_alg = value;</span>
+<span class="fc" id="L147">						break;</span>
+					case &quot;domainname&quot;:
+<span class="fc" id="L149">						this.domain_name = value;</span>
+<span class="fc" id="L150">						break;</span>
+					default:
+<span class="fc" id="L152">						throw new RuntimeException(&quot;Bad configuration file : &quot; + line);</span>
+					}
+					//System.out.println(name + &quot; = &quot; + value);
+				}
+			}
+
+<span class="fc" id="L158">			buffered_reader.close(); </span>
+		}		
+<span class="fc" id="L160">		catch( Exception e )</span>
+		{
+<span class="fc" id="L162">			throw e;</span>
+<span class="fc" id="L163">		}</span>
+
+<span class="fc" id="L165">	}</span>
+
+	/**
+	 * Create the default certificate configuration file.
+	 * @param file_name Name of the file that will be created.
+	 */
+	public void createDefaultConfigFile() throws Exception
+	{
+<span class="fc" id="L173">		String content = &quot;&quot;;</span>
+<span class="fc" id="L174">		content += &quot;# This configuration file contains values for the certificate\n&quot;;</span>
+<span class="fc" id="L175">		content += &quot;# used by this application. The certificate will be stored in\n&quot;;</span>
+<span class="fc" id="L176">		content += &quot;# keystore.jks .\n\n&quot;;</span>
+<span class="fc" id="L177">		content += &quot;kspassword=123456        #Password for the keystore.\n&quot;;</span>
+<span class="fc" id="L178">		content += &quot;ksalias=SXP              #Alias for the certificate in the keystore.\n&quot;;</span>
+<span class="fc" id="L179">		content += &quot;serialnumber=0123456789  #Serial Number.\n&quot;;</span>
+<span class="fc" id="L180">		content += &quot;signalgorithm=MD5WithRSA #Algorithm used for siging the certificate. (SHA256withRSA)\n&quot;;</span>
+<span class="fc" id="L181">		content += &quot;domainname=localhost     #IP / domain name of the serveur.\n&quot;;</span>
+
+<span class="fc" id="L183">		File file = new File(this.config_file);</span>
+		try
+		{
+<span class="fc" id="L186">			FileWriter file_writer = new FileWriter(file);</span>
+<span class="fc" id="L187">			file_writer.write (content);</span>
+<span class="fc" id="L188">			file_writer.close();</span>
+		}
+<span class="fc" id="L190">		catch (IOException exception)</span>
+		{
+<span class="fc" id="L192">			throw new IOException(&quot;Error while creation of default configuration file : &quot; </span>
+					+ this.config_file + &quot;\n&quot;, exception);
+<span class="fc" id="L194">		}</span>
+<span class="fc" id="L195">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 * Implemented Signature : &quot;self-signed&quot;
+	 * 						   &quot;CA-signed&quot;
+	 */
+	@Override
+	public Certificate CreateCertificate(String signature) throws Exception
+	{
+<span class="fc bfc" id="L205" title="All 2 branches covered.">		if( signature == &quot;self-signed&quot; )</span>
+		{
+<span class="fc bfc" id="L207" title="All 2 branches covered.">			if( !this.flag )</span>
+			{
+				//Provider custom
+<span class="fc" id="L210">				Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());</span>
+
+				//Keys (priv &amp; public) generation.																							
+<span class="fc" id="L213">				KeyPairGenerator key_gen = KeyPairGenerator.getInstance(&quot;RSA&quot;);															</span>
+<span class="fc" id="L214">				key_gen.initialize(1024);																												</span>
+<span class="fc" id="L215">				KeyPair keys = key_gen.genKeyPair();</span>
+<span class="fc" id="L216">				this.key_pair = keys;</span>
+
+				//Création du certificat.																												
+<span class="fc" id="L219">				X509V3CertificateGenerator cert_gen = new X509V3CertificateGenerator();</span>
+
+<span class="fc" id="L221">				X500Principal cn = new X500Principal(&quot;CN=&quot; + domain_name );																		</span>
+<span class="fc" id="L222">				cert_gen.setSerialNumber(this.serial_number);																		</span>
+<span class="fc" id="L223">				cert_gen.setIssuerDN(cn);																												</span>
+<span class="fc" id="L224">				cert_gen.setNotBefore(new Date(System.currentTimeMillis() - 24 * 60 * 60 * 1000));									</span>
+<span class="fc" id="L225">				cert_gen.setNotAfter(new Date(System.currentTimeMillis() + 365 * 24 * 60 * 60 * 1000));							</span>
+<span class="fc" id="L226">				cert_gen.setSubjectDN(cn);																												</span>
+<span class="fc" id="L227">				cert_gen.setPublicKey(keys.getPublic());																							</span>
+<span class="fc" id="L228">				cert_gen.setSignatureAlgorithm(this.sign_alg);</span>
+
+				//this.cert = cert_gen.generateX509Certificate(keys.getPrivate(), &quot;BC&quot;); //CA private key (autosigned)
+<span class="fc" id="L231">				this.cert = cert_gen.generate(keys.getPrivate(), &quot;BC&quot;); //CA private key (autosigned)</span>
+<span class="fc" id="L232">				this.flag = true;</span>
+<span class="fc" id="L233">			}</span>
+		}
+		//		else if( signature == &quot;CA-signed&quot; )
+		//		{
+		//			//Provider custom
+		//			
+		//			Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
+		//
+		//			//Keys (priv &amp; public) generation.
+		//																							
+		//			KeyPairGenerator key_gen = KeyPairGenerator.getInstance(&quot;RSA&quot;);															
+		//			key_gen.initialize(2048);																												
+		//			KeyPair keys = key_gen.genKeyPair();
+		//			this.key_pair = keys;
+		//
+		//			// Create a session for Let's Encrypt
+		//
+		//			Session session = new Session(&quot;acme://letsencrypt.org/staging&quot;, this.key_pair);
+		//
+		//			// Register a new user
+		//
+		//			Registration reg = null;
+		//			try 
+		//			{
+		//				reg = new RegistrationBuilder().create(session);
+		//			} 
+		//			catch (AcmeConflictException ex) 
+		//			{
+		//				reg = Registration.bind(session, ex.getLocation());
+		//				System.out.println(&quot;Let's Encrypt account does already exist&quot;);
+		//			}
+		//
+		//			URI agreement = reg.getAgreement();
+		//			reg.modify().setAgreement(agreement).commit();
+		//
+		//			Authorization auth = null;
+		//			try 
+		//			{
+		//				auth = reg.authorizeDomain(domain_name);
+		//			} 
+		//			catch (AcmeUnauthorizedException ex)
+		//			{
+		//				// Maybe there are new T&amp;C to accept?
+		//				reg.modify().setAgreement(agreement).commit();
+		//				// Then try again...
+		//				auth = reg.authorizeDomain(domain_name);
+		//			}
+		//
+		//			Challenge challenge = httpChallenge(auth, domain_name);
+		//			if (challenge == null) 
+		//			{
+		//				System.exit(0);
+		//			}
+		//			System.out.println(&quot;challenge created&quot;);
+		//			challenge.trigger();
+		//			
+		//			int attempts = 10;
+		//			while (challenge.getStatus() != Status.VALID &amp;&amp; attempts-- &gt; 0) 
+		//			{
+		//				System.out.println(attempts);
+		//				if (challenge.getStatus() == Status.INVALID) 
+		//				{
+		//					System.out.println(&quot;Challenge failed... Giving up.&quot;);
+		//					System.exit(0);
+		//				}
+		//				try 
+		//				{
+		//					Thread.sleep(3000L);
+		//				} 
+		//				catch (InterruptedException ex) 
+		//				{
+		//					System.out.println(&quot;interrupted&quot;);
+		//				}
+		//				challenge.update();
+		//			}
+		//			if (challenge.getStatus() != Status.VALID) 
+		//			{
+		//				System.out.println(&quot;Failed to pass the challenge... Giving up.&quot;);
+		//				System.exit(0);
+		//			}
+		//			System.out.println(&quot;challenge acepté&quot;);
+		//			// Generate a CSR for the domain
+		//			CSRBuilder csrb = new CSRBuilder();
+		//			csrb.addDomains(domain_name);//peut etre une collection de string
+		//			csrb.sign(key_pair);
+		//
+		//			// Request a signed certificate
+		//			org.shredzone.acme4j.Certificate certificate = reg.requestCertificate(csrb.getEncoded());
+		//
+		//			// Download the certificate chain
+		//			X509Certificate[] chain = certificate.downloadChain();
+		//			this.cert = chain[0];
+		//		}
+		else
+		{
+<span class="fc" id="L328">			throw new RuntimeException(&quot;Unknown Signature process : &quot; + signature);</span>
+		}
+
+<span class="fc" id="L331">		return this.cert;</span>
+	}
+
+
+//	public Challenge httpChallenge(Authorization auth, String domain) throws AcmeException, IOException
+//	{
+//
+//		// Find a single http-01 challenge
+//		Http01Challenge challenge = auth.findChallenge(Http01Challenge.TYPE);
+//		if (challenge == null) 
+//		{
+//			System.out.println(&quot;Found no http challenge, I don't know what to do...&quot;);
+//			return null;
+//		}
+//
+//		try
+//		{
+//			FileWriter file = new FileWriter(new File(&quot;.&quot; + challenge.getToken() ));
+//			file.write (challenge.getAuthorization());
+//			file.close();
+//		}
+//		catch(IOException exp )
+//		{
+//			throw new IOException(&quot;error&quot;, exp);
+//		}
+//
+//		// Output the challenge, wait for acknowledge...
+//		System.out.println(&quot;Please create a file in your web server's base directory.&quot;);
+//		System.out.println(&quot;It must be reachable at: http://&quot; + domain_name + &quot;/.well-known/acme-challenge/&quot; + challenge.getToken());
+//		System.out.println(&quot;File name: &quot; + challenge.getToken());
+//		System.out.println(&quot;Content: &quot; + challenge.getAuthorization());
+//		System.out.println(&quot;The file must not contain any leading or trailing whitespaces or line breaks!&quot;);
+//		System.out.println(&quot;If you're ready, dismiss the dialog...&quot;);
+//
+//		return challenge;
+//	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Certificate[] CreateChainCertificate() throws Exception
+	{
+<span class="fc bfc" id="L374" title="All 2 branches covered.">		if( !this.flag )</span>
+<span class="fc" id="L375">			this.CreateCertificate(&quot;self-signed&quot;);</span>
+
+<span class="fc" id="L377">		Certificate[] cert_chain = new X509Certificate[1];																		</span>
+<span class="fc" id="L378">		cert_chain[0] = this.cert;</span>
+<span class="fc" id="L379">		return cert_chain;</span>
+	}
+
+	/**
+	 * Store the created certificate in the specified file (keystore).
+	 * @param file_name The keystore file.
+	 * #Author Pelletier Sébastien
+	 */
+	@Override
+	public void StoreInKeystore(String file_name) throws Exception
+	{	
+<span class="fc" id="L390">		File file = new File(file_name);</span>
+<span class="fc bfc" id="L391" title="All 2 branches covered.">		if( file.exists() )</span>
+		{
+<span class="fc" id="L393">			System.out.println(&quot;Keystore already exist&quot;);</span>
+<span class="fc" id="L394">			return;</span>
+		}
+
+<span class="fc" id="L397">		char[] password = this.keystore_password.toCharArray();																				</span>
+<span class="fc" id="L398">		new KeyStore.PasswordProtection(password);	</span>
+
+		//Keystore Creation																												
+<span class="fc" id="L401">		KeyStore ks = KeyStore.getInstance(&quot;jks&quot;);																						</span>
+<span class="fc" id="L402">		ks.load(null, password);  //Loading from nothing (null) in order to create a new one.</span>
+
+<span class="fc" id="L404">		Certificate[] cert_chain = this.CreateChainCertificate();</span>
+
+<span class="fc" id="L406">		ks.setEntry(this.ks_alias,																														</span>
+<span class="fc" id="L407">				new KeyStore.PrivateKeyEntry(key_pair.getPrivate(), cert_chain),														</span>
+				new KeyStore.PasswordProtection(password));
+
+		//Storing the created key in the file.																						
+<span class="fc" id="L411">		java.io.FileOutputStream fos = null;																								</span>
+		try 																																			
+		{																																				
+<span class="fc" id="L414">			fos = new java.io.FileOutputStream(file_name);																		</span>
+<span class="fc" id="L415">			ks.store(fos, password);																											</span>
+		}
+		finally
+		{
+<span class="pc bpc" id="L419" title="3 of 4 branches missed.">			if(fos != null)</span>
+<span class="pc" id="L420">				fos.close();</span>
+		}	
+<span class="fc" id="L422">	}</span>
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EncrypterFactory.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">crypt.factories</a> &gt; <span class="el_source">EncrypterFactory.java</span></div><h1>EncrypterFactory.java</h1><pre class="source lang-java linenums">package crypt.factories;
+
+import crypt.api.encryption.Encrypter;
+import crypt.impl.encryption.ElGamalEncrypter;
+import crypt.impl.encryption.ElGamalSerpentEncrypter;
+import crypt.impl.encryption.SerpentEncrypter;
+
+/**
+ * {@link Encrypter} factory
+ * @author Julien Prudhomme
+ *
+ */
+<span class="nc" id="L13">public class EncrypterFactory {</span>
+	
+	/**
+	 * Create the default implementation of a symetric {@link Encrypter}
+	 * @return an {@link Encrypter}
+	 */
+	public static Encrypter&lt;?&gt; createDefaultSymetricEncrypter() {
+<span class="nc" id="L20">		return createSerpentEncrypter();</span>
+	}
+	
+	/**
+	 * Create the default implementation of an asymetric {@link Encrypter}
+	 * @return an {@link Encrypter}
+	 */
+	public static Encrypter&lt;?&gt; createDefaultAsymetricEncrypter() {
+<span class="nc" id="L28">		return createElGamalEncrypter();</span>
+	}
+	
+	/**
+	 * Create a Serpent implementation of {@link Encrypter}
+	 * @return a {@link SerpentEncrypter}
+	 */
+	public static SerpentEncrypter createSerpentEncrypter() {
+<span class="fc" id="L36">		return new SerpentEncrypter();</span>
+	}
+	
+	/**
+	 * Create an ElGamal implementation of {@link Encrypter}
+	 * @return an {@link ElGamalEncrypter}
+	 */
+	public static ElGamalEncrypter createElGamalEncrypter() {
+<span class="fc" id="L44">		return new ElGamalEncrypter();</span>
+	}
+	
+	/**
+	 * Create an ElGamalSerpent implementation of {@link Encrypter}
+	 * @return an {@link ElGamalSerpentEncrypter}
+	 */
+	public static ElGamalSerpentEncrypter createElGamalSerpentEncrypter() {
+<span class="fc" id="L52">		return new ElGamalSerpentEncrypter();</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

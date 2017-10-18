@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ItemValidator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">model.validator</a> &gt; <span class="el_source">ItemValidator.java</span></div><h1>ItemValidator.java</h1><pre class="source lang-java linenums">package model.validator;
+
+import crypt.api.signatures.Signer;
+import crypt.impl.key.ElGamalAsymKey;
+import crypt.impl.signatures.ElGamalSignature;
+import model.entity.Item;
+
+<span class="fc" id="L8">public class ItemValidator extends EntityValidator&lt;Item&gt;{</span>
+
+<span class="fc" id="L10">	@SuppressWarnings(&quot;unused&quot;)</span>
+	private Signer&lt;ElGamalSignature, ElGamalAsymKey&gt; signer = null;
+
+	public void setSigner(Signer&lt;ElGamalSignature, ElGamalAsymKey&gt; signer) {
+<span class="fc" id="L14">		this.signer = signer;</span>
+<span class="fc" id="L15">	}</span>
+
+	@Override
+	public boolean validate() {
+<span class="pc bpc" id="L19" title="1 of 4 branches missed.">		return super.validate() &amp;&amp; validateSignature();</span>
+	}
+
+	private boolean validateSignature() {
+		/*if(signer == null) throw new RuntimeException(&quot;no signer were setteld&quot;);
+		               return false;*/
+<span class="fc" id="L25">		return true;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

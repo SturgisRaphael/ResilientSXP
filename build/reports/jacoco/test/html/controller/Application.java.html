@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Application.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">controller</a> &gt; <span class="el_source">Application.java</span></div><h1>Application.java</h1><pre class="source lang-java linenums">package controller;
+
+import java.util.Properties;
+
+import controller.tools.LoggerUtilities;
+import model.syncManager.UserSyncManagerImpl;
+import network.api.Peer;
+import network.factories.PeerFactory;
+import rest.api.Authentifier;
+import rest.factories.AuthentifierFactory;
+import rest.factories.RestServerFactory;
+
+/**
+ * Main class
+ * {@link Application} is a singleton
+ * @author Julien Prudhomme
+ *
+ */
+public class Application {
+	public final static int jxtaPort = 9800;
+	public final static int restPort = 8081;
+<span class="fc" id="L22">	public final static String[] rdvPeerIds = {&quot;tcp://145.239.76.112:9800&quot;,&quot;tcp://localhost:9800&quot;};</span>
+	
+<span class="fc" id="L24">	private static Application instance = null;</span>
+	private static UserSyncManagerImpl umg;
+	private Peer peer;
+	private Authentifier auth;
+
+	
+	
+<span class="fc" id="L31">	public Application() {</span>
+<span class="pc bpc" id="L32" title="1 of 2 branches missed.">		if(instance != null) {</span>
+<span class="nc" id="L33">			throw new RuntimeException(&quot;Application can be instanciate only once !&quot;);</span>
+		}
+<span class="fc" id="L35">		instance = this;</span>
+<span class="fc" id="L36">	}</span>
+
+	public static Application getInstance()	{
+<span class="fc" id="L39">		return instance;</span>
+	}
+
+	public void run() {
+<span class="nc" id="L43">		setPeer(PeerFactory.createDefaultAndStartPeer());</span>
+<span class="nc" id="L44">		setAuth(AuthentifierFactory.createDefaultAuthentifier());</span>
+<span class="nc" id="L45">		RestServerFactory.createAndStartDefaultRestServer(restPort); //start the rest api</span>
+<span class="nc" id="L46">	}</span>
+
+	public void runForTests(int restPort) {
+<span class="fc" id="L49">		Properties p = System.getProperties();</span>
+<span class="fc" id="L50">		p.put(&quot;derby.system.home&quot;, &quot;./.db-&quot; + restPort + &quot;/&quot;);</span>
+<span class="fc" id="L51">		umg = new UserSyncManagerImpl(); //just init the db</span>
+<span class="fc" id="L52">		umg.close();</span>
+<span class="fc" id="L53">		umg = null;</span>
+		try {
+<span class="fc" id="L55">			setPeer(PeerFactory.createDefaultAndStartPeerForTest());</span>
+<span class="fc" id="L56">			setAuth(AuthentifierFactory.createDefaultAuthentifier());</span>
+<span class="fc" id="L57">			RestServerFactory.createAndStartDefaultRestServer(restPort);</span>
+<span class="nc" id="L58">		} catch (Exception e) {</span>
+<span class="nc" id="L59">			LoggerUtilities.logStackTrace(e);</span>
+<span class="fc" id="L60">		}		</span>
+<span class="fc" id="L61">	}</span>
+
+	public static void main(String[] args) {
+<span class="nc" id="L64">		new Application();</span>
+
+<span class="nc" id="L66">		Application.getInstance().runForTests(restPort);</span>
+
+<span class="nc" id="L68">	}</span>
+	
+	public void stop(){
+<span class="fc" id="L71">		peer.stop();</span>
+<span class="fc" id="L72">		instance = null;</span>
+<span class="fc" id="L73">	}</span>
+	
+	public Peer getPeer() {
+<span class="fc" id="L76">		return peer;</span>
+	}
+
+	public void setPeer(Peer peer) {
+<span class="fc" id="L80">		this.peer = peer;</span>
+<span class="fc" id="L81">	}</span>
+
+	public Authentifier getAuth() {
+<span class="fc" id="L84">		return auth;</span>
+	}
+
+	public void setAuth(Authentifier auth) {
+<span class="fc" id="L88">		this.auth = auth;</span>
+<span class="fc" id="L89">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

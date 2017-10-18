@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="model.entity.ElGamalSignEntityTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2017-10-14T14:38:47" hostname="raphael-laptop" time="0.01">
+  <properties/>
+  <testcase name="badParamTest[0]" classname="model.entity.ElGamalSignEntityTest" time="0.002"/>
+  <testcase name="getAnnotatedParamTest[0]" classname="model.entity.ElGamalSignEntityTest" time="0.002"/>
+  <testcase name="badParamTest[1]" classname="model.entity.ElGamalSignEntityTest" time="0.001"/>
+  <testcase name="getAnnotatedParamTest[1]" classname="model.entity.ElGamalSignEntityTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

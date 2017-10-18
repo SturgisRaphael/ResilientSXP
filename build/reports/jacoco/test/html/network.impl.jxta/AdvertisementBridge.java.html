@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AdvertisementBridge.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">network.impl.jxta</a> &gt; <span class="el_source">AdvertisementBridge.java</span></div><h1>AdvertisementBridge.java</h1><pre class="source lang-java linenums">package network.impl.jxta;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Enumeration;
+
+import org.jdom2.Element;
+
+import controller.tools.LoggerUtilities;
+import net.jxta.document.Advertisement;
+import net.jxta.document.Attributable;
+import net.jxta.document.Document;
+import net.jxta.document.MimeMediaType;
+import net.jxta.document.StructuredDocument;
+import net.jxta.document.StructuredDocumentFactory;
+import net.jxta.document.TextElement;
+import net.jxta.id.ID;
+
+public class AdvertisementBridge extends Advertisement{
+
+	private network.api.advertisement.Advertisement adv;
+	
+<span class="fc" id="L23">	public AdvertisementBridge() { }</span>
+	
+	public AdvertisementBridge(network.api.advertisement.Advertisement adv) {
+<span class="fc" id="L26">		super();</span>
+<span class="fc" id="L27">		this.adv = adv;</span>
+<span class="fc" id="L28">	}</span>
+	
+	/**
+	 * Create a new AdvertisementBridge instance initialized with a Jxta xml root element.
+	 * @param root
+	 */
+	public AdvertisementBridge(@SuppressWarnings(&quot;rawtypes&quot;) net.jxta.document.Element root) {
+<span class="fc" id="L35">		super();</span>
+		@SuppressWarnings(&quot;rawtypes&quot;)
+<span class="fc" id="L37">		TextElement doc = (TextElement) root;</span>
+		@SuppressWarnings(&quot;rawtypes&quot;)
+<span class="fc" id="L39">		TextElement className = (TextElement) doc.getChildren(&quot;advertisementClass&quot;).nextElement();</span>
+		try {
+			//try to find the class used for this advertisement
+<span class="fc" id="L42">			Class&lt;?&gt; adv = Class.forName(className.getValue());</span>
+<span class="fc" id="L43">			Constructor&lt;?&gt; cons = adv.getConstructor();</span>
+<span class="fc" id="L44">			this.adv = (network.api.advertisement.Advertisement) cons.newInstance();</span>
+<span class="nc" id="L45">		} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | </span>
+				InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+<span class="nc" id="L47">			LoggerUtilities.logStackTrace(e);</span>
+<span class="fc" id="L48">		}</span>
+<span class="fc" id="L49">		Element rootElement = new Element(&quot;root&quot;);</span>
+		@SuppressWarnings(&quot;rawtypes&quot;)
+<span class="fc" id="L51">		Enumeration elements = doc.getChildren();</span>
+<span class="fc bfc" id="L52" title="All 2 branches covered.">        while(elements.hasMoreElements()) {</span>
+        	@SuppressWarnings(&quot;rawtypes&quot;)
+<span class="fc" id="L54">			TextElement elem = (TextElement) elements.nextElement();</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">        	if(elem.getName().equals(&quot;advertisementClass&quot;)) {</span>
+<span class="fc" id="L56">        		continue;</span>
+        	}
+<span class="fc" id="L58">        	Element e = new Element(elem.getName()); //convert into a Jdom element.</span>
+<span class="fc" id="L59">        	e.addContent(elem.getValue());</span>
+<span class="fc" id="L60">        	rootElement.addContent(e);</span>
+<span class="fc" id="L61">        }</span>
+<span class="fc" id="L62">        this.adv.initialize(new org.jdom2.Document(rootElement));</span>
+<span class="fc" id="L63">	}</span>
+	
+	/**
+	 * {@inheritDoc}
+	 * @param asMimeType
+	 * @return
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	@Override
+	public Document getDocument(MimeMediaType asMimeType) {
+		@SuppressWarnings(&quot;rawtypes&quot;)
+<span class="fc" id="L74">		StructuredDocument adv = StructuredDocumentFactory.newStructuredDocument(asMimeType, getAdvType());</span>
+<span class="pc bpc" id="L75" title="1 of 2 branches missed.">		if (adv instanceof Attributable) {</span>
+<span class="fc" id="L76">            ((Attributable) adv).addAttribute(&quot;xmlns:jxta&quot;, &quot;http://jxta.org&quot;);</span>
+        }
+	
+<span class="fc bfc" id="L79" title="All 2 branches covered.">		for(Element e : this.adv.getDocument().getRootElement().getChildren()) {</span>
+			@SuppressWarnings(&quot;rawtypes&quot;)
+<span class="fc" id="L81">			net.jxta.document.Element e1 = adv.createElement(e.getName(), e.getValue());</span>
+<span class="fc" id="L82">			adv.appendChild(e1);</span>
+<span class="fc" id="L83">		}</span>
+<span class="fc" id="L84">		return adv;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @return
+	 */
+	@Override
+	public ID getID() {
+		// TODO see if we generate id for advs
+<span class="fc" id="L94">		return null;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String[] getIndexFields() {
+<span class="pc bpc" id="L102" title="1 of 2 branches missed.">		if(adv == null) {</span>
+<span class="nc" id="L103">			throw new RuntimeException(&quot;Adv is null&quot;);</span>
+		}
+<span class="fc" id="L105">		return adv.getIndexFields();</span>
+	}
+	
+	@Override
+	public String getAdvType() {
+<span class="fc" id="L110">		return &quot;jxta:&quot; + this.getClass().getName();</span>
+	}
+
+	public network.api.advertisement.Advertisement getAdvertisement() {
+<span class="fc" id="L114">		return adv;</span>
+	}
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

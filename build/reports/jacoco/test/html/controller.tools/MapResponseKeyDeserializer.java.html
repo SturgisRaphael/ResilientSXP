@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MapResponseKeyDeserializer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">controller.tools</a> &gt; <span class="el_source">MapResponseKeyDeserializer.java</span></div><h1>MapResponseKeyDeserializer.java</h1><pre class="source lang-java linenums">package controller.tools;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+
+import model.entity.ElGamalKey;
+import model.entity.sigma.Responses;
+
+public class MapResponseKeyDeserializer extends StdDeserializer&lt;Map&lt;Responses, ElGamalKey&gt;&gt; {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	protected MapResponseKeyDeserializer() {
+<span class="fc" id="L22">        super(Map.class);</span>
+<span class="fc" id="L23">    }</span>
+
+    @Override
+    public Map&lt;Responses, ElGamalKey&gt; deserialize(JsonParser jsonParser,
+                                             DeserializationContext deserializationContext) throws IOException {
+<span class="fc" id="L28">        Map&lt;Responses, ElGamalKey&gt; result = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L29">        JsonNode node = jsonParser.getCodec().readTree(jsonParser);</span>
+<span class="fc bfc" id="L30" title="All 2 branches covered.">        for (JsonNode element : node) {</span>
+<span class="fc" id="L31">            result.put(</span>
+<span class="fc" id="L32">                    jsonParser.getCodec().treeToValue(element.get(&quot;key&quot;), Responses.class),</span>
+<span class="fc" id="L33">                    jsonParser.getCodec().treeToValue(element.get(&quot;value&quot;), ElGamalKey.class)</span>
+            );
+<span class="fc" id="L35">        }</span>
+<span class="fc" id="L36">        return result;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

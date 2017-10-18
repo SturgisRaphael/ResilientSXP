@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TrentSolver.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">protocol.impl.sigma</a> &gt; <span class="el_source">TrentSolver.java</span></div><h1>TrentSolver.java</h1><pre class="source lang-java linenums">package protocol.impl.sigma;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+
+import controller.tools.JsonTools;
+import model.entity.sigma.Or;
+import model.entity.sigma.ResEncrypt;
+import model.entity.sigma.ResponsesCCD;
+import model.entity.sigma.SigmaSignature;
+
+public class TrentSolver {
+	
+	private SigmaContract contract;
+<span class="fc" id="L18">	private boolean optimistic = true;</span>
+	private Trent trent;
+	
+	// An index of the list is a round
+	// An index of the map is a user id
+	private ArrayList&lt;HashMap&lt;String, String&gt;&gt; possiblyHonestClaims;
+	private HashMap&lt;String, String[]&gt; dishonestClaims;
+	
+	
+<span class="fc" id="L27">	public TrentSolver(SigmaContract c, Trent t){</span>
+<span class="fc" id="L28">		this.contract = c;</span>
+<span class="fc" id="L29">		this.trent = t;</span>
+		
+<span class="fc" id="L31">		this.possiblyHonestClaims = new ArrayList&lt;HashMap&lt;String, String&gt;&gt;();</span>
+<span class="fc" id="L32">		this.dishonestClaims = new HashMap&lt;String, String[]&gt;();</span>
+<span class="fc" id="L33">	}</span>
+	
+	/**
+	 * Send the answer to resolveT
+	 * @param orT	: a claim by i on round : @param round
+	 * @return : A string list of the form {answer type, Json answer}
+	 */
+	public ArrayList&lt;String&gt; resolveT(String m, int round, String senderId){
+<span class="fc" id="L41">		int N = contract.getParties().size();</span>
+		// j was dishonest and i shows it
+<span class="pc bpc" id="L43" title="1 of 2 branches missed.">		for (int k=0; k+1&lt;round; k++){</span>
+<span class="nc bnc" id="L44" title="All 2 branches missed.">			if (possiblyHonestClaims.get(k) != null){</span>
+<span class="nc" id="L45">				HashMap&lt;String,String&gt; claims = possiblyHonestClaims.get(k);</span>
+<span class="nc" id="L46">				Set&lt;String&gt; set = claims.keySet();</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">				for (String s : set){</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">					if (s != senderId){</span>
+<span class="nc" id="L49">						String[] dishonestC = {claims.get(s), m};</span>
+<span class="nc" id="L50">						dishonestClaims.put(s, dishonestC);</span>
+<span class="nc" id="L51">						possiblyHonestClaims.get(k).remove(s);</span>
+
+<span class="nc" id="L53">						ArrayList&lt;String&gt; res =  new ArrayList&lt;String&gt;();</span>
+<span class="nc" id="L54">						res.add(&quot;honestyToken&quot;);</span>
+<span class="nc" id="L55">						res.add(honestyToken());</span>
+<span class="nc" id="L56">						return res;</span>
+					}
+<span class="nc" id="L58">				}</span>
+			}
+		}
+
+		// i was dishonest and i shows it
+<span class="fc bfc" id="L63" title="All 2 branches covered.">		for (HashMap&lt;String, String&gt; claim : possiblyHonestClaims){</span>
+<span class="fc" id="L64">			int k = possiblyHonestClaims.indexOf(claim);</span>
+<span class="fc bfc" id="L65" title="All 4 branches covered.">			if (claim.get(senderId) != null &amp;&amp; k != round){</span>
+<span class="fc" id="L66">				String[] dishonestC = {m, claim.get(senderId)};</span>
+<span class="fc" id="L67">				dishonestClaims.put(senderId, dishonestC);</span>
+<span class="fc" id="L68">				possiblyHonestClaims.get(k).remove(senderId);</span>
+<span class="fc" id="L69">				return null; </span>
+			}
+<span class="fc" id="L71">		}</span>
+
+		// i was dishonest and j shows it
+<span class="fc bfc" id="L74" title="All 2 branches covered.">		for (int k=round+1; k&lt;N; k++){</span>
+			try{
+<span class="pc bpc" id="L76" title="1 of 2 branches missed.">				if (possiblyHonestClaims.get(k) != null){</span>
+<span class="fc" id="L77">					HashMap&lt;String,String&gt; claims = possiblyHonestClaims.get(k);</span>
+<span class="fc" id="L78">					Set&lt;String&gt; set = claims.keySet();</span>
+<span class="pc bpc" id="L79" title="1 of 2 branches missed.">					for (String s : set){</span>
+<span class="pc bpc" id="L80" title="1 of 2 branches missed.">						if (s != senderId){</span>
+<span class="fc" id="L81">							String[] dishonestC = {m, claims.get(s)};</span>
+<span class="fc" id="L82">							dishonestClaims.put(senderId, dishonestC);</span>
+<span class="fc" id="L83">							possiblyHonestClaims.get(k).remove(senderId);</span>
+<span class="fc" id="L84">							return null; </span>
+						}
+<span class="nc" id="L86">					}</span>
+				}
+<span class="pc" id="L88">			}catch (IndexOutOfBoundsException e){}</span>
+		}
+
+		/***** Now the claim may be honest ****/
+		// Claim with promises, wins
+<span class="fc bfc" id="L93" title="All 6 branches covered.">		if ((possiblyHonestClaims.isEmpty() &amp;&amp; round&gt;0) || !optimistic){</span>
+<span class="fc" id="L94">			optimistic = false;</span>
+			
+<span class="fc" id="L96">			ArrayList&lt;String&gt; res =  new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L97">			res.add(&quot;resolved&quot;);</span>
+<span class="fc" id="L98">			res.add(resolveToken(m, round));</span>
+<span class="fc" id="L99">			return res;</span>
+			
+		}else{
+<span class="fc" id="L102">			HashMap&lt;String, String&gt; h = new HashMap&lt;String, String&gt;();</span>
+<span class="fc" id="L103">			h.put(senderId, m);</span>
+<span class="fc" id="L104">			possiblyHonestClaims.add(round, h);</span>
+			
+<span class="fc" id="L106">			ArrayList&lt;String&gt; res =  new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L107">			res.add(&quot;aborted&quot;);</span>
+<span class="fc" id="L108">			res.add(honestyToken());</span>
+<span class="fc" id="L109">			return res;</span>
+		}
+	}
+	
+	// This returns the full set of signatures
+	public String resolveToken(String m, int round){
+
+<span class="fc" id="L116">		int n = contract.getParties().size();</span>
+
+<span class="fc" id="L118">		JsonTools&lt;Or[]&gt; json3 = new JsonTools&lt;&gt;(new TypeReference&lt;Or[]&gt;(){});</span>
+<span class="fc" id="L119">		Or[] orT = json3.toEntity(m);</span>
+<span class="fc" id="L120">		ArrayList&lt;SigmaSignature&gt; signatures = new ArrayList&lt;SigmaSignature&gt;();</span>
+
+<span class="fc" id="L122">		byte[] data = (new String(contract.getClauses().getHashableData()) + String.valueOf(round)).getBytes();</span>
+		ResponsesCCD response;
+		ResEncrypt res;
+
+<span class="fc" id="L126">		JsonTools&lt;ArrayList&lt;SigmaSignature&gt;&gt; json = new JsonTools&lt;&gt;(new TypeReference&lt;ArrayList&lt;SigmaSignature&gt;&gt;(){});</span>
+		
+<span class="fc bfc" id="L128" title="All 2 branches covered.">		for (int k=0; k&lt;n; k++){</span>
+<span class="fc" id="L129">			res = orT[k].ands[0].resEncrypt;</span>
+<span class="fc" id="L130">			response= trent.SendResponse(res, data);</span>
+<span class="fc" id="L131">			SigmaSignature s = new SigmaSignature(orT[k], response);</span>
+<span class="fc" id="L132">			s.setTrenK(trent.getKey());</span>
+<span class="fc" id="L133">			signatures.add(k,s);</span>
+		} 
+<span class="fc" id="L135">		return json.toJson(signatures);</span>
+	}
+	
+	// Return (PossiblyHonestClaims, dishonestClaims)
+	public String honestyToken(){
+<span class="fc" id="L140">		JsonTools&lt;String[]&gt; json = new JsonTools&lt;&gt;(new TypeReference&lt;String[]&gt;(){});</span>
+<span class="fc" id="L141">		JsonTools&lt;ArrayList&lt;HashMap&lt;String, String&gt;&gt;&gt; jsonA = new JsonTools&lt;&gt;(new TypeReference&lt;ArrayList&lt;HashMap&lt;String, String&gt;&gt;&gt;(){});</span>
+<span class="fc" id="L142">		JsonTools&lt;HashMap&lt;String, String[]&gt;&gt; jsonB = new JsonTools&lt;&gt;(new TypeReference&lt;HashMap&lt;String, String[]&gt;&gt;(){});</span>
+<span class="fc" id="L143">		String[] data = {jsonA.toJson(possiblyHonestClaims), jsonB.toJson(dishonestClaims)};</span>
+<span class="fc" id="L144">		return json.toJson(data);</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>
