@@ -4,9 +4,9 @@ import model.api.Manager;
 import resilience.api.Save;
 
 public class ClearData extends SaveDecorator{
-	private Manager db;
+	private Manager<?> db;
 	
-	public ClearData(Save save, Manager db) {
+	public ClearData(Save save, Manager<?> db) {
 		super(save);
 		this.db = db;
 	}
@@ -19,7 +19,7 @@ public class ClearData extends SaveDecorator{
 	@Override
 	public void write(String path){
 		super.write(path);
-		// db.watchlist()
+		//db.watchlist()?
 	}
 	
 	@Override
@@ -27,11 +27,11 @@ public class ClearData extends SaveDecorator{
 		
 	}
 
-	public Manager getDb() {
+	public Manager<?> getDb() {
 		return db;
 	}
 
-	public void setDb(Manager db) {
+	public void setDb(Manager<?> db) {
 		this.db = db;
 	}
 	

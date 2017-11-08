@@ -16,7 +16,7 @@ public class SimpleSaveFactory {
 		this.pathToSaveFile = pathToSaveFile;
 	}
 	
-	public void writeSave(String username, Manager db) {
+	public void writeSave(String username, Manager<?> db) {
 		header = new SimpleSave(username);
 		data = new ClearData(header, db);
 		save = data;
