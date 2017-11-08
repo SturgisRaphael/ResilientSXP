@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JxtaEstablisherService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SXP</a> &gt; <a href="index.source.html" class="el_package">network.impl.jxta</a> &gt; <span class="el_source">JxtaEstablisherService.java</span></div><h1>JxtaEstablisherService.java</h1><pre class="source lang-java linenums">package network.impl.jxta;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JxtaEstablisherService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ResilientSXP</a> &gt; <a href="index.source.html" class="el_package">network.impl.jxta</a> &gt; <span class="el_source">JxtaEstablisherService.java</span></div><h1>JxtaEstablisherService.java</h1><pre class="source lang-java linenums">package network.impl.jxta;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -70,7 +70,7 @@ public class JxtaEstablisherService extends JxtaService implements EstablisherSe
 		}
 		// Using a Message
 <span class="pc bpc" id="L72" title="1 of 2 branches missed.">		else if(uris != null){</span>
-<span class="pc bpc" id="L73" title="1 of 2 branches missed.">			for (Key u : uris.keySet()){</span>
+<span class="fc bfc" id="L73" title="All 2 branches covered.">			for (Key u : uris.keySet()){</span>
 <span class="fc" id="L74">				this.sendContract(title,</span>
 <span class="fc" id="L75">						title + u.getPublicKey().toString(), </span>
 						senderK,
@@ -130,10 +130,10 @@ public class JxtaEstablisherService extends JxtaService implements EstablisherSe
 <span class="fc" id="L130">			this.addListener(new ServiceListener() {</span>
 				@Override
 				public void notify(Messages messages) {
-<span class="nc bnc" id="L133" title="All 2 branches missed.">					if (messages.getMessage(field).equals(value)){</span>
-<span class="nc" id="L134">						l.notify(messages.getMessage(&quot;title&quot;), messages.getMessage(&quot;contract&quot;), messages.getMessage(&quot;sourceId&quot;));</span>
+<span class="pc bpc" id="L133" title="1 of 2 branches missed.">					if (messages.getMessage(field).equals(value)){</span>
+<span class="fc" id="L134">						l.notify(messages.getMessage(&quot;title&quot;), messages.getMessage(&quot;contract&quot;), messages.getMessage(&quot;sourceId&quot;));</span>
 					}
-<span class="nc" id="L136">				}</span>
+<span class="fc" id="L136">				}</span>
 			}, listenerId);
 		}else{
 			// Set an Advertisement

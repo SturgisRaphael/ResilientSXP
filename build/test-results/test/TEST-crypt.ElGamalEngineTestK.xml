@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="crypt.ElGamalEngineTestK" tests="3" skipped="0" failures="0" errors="0" timestamp="2017-10-14T14:38:24" hostname="raphael-laptop" time="0.264">
+<testsuite name="crypt.ElGamalEngineTestK" tests="3" skipped="0" failures="0" errors="0" timestamp="2017-10-20T17:47:41" hostname="raphael-laptop" time="0.393">
   <properties/>
-  <testcase name="badParamsException1" classname="crypt.ElGamalEngineTestK" time="0.01"/>
-  <testcase name="badParamsException2" classname="crypt.ElGamalEngineTestK" time="0.001"/>
-  <testcase name="performTest" classname="crypt.ElGamalEngineTestK" time="0.252"/>
+  <testcase name="badParamsException1" classname="crypt.ElGamalEngineTestK" time="0.005"/>
+  <testcase name="badParamsException2" classname="crypt.ElGamalEngineTestK" time="0.002"/>
+  <testcase name="performTest" classname="crypt.ElGamalEngineTestK" time="0.377"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

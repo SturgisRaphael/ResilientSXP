@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="protocol.impl.SigmaEstablisherTest" tests="5" skipped="0" failures="3" errors="0" timestamp="2017-10-14T14:38:54" hostname="raphael-laptop" time="24.022">
+<testsuite name="protocol.impl.SigmaEstablisherTest" tests="5" skipped="0" failures="1" errors="0" timestamp="2017-10-20T17:48:11" hostname="raphael-laptop" time="39.29">
   <properties/>
-  <testcase name="TestA" classname="protocol.impl.SigmaEstablisherTest" time="2.613">
-    <failure message="org.bouncycastle.crypto.DataLengthException: input too large for ElGamal cipher with 125 characters instead of  5 total.&#10;" type="org.bouncycastle.crypto.DataLengthException">org.bouncycastle.crypto.DataLengthException: input too large for ElGamal cipher with 125 characters instead of  5 total.
+  <testcase name="TestA" classname="protocol.impl.SigmaEstablisherTest" time="2.721">
+    <failure message="org.bouncycastle.crypto.DataLengthException: input too large for ElGamal cipher with 125 characters instead of  1 total.&#10;" type="org.bouncycastle.crypto.DataLengthException">org.bouncycastle.crypto.DataLengthException: input too large for ElGamal cipher with 125 characters instead of  1 total.
 
 	at crypt.ElGamalEngineK.processBlock(ElGamalEngineK.java:149)
 	at protocol.impl.sigma.ElGamal.encryptForContract(ElGamal.java:133)
@@ -71,159 +71,10 @@
 	at java.lang.Thread.run(Thread.java:748)
 </failure>
   </testcase>
-  <testcase name="TestB" classname="protocol.impl.SigmaEstablisherTest" time="8.114"/>
-  <testcase name="TestC" classname="protocol.impl.SigmaEstablisherTest" time="0.687">
-    <failure message="org.bouncycastle.crypto.DataLengthException: input too large for ElGamal cipher with 125 characters instead of  5 total.&#10;" type="org.bouncycastle.crypto.DataLengthException">org.bouncycastle.crypto.DataLengthException: input too large for ElGamal cipher with 125 characters instead of  5 total.
-
-	at crypt.ElGamalEngineK.processBlock(ElGamalEngineK.java:149)
-	at protocol.impl.sigma.ElGamal.encryptForContract(ElGamal.java:133)
-	at protocol.impl.sigma.Sender.Encryption(Sender.java:217)
-	at protocol.impl.sigma.PCS.getPcs(PCS.java:56)
-	at protocol.impl.sigma.steps.ProtocolSign.sendMessage(ProtocolSign.java:137)
-	at protocol.impl.SigmaEstablisher.sign(SigmaEstablisher.java:125)
-	at protocol.impl.SigmaEstablisher.setListenerOnTrent(SigmaEstablisher.java:116)
-	at protocol.impl.sigma.steps.ProtocolChooseTrent.nextStep(ProtocolChooseTrent.java:295)
-	at protocol.impl.sigma.steps.ProtocolChooseTrent.access$1200(ProtocolChooseTrent.java:41)
-	at protocol.impl.sigma.steps.ProtocolChooseTrent$3.notify(ProtocolChooseTrent.java:270)
-	at network.impl.jxta.JxtaEstablisherService.sendContract(JxtaEstablisherService.java:108)
-	at network.impl.jxta.JxtaEstablisherService.sendContract(JxtaEstablisherService.java:69)
-	at protocol.impl.sigma.steps.ProtocolChooseTrent$3.notify(ProtocolChooseTrent.java:245)
-	at network.impl.jxta.JxtaEstablisherService.sendContract(JxtaEstablisherService.java:108)
-	at network.impl.jxta.JxtaEstablisherService.sendContract(JxtaEstablisherService.java:69)
-	at protocol.impl.sigma.steps.ProtocolChooseTrent$3.notify(ProtocolChooseTrent.java:220)
-	at network.impl.jxta.JxtaEstablisherService.sendContract(JxtaEstablisherService.java:108)
-	at network.impl.jxta.JxtaEstablisherService.sendContract(JxtaEstablisherService.java:69)
-	at protocol.impl.sigma.steps.ProtocolChooseTrent.sendMessage(ProtocolChooseTrent.java:171)
-	at protocol.impl.SigmaEstablisher.start(SigmaEstablisher.java:98)
-	at protocol.impl.SigmaEstablisherTest.resolveInitiator(SigmaEstablisherTest.java:220)
-	at protocol.impl.SigmaEstablisherTest.TestC(SigmaEstablisherTest.java:252)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:498)
-	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
-	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
-	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
-	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
-	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
-	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
-	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)
-	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)
-	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
-	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
-	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
-	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
-	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
-	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
-	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
-	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.runTestClass(JUnitTestClassExecuter.java:114)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.execute(JUnitTestClassExecuter.java:57)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassProcessor.processTestClass(JUnitTestClassProcessor.java:66)
-	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.processTestClass(SuiteTestClassProcessor.java:51)
-	at sun.reflect.GeneratedMethodAccessor11.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:498)
-	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
-	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
-	at org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:32)
-	at org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:93)
-	at com.sun.proxy.$Proxy2.processTestClass(Unknown Source)
-	at org.gradle.api.internal.tasks.testing.worker.TestWorker.processTestClass(TestWorker.java:109)
-	at sun.reflect.GeneratedMethodAccessor10.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:498)
-	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
-	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
-	at org.gradle.internal.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:377)
-	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:54)
-	at org.gradle.internal.concurrent.StoppableExecutorImpl$1.run(StoppableExecutorImpl.java:40)
-	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
-	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
-	at java.lang.Thread.run(Thread.java:748)
-</failure>
-  </testcase>
-  <testcase name="TestD" classname="protocol.impl.SigmaEstablisherTest" time="8.972"/>
-  <testcase name="TestE" classname="protocol.impl.SigmaEstablisherTest" time="3.621">
-    <failure message="java.lang.NullPointerException" type="java.lang.NullPointerException">java.lang.NullPointerException
-	at protocol.impl.sigma.TrentSolver.resolveToken(TrentSolver.java:129)
-	at protocol.impl.sigma.TrentSolver.resolveT(TrentSolver.java:98)
-	at protocol.impl.sigma.Trent.resolve(Trent.java:145)
-	at protocol.impl.sigma.Trent.access$000(Trent.java:52)
-	at protocol.impl.sigma.Trent$1.notify(Trent.java:87)
-	at network.impl.jxta.JxtaEstablisherService.sendContract(JxtaEstablisherService.java:108)
-	at network.impl.jxta.JxtaEstablisherService.sendContract(JxtaEstablisherService.java:69)
-	at protocol.impl.sigma.step.ProtocolResolveFailer.sendMessage(ProtocolResolveFailer.java:63)
-	at protocol.impl.sigma.step.ProtocolSignFailerLiar$1.notify(ProtocolSignFailerLiar.java:47)
-	at network.impl.jxta.JxtaEstablisherService.sendContract(JxtaEstablisherService.java:108)
-	at network.impl.jxta.JxtaEstablisherService.sendContract(JxtaEstablisherService.java:69)
-	at protocol.impl.sigma.steps.ProtocolSign.sendMessage(ProtocolSign.java:158)
-	at protocol.impl.sigma.step.ProtocolSignFailerLiar$1.notify(ProtocolSignFailerLiar.java:51)
-	at network.impl.jxta.JxtaEstablisherService.sendContract(JxtaEstablisherService.java:108)
-	at network.impl.jxta.JxtaEstablisherService.sendContract(JxtaEstablisherService.java:69)
-	at protocol.impl.sigma.steps.ProtocolSign.sendMessage(ProtocolSign.java:158)
-	at protocol.impl.SigmaEstablisherFailer.sign(SigmaEstablisherFailer.java:44)
-	at protocol.impl.SigmaEstablisherFailer.setListenerOnTrent(SigmaEstablisherFailer.java:57)
-	at protocol.impl.sigma.steps.ProtocolChooseTrent.nextStep(ProtocolChooseTrent.java:295)
-	at protocol.impl.sigma.steps.ProtocolChooseTrent.access$1200(ProtocolChooseTrent.java:41)
-	at protocol.impl.sigma.steps.ProtocolChooseTrent$3.notify(ProtocolChooseTrent.java:270)
-	at network.impl.jxta.JxtaEstablisherService.sendContract(JxtaEstablisherService.java:108)
-	at network.impl.jxta.JxtaEstablisherService.sendContract(JxtaEstablisherService.java:69)
-	at protocol.impl.sigma.steps.ProtocolChooseTrent$3.notify(ProtocolChooseTrent.java:245)
-	at network.impl.jxta.JxtaEstablisherService.sendContract(JxtaEstablisherService.java:108)
-	at network.impl.jxta.JxtaEstablisherService.sendContract(JxtaEstablisherService.java:69)
-	at protocol.impl.sigma.steps.ProtocolChooseTrent$3.notify(ProtocolChooseTrent.java:220)
-	at network.impl.jxta.JxtaEstablisherService.sendContract(JxtaEstablisherService.java:108)
-	at network.impl.jxta.JxtaEstablisherService.sendContract(JxtaEstablisherService.java:69)
-	at protocol.impl.sigma.steps.ProtocolChooseTrent.sendMessage(ProtocolChooseTrent.java:171)
-	at protocol.impl.SigmaEstablisher.start(SigmaEstablisher.java:98)
-	at protocol.impl.SigmaEstablisherTest.TestE(SigmaEstablisherTest.java:315)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:498)
-	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
-	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
-	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
-	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
-	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
-	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
-	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)
-	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)
-	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
-	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
-	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
-	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
-	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
-	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
-	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
-	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.runTestClass(JUnitTestClassExecuter.java:114)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.execute(JUnitTestClassExecuter.java:57)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassProcessor.processTestClass(JUnitTestClassProcessor.java:66)
-	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.processTestClass(SuiteTestClassProcessor.java:51)
-	at sun.reflect.GeneratedMethodAccessor11.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:498)
-	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
-	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
-	at org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:32)
-	at org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:93)
-	at com.sun.proxy.$Proxy2.processTestClass(Unknown Source)
-	at org.gradle.api.internal.tasks.testing.worker.TestWorker.processTestClass(TestWorker.java:109)
-	at sun.reflect.GeneratedMethodAccessor10.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:498)
-	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
-	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
-	at org.gradle.internal.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:377)
-	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:54)
-	at org.gradle.internal.concurrent.StoppableExecutorImpl$1.run(StoppableExecutorImpl.java:40)
-	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
-	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
-	at java.lang.Thread.run(Thread.java:748)
-</failure>
-  </testcase>
+  <testcase name="TestB" classname="protocol.impl.SigmaEstablisherTest" time="7.584"/>
+  <testcase name="TestC" classname="protocol.impl.SigmaEstablisherTest" time="9.835"/>
+  <testcase name="TestD" classname="protocol.impl.SigmaEstablisherTest" time="8.357"/>
+  <testcase name="TestE" classname="protocol.impl.SigmaEstablisherTest" time="10.784"/>
   <system-out><![CDATA[jxta will run on port 9800
 server added :tcp://145.239.76.112:9800
 server added :tcp://localhost:9800
@@ -239,77 +90,99 @@ creating new group ..
 creating new group ..
 creating new group ..
 Keystore already exist
-[EL Info]: connection: 2017-10-14 16:38:56.538--ServerSession(1432476948)--/file:/home/raphael/git/SXP/build/resources/main/_persistence logout successful
-[EL Info]: 2017-10-14 16:38:56.679--ServerSession(455717624)--EclipseLink, version: Eclipse Persistence Services - 2.6.3.v20160218-180e602
-[EL Info]: connection: 2017-10-14 16:38:56.711--ServerSession(455717624)--/file:/home/raphael/git/SXP/build/resources/main/_persistence login successful
-Sending Round : 1 : by 0
+[EL Info]: connection: 2017-10-20 19:48:13.522--ServerSession(1432476948)--/file:/home/raphael/git/ResilientSXP/build/resources/main/_persistence logout successful
+[EL Info]: 2017-10-20 19:48:13.76--ServerSession(1436547318)--EclipseLink, version: Eclipse Persistence Services - 2.6.3.v20160218-180e602
+[EL Info]: connection: 2017-10-20 19:48:13.78--ServerSession(1436547318)--/file:/home/raphael/git/ResilientSXP/build/resources/main/_persistence login successful
+Sending Round : 1 : by 1
 Signature cancelled
 --- Sending resolve request to Trent --- Round : 0
 Signature cancelled
-Sending Round : 1 : by 1
-[EL Info]: connection: 2017-10-14 16:39:02.736--ServerSession(455717624)--/file:/home/raphael/git/SXP/build/resources/main/_persistence logout successful
-[EL Info]: 2017-10-14 16:39:05.621--ServerSession(1194578298)--EclipseLink, version: Eclipse Persistence Services - 2.6.3.v20160218-180e602
-[EL Info]: connection: 2017-10-14 16:39:05.641--ServerSession(1194578298)--/file:/home/raphael/git/SXP/build/resources/main/_persistence login successful
-Sending Round : 1 : by 1
---- Sending resolve request to Trent --- Round : 0
 Sending Round : 1 : by 0
+[EL Info]: connection: 2017-10-20 19:48:19.462--ServerSession(1436547318)--/file:/home/raphael/git/ResilientSXP/build/resources/main/_persistence logout successful
+[EL Info]: 2017-10-20 19:48:22.212--ServerSession(1089503906)--EclipseLink, version: Eclipse Persistence Services - 2.6.3.v20160218-180e602
+[EL Info]: connection: 2017-10-20 19:48:22.228--ServerSession(1089503906)--/file:/home/raphael/git/ResilientSXP/build/resources/main/_persistence login successful
+Sending Round : 1 : by 0
+Sending Round : 1 : by 1
 Sending Round : 2 : by 0
---- Sending resolve request to Trent --- Round : 0
---- Sending resolve request to Trent --- Round : 0
 Sending Round : 2 : by 1
 Sending Round : 3 : by 0
+CONTRACT FINALIZED
+CONTRACT FINALIZED
+--- Sending resolve request to Trent --- Round : 1
+[EL Info]: connection: 2017-10-20 19:48:32.596--ServerSession(1089503906)--/file:/home/raphael/git/ResilientSXP/build/resources/main/_persistence logout successful
+Sending Round : 1 : by 0
+Sending Round : 1 : by 1
+--- Sending resolve request to Trent --- Round : 0
+[EL Info]: 2017-10-20 19:48:33.675--ServerSession(1758412090)--EclipseLink, version: Eclipse Persistence Services - 2.6.3.v20160218-180e602
+[EL Info]: connection: 2017-10-20 19:48:33.685--ServerSession(1758412090)--/file:/home/raphael/git/ResilientSXP/build/resources/main/_persistence login successful
+Sending Round : 2 : by 1
+--- Sending resolve request to Trent --- Round : 1
 --- Sending resolve request to Trent --- Round : 1
 Sending Round : 3 : by 1
-[EL Info]: connection: 2017-10-14 16:39:12.697--ServerSession(1194578298)--/file:/home/raphael/git/SXP/build/resources/main/_persistence logout successful
+Sending Round : 2 : by 0
+[EL Info]: connection: 2017-10-20 19:48:37.493--ServerSession(1758412090)--/file:/home/raphael/git/ResilientSXP/build/resources/main/_persistence logout successful
+Sending Round : 3 : by 0
+Sending Round : 4 : by 1
 Sending Round : 4 : by 0
 --- CONTRACT FINALIZED -- id : 1
-Sending Round : 4 : by 1
---- CONTRACT FINALIZED -- id : 0
-[EL Info]: 2017-10-14 16:39:15.303--ServerSession(846888053)--EclipseLink, version: Eclipse Persistence Services - 2.6.3.v20160218-180e602
-[EL Info]: connection: 2017-10-14 16:39:15.315--ServerSession(846888053)--/file:/home/raphael/git/SXP/build/resources/main/_persistence login successful
-Sending Round : 1 : by 1
+[EL Info]: 2017-10-20 19:48:40.381--ServerSession(1078332669)--EclipseLink, version: Eclipse Persistence Services - 2.6.3.v20160218-180e602
+[EL Info]: connection: 2017-10-20 19:48:40.391--ServerSession(1078332669)--/file:/home/raphael/git/ResilientSXP/build/resources/main/_persistence login successful
 Sending Round : 1 : by 0
+--- Sending resolve request to Trent --- Round : 0
+Sending Round : 1 : by 1
 Sending Round : 2 : by 1
 --- Sending resolve request to Trent --- Round : 1
 --- Sending resolve request to Trent --- Round : 0
+[EL Info]: connection: 2017-10-20 19:48:44.462--ServerSession(1078332669)--/file:/home/raphael/git/ResilientSXP/build/resources/main/_persistence logout successful
+--- Sending resolve request to Trent --- Round : 1
+[EL Info]: 2017-10-20 19:48:44.951--ServerSession(424130312)--EclipseLink, version: Eclipse Persistence Services - 2.6.3.v20160218-180e602
+[EL Info]: connection: 2017-10-20 19:48:44.96--ServerSession(424130312)--/file:/home/raphael/git/ResilientSXP/build/resources/main/_persistence login successful
+Sending Round : 3 : by 1
+--- Sending resolve request to Trent --- Round : 0
+--- Sending resolve request to Trent --- Round : 0
+Sending Round : 2 : by 0
+Sending Round : 3 : by 0
+Sending Round : 4 : by 1
+Sending Round : 4 : by 0
+--- CONTRACT FINALIZED -- id : 1
 ]]></system-out>
-  <system-err><![CDATA[2017-10-14 16:38:53.352:INFO::Test worker: Logging initialized @45763ms
-2017-10-14 16:38:55.461:INFO:oejs.Server:Thread-7: jetty-9.3.21.RC0
-2017-10-14 16:38:55.462:WARN:oejs.Server:Thread-7: THIS IS NOT A STABLE RELEASE! DO NOT USE IN PRODUCTION!
-2017-10-14 16:38:55.463:WARN:oejs.Server:Thread-7: Download a stable release from http://download.eclipse.org/jetty/
-Oct 14, 2017 4:38:58 PM org.glassfish.jersey.server.ApplicationHandler initialize
+  <system-err><![CDATA[2017-10-20 19:48:10.348:INFO::Test worker: Logging initialized @41693ms
+2017-10-20 19:48:12.287:INFO:oejs.Server:Thread-7: jetty-9.3.21.RC0
+2017-10-20 19:48:12.292:WARN:oejs.Server:Thread-7: THIS IS NOT A STABLE RELEASE! DO NOT USE IN PRODUCTION!
+2017-10-20 19:48:12.293:WARN:oejs.Server:Thread-7: Download a stable release from http://download.eclipse.org/jetty/
+Oct 20, 2017 7:48:15 PM org.glassfish.jersey.server.ApplicationHandler initialize
 INFO: Initiating Jersey application, version Jersey: 2.7 2014-03-12 18:11:31...
-Oct 14, 2017 4:39:00 PM org.glassfish.jersey.server.ApplicationHandler initialize
-INFO: Initiating Jersey application, version Jersey: 2.7 2014-03-12 18:11:31...
-Oct 14, 2017 4:39:01 PM org.glassfish.jersey.internal.Errors logErrors
-WARNING: The following warnings have been detected: WARNING: The (sub)resource method add in controller.Items contains empty path annotation.
-WARNING: The (sub)resource method get in controller.Items contains empty path annotation.
-
-Oct 14, 2017 4:39:01 PM org.glassfish.jersey.server.ApplicationHandler initialize
-INFO: Initiating Jersey application, version Jersey: 2.7 2014-03-12 18:11:31...
-Oct 14, 2017 4:39:01 PM org.glassfish.jersey.server.ApplicationHandler initialize
-INFO: Initiating Jersey application, version Jersey: 2.7 2014-03-12 18:11:31...
-Oct 14, 2017 4:39:01 PM org.glassfish.jersey.server.ApplicationHandler initialize
-INFO: Initiating Jersey application, version Jersey: 2.7 2014-03-12 18:11:31...
-Oct 14, 2017 4:39:02 PM org.glassfish.jersey.internal.Errors logErrors
+Oct 20, 2017 7:48:17 PM org.glassfish.jersey.internal.Errors logErrors
 WARNING: The following warnings have been detected: WARNING: The (sub)resource method get in controller.Messages contains empty path annotation.
 WARNING: The (sub)resource method add in controller.Messages contains empty path annotation.
 
-Oct 14, 2017 4:39:02 PM org.glassfish.jersey.server.ApplicationHandler initialize
+Oct 20, 2017 7:48:17 PM org.glassfish.jersey.server.ApplicationHandler initialize
 INFO: Initiating Jersey application, version Jersey: 2.7 2014-03-12 18:11:31...
-Oct 14, 2017 4:39:02 PM org.glassfish.jersey.internal.Errors logErrors
+Oct 20, 2017 7:48:17 PM org.glassfish.jersey.server.ApplicationHandler initialize
+INFO: Initiating Jersey application, version Jersey: 2.7 2014-03-12 18:11:31...
+Oct 20, 2017 7:48:18 PM org.glassfish.jersey.server.ApplicationHandler initialize
+INFO: Initiating Jersey application, version Jersey: 2.7 2014-03-12 18:11:31...
+Oct 20, 2017 7:48:19 PM org.glassfish.jersey.internal.Errors logErrors
 WARNING: The following warnings have been detected: WARNING: The (sub)resource method add in controller.Users contains empty path annotation.
 WARNING: The (sub)resource method get in controller.Users contains empty path annotation.
 
-Oct 14, 2017 4:39:02 PM org.glassfish.jersey.server.ApplicationHandler initialize
+Oct 20, 2017 7:48:19 PM org.glassfish.jersey.server.ApplicationHandler initialize
 INFO: Initiating Jersey application, version Jersey: 2.7 2014-03-12 18:11:31...
-Oct 14, 2017 4:39:02 PM org.glassfish.jersey.internal.Errors logErrors
+Oct 20, 2017 7:48:19 PM org.glassfish.jersey.internal.Errors logErrors
 WARNING: The following warnings have been detected: WARNING: The (sub)resource method get in controller.Contracts contains empty path annotation.
 WARNING: The (sub)resource method add in controller.Contracts contains empty path annotation.
 
-2017-10-14 16:39:02.865:INFO:oejsh.ContextHandler:Thread-7: Started o.e.j.s.ServletContextHandler@24de1f2{/,null,AVAILABLE}
-2017-10-14 16:39:02.881:INFO:oejus.SslContextFactory:Thread-7: x509=X509@7c56066f(sxp,h=[],w=[]) for SslContextFactory@2afe8e6b(file:///home/raphael/git/SXP/keystore.jks,null)
-2017-10-14 16:39:02.975:INFO:oejs.AbstractConnector:Thread-7: Started ServerConnector@3c2f6e4b{SSL,[ssl, http/1.1]}{0.0.0.0:5602}
-2017-10-14 16:39:02.977:INFO:oejs.Server:Thread-7: Started @55388ms
+Oct 20, 2017 7:48:19 PM org.glassfish.jersey.server.ApplicationHandler initialize
+INFO: Initiating Jersey application, version Jersey: 2.7 2014-03-12 18:11:31...
+Oct 20, 2017 7:48:19 PM org.glassfish.jersey.internal.Errors logErrors
+WARNING: The following warnings have been detected: WARNING: The (sub)resource method get in controller.Items contains empty path annotation.
+WARNING: The (sub)resource method add in controller.Items contains empty path annotation.
+
+Oct 20, 2017 7:48:19 PM org.glassfish.jersey.server.ApplicationHandler initialize
+INFO: Initiating Jersey application, version Jersey: 2.7 2014-03-12 18:11:31...
+2017-10-20 19:48:19.771:INFO:oejsh.ContextHandler:Thread-7: Started o.e.j.s.ServletContextHandler@b297e49{/,null,AVAILABLE}
+2017-10-20 19:48:19.830:INFO:oejus.SslContextFactory:Thread-7: x509=X509@42668edf(sxp,h=[],w=[]) for SslContextFactory@244ee068(file:///home/raphael/git/ResilientSXP/keystore.jks,null)
+2017-10-20 19:48:19.922:INFO:oejs.AbstractConnector:Thread-7: Started ServerConnector@6f696edc{SSL,[ssl, http/1.1]}{0.0.0.0:5602}
+2017-10-20 19:48:19.923:INFO:oejs.Server:Thread-7: Started @51268ms
 ]]></system-err>
 </testsuite>

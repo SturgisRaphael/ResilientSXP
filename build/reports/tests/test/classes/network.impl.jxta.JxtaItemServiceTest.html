@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.075s</div>
+<div class="counter">0.077s</div>
 <p>duration</p>
 </div>
 </td>
@@ -82,22 +82,22 @@
 </thead>
 <tr>
 <td class="success">addServiceToPeer</td>
-<td>0.072s</td>
+<td>0.073s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">badInitTest</td>
-<td>0.001s</td>
-<td class="success">passed</td>
-</tr>
-<tr>
-<td class="success">getNameTest</td>
 <td>0s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
+<td class="success">getNameTest</td>
+<td>0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
 <td class="success">messageTest</td>
-<td>0.002s</td>
+<td>0.003s</td>
 <td class="success">passed</td>
 </tr>
 </table>
@@ -113,7 +113,7 @@ creating new group ..
 <div id="tab2" class="tab">
 <h2>Standard error</h2>
 <span class="code">
-<pre>Oct 14, 2017 4:39:53 PM org.jboss.netty.channel.SimpleChannelUpstreamHandler
+<pre>Oct 20, 2017 7:49:31 PM org.jboss.netty.channel.SimpleChannelUpstreamHandler
 WARNING: EXCEPTION, please implement org.jboss.netty.channel.socket.httptunnel.TunnelWrappedServerChannelHandler.exceptionCaught() for proper handling.
 java.net.BindException: Address already in use
 	at sun.nio.ch.Net.bind0(Native Method)
@@ -187,84 +187,10 @@ java.net.BindException: Address already in use
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
 	at java.lang.Thread.run(Thread.java:748)
 
-Oct 14, 2017 4:39:53 PM org.jboss.netty.channel.SimpleChannelUpstreamHandler
-WARNING: EXCEPTION, please implement org.jboss.netty.channel.socket.httptunnel.TunnelWrappedServerChannelHandler.exceptionCaught() for proper handling.
-java.net.BindException: Address already in use
-	at sun.nio.ch.Net.bind0(Native Method)
-	at sun.nio.ch.Net.bind(Net.java:433)
-	at sun.nio.ch.Net.bind(Net.java:425)
-	at sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:223)
-	at sun.nio.ch.ServerSocketAdaptor.bind(ServerSocketAdaptor.java:74)
-	at org.jboss.netty.channel.socket.nio.NioServerSocketPipelineSink.bind(NioServerSocketPipelineSink.java:140)
-	at org.jboss.netty.channel.socket.nio.NioServerSocketPipelineSink.handleServerSocket(NioServerSocketPipelineSink.java:90)
-	at org.jboss.netty.channel.socket.nio.NioServerSocketPipelineSink.eventSunk(NioServerSocketPipelineSink.java:64)
-	at org.jboss.netty.channel.Channels.bind(Channels.java:569)
-	at org.jboss.netty.channel.AbstractChannel.bind(AbstractChannel.java:189)
-	at org.jboss.netty.channel.socket.httptunnel.HttpTunnelServerChannelSink.eventSunk(HttpTunnelServerChannelSink.java:50)
-	at org.jboss.netty.channel.Channels.bind(Channels.java:569)
-	at org.jboss.netty.channel.AbstractChannel.bind(AbstractChannel.java:189)
-	at org.jboss.netty.bootstrap.ServerBootstrap$Binder.channelOpen(ServerBootstrap.java:343)
-	at org.jboss.netty.channel.Channels.fireChannelOpen(Channels.java:170)
-	at org.jboss.netty.channel.socket.httptunnel.HttpTunnelServerChannel.&lt;init&gt;(HttpTunnelServerChannel.java:57)
-	at org.jboss.netty.channel.socket.httptunnel.HttpTunnelServerChannelFactory.newChannel(HttpTunnelServerChannelFactory.java:41)
-	at org.jboss.netty.channel.socket.httptunnel.HttpTunnelServerChannelFactory.newChannel(HttpTunnelServerChannelFactory.java:30)
-	at org.jboss.netty.bootstrap.ServerBootstrap.bind(ServerBootstrap.java:277)
-	at net.jxta.impl.endpoint.netty.NettyTransportServer.bindServerChannel(NettyTransportServer.java:122)
-	at net.jxta.impl.endpoint.netty.NettyTransportServer.init(NettyTransportServer.java:83)
-	at net.jxta.impl.endpoint.netty.NettyTransport.initServer(NettyTransport.java:113)
-	at net.jxta.impl.endpoint.netty.NettyTransport.init(NettyTransport.java:75)
-	at net.jxta.impl.peergroup.GenericPeerGroup.loadModule(GenericPeerGroup.java:677)
-	at net.jxta.impl.peergroup.GenericPeerGroup.loadModule(GenericPeerGroup.java:801)
-	at net.jxta.impl.peergroup.StdPeerGroup.loadAllModules(StdPeerGroup.java:295)
-	at net.jxta.impl.peergroup.StdPeerGroup.initFirst(StdPeerGroup.java:842)
-	at net.jxta.impl.peergroup.Platform.initFirst(Platform.java:214)
-	at net.jxta.impl.peergroup.GenericPeerGroup.init(GenericPeerGroup.java:907)
-	at net.jxta.peergroup.WorldPeerGroupFactory.newWorldPeerGroup(WorldPeerGroupFactory.java:312)
-	at net.jxta.peergroup.WorldPeerGroupFactory.&lt;init&gt;(WorldPeerGroupFactory.java:182)
-	at net.jxta.peergroup.NetPeerGroupFactory.&lt;init&gt;(NetPeerGroupFactory.java:203)
-	at net.jxta.platform.NetworkManager.startNetwork(NetworkManager.java:408)
-	at network.impl.jxta.JxtaNode.start(JxtaNode.java:65)
-	at network.impl.jxta.JxtaPeer.start(JxtaPeer.java:44)
-	at network.impl.jxta.JxtaItemServiceTest.setUpClass(JxtaItemServiceTest.java:42)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:498)
-	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
-	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
-	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
-	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:24)
-	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
-	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.runTestClass(JUnitTestClassExecuter.java:114)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.execute(JUnitTestClassExecuter.java:57)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassProcessor.processTestClass(JUnitTestClassProcessor.java:66)
-	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.processTestClass(SuiteTestClassProcessor.java:51)
-	at sun.reflect.GeneratedMethodAccessor11.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:498)
-	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
-	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
-	at org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:32)
-	at org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:93)
-	at com.sun.proxy.$Proxy2.processTestClass(Unknown Source)
-	at org.gradle.api.internal.tasks.testing.worker.TestWorker.processTestClass(TestWorker.java:109)
-	at sun.reflect.GeneratedMethodAccessor10.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:498)
-	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
-	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
-	at org.gradle.internal.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:377)
-	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:54)
-	at org.gradle.internal.concurrent.StoppableExecutorImpl$1.run(StoppableExecutorImpl.java:40)
-	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
-	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
-	at java.lang.Thread.run(Thread.java:748)
-
-Oct 14, 2017 4:39:53 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:31 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@630dad0d rejected from java.util.concurrent.ScheduledThreadPoolExecutor@471704a6[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@fdde003 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@ec4ef5f[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 52]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -291,10 +217,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:39:53 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:31 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@2abd2198 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@20c65578[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@3258e486 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@30d1b93a[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -321,10 +247,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:39:54 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:31 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@1b17b902 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@20c65578[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@1c761870 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@30d1b93a[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -351,10 +277,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:39:54 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:31 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@abc527 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@471704a6[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@2e842f15 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@ec4ef5f[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 52]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -392,7 +318,7 @@ Line 748 java.lang.Thread.run()
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 3.2.1</a> at Oct 14, 2017 4:40:11 PM</p>
+<a href="http://www.gradle.org">Gradle 3.2.1</a> at Oct 20, 2017 7:49:52 PM</p>
 </div>
 </div>
 </body>

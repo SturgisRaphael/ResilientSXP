@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="crypt.impl.certificate.X509V3GeneratorTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2017-10-14T14:38:20" hostname="raphael-laptop" time="1.085">
+<testsuite name="crypt.impl.certificate.X509V3GeneratorTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2017-10-20T17:47:38" hostname="raphael-laptop" time="1.048">
   <properties/>
-  <testcase name="testGetKeysPairException" classname="crypt.impl.certificate.X509V3GeneratorTest" time="0.018"/>
-  <testcase name="testStoreInKeystore" classname="crypt.impl.certificate.X509V3GeneratorTest" time="0.617"/>
-  <testcase name="testCreateChainCertificate" classname="crypt.impl.certificate.X509V3GeneratorTest" time="0.185"/>
+  <testcase name="testGetKeysPairException" classname="crypt.impl.certificate.X509V3GeneratorTest" time="0.025"/>
+  <testcase name="testStoreInKeystore" classname="crypt.impl.certificate.X509V3GeneratorTest" time="0.571"/>
+  <testcase name="testCreateChainCertificate" classname="crypt.impl.certificate.X509V3GeneratorTest" time="0.208"/>
   <testcase name="testCreateCertificateException" classname="crypt.impl.certificate.X509V3GeneratorTest" time="0.004"/>
-  <testcase name="testCreateCertificateAndGetters" classname="crypt.impl.certificate.X509V3GeneratorTest" time="0.242"/>
-  <testcase name="testBadInitFile" classname="crypt.impl.certificate.X509V3GeneratorTest" time="0.004"/>
-  <testcase name="testBadInitFile2" classname="crypt.impl.certificate.X509V3GeneratorTest" time="0.002"/>
-  <testcase name="testGetInstance" classname="crypt.impl.certificate.X509V3GeneratorTest" time="0.001"/>
+  <testcase name="testCreateCertificateAndGetters" classname="crypt.impl.certificate.X509V3GeneratorTest" time="0.209"/>
+  <testcase name="testBadInitFile" classname="crypt.impl.certificate.X509V3GeneratorTest" time="0.006"/>
+  <testcase name="testBadInitFile2" classname="crypt.impl.certificate.X509V3GeneratorTest" time="0.004"/>
+  <testcase name="testGetInstance" classname="crypt.impl.certificate.X509V3GeneratorTest" time="0.003"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

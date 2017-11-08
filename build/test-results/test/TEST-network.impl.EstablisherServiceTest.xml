@@ -1,166 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="network.impl.EstablisherServiceTest" tests="3" skipped="0" failures="3" errors="0" timestamp="2017-10-14T14:40:02" hostname="raphael-laptop" time="5.19">
+<testsuite name="network.impl.EstablisherServiceTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2017-10-20T17:49:41" hostname="raphael-laptop" time="6.759">
   <properties/>
-  <testcase name="testMessage" classname="network.impl.EstablisherServiceTest" time="3.091">
-    <failure message="java.lang.RuntimeException: java.io.IOException: Output Pipe could not be resolved after 3000ms." type="java.lang.RuntimeException">java.lang.RuntimeException: java.io.IOException: Output Pipe could not be resolved after 3000ms.
-	at network.impl.jxta.JxtaService.sendMessages(JxtaService.java:209)
-	at network.impl.jxta.JxtaEstablisherService.sendContract(JxtaEstablisherService.java:93)
-	at network.impl.jxta.JxtaEstablisherService.sendContract(JxtaEstablisherService.java:74)
-	at network.impl.EstablisherServiceTest.testMessage(EstablisherServiceTest.java:139)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:498)
-	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
-	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
-	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
-	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
-	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
-	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
-	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)
-	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)
-	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
-	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
-	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
-	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
-	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
-	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
-	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
-	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.runTestClass(JUnitTestClassExecuter.java:114)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.execute(JUnitTestClassExecuter.java:57)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassProcessor.processTestClass(JUnitTestClassProcessor.java:66)
-	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.processTestClass(SuiteTestClassProcessor.java:51)
-	at sun.reflect.GeneratedMethodAccessor11.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:498)
-	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
-	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
-	at org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:32)
-	at org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:93)
-	at com.sun.proxy.$Proxy2.processTestClass(Unknown Source)
-	at org.gradle.api.internal.tasks.testing.worker.TestWorker.processTestClass(TestWorker.java:109)
-	at sun.reflect.GeneratedMethodAccessor10.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:498)
-	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
-	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
-	at org.gradle.internal.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:377)
-	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:54)
-	at org.gradle.internal.concurrent.StoppableExecutorImpl$1.run(StoppableExecutorImpl.java:40)
-	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
-	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
-	at java.lang.Thread.run(Thread.java:748)
-Caused by: java.io.IOException: Output Pipe could not be resolved after 3000ms.
-	at net.jxta.impl.pipe.PipeServiceImpl.createOutputPipe(PipeServiceImpl.java:477)
-	at network.impl.jxta.JxtaService.sendMessages(JxtaService.java:204)
-	... 47 more
-</failure>
-  </testcase>
-  <testcase name="testAdvertisementListening" classname="network.impl.EstablisherServiceTest" time="1.04">
-    <failure message="java.lang.AssertionError" type="java.lang.AssertionError">java.lang.AssertionError
-	at org.junit.Assert.fail(Assert.java:86)
-	at org.junit.Assert.assertTrue(Assert.java:41)
-	at org.junit.Assert.assertTrue(Assert.java:52)
-	at network.impl.EstablisherServiceTest.testAdvertisementListening(EstablisherServiceTest.java:119)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:498)
-	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
-	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
-	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
-	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
-	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
-	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
-	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)
-	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)
-	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
-	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
-	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
-	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
-	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
-	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
-	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
-	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.runTestClass(JUnitTestClassExecuter.java:114)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.execute(JUnitTestClassExecuter.java:57)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassProcessor.processTestClass(JUnitTestClassProcessor.java:66)
-	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.processTestClass(SuiteTestClassProcessor.java:51)
-	at sun.reflect.GeneratedMethodAccessor11.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:498)
-	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
-	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
-	at org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:32)
-	at org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:93)
-	at com.sun.proxy.$Proxy2.processTestClass(Unknown Source)
-	at org.gradle.api.internal.tasks.testing.worker.TestWorker.processTestClass(TestWorker.java:109)
-	at sun.reflect.GeneratedMethodAccessor10.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:498)
-	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
-	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
-	at org.gradle.internal.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:377)
-	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:54)
-	at org.gradle.internal.concurrent.StoppableExecutorImpl$1.run(StoppableExecutorImpl.java:40)
-	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
-	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
-	at java.lang.Thread.run(Thread.java:748)
-</failure>
-  </testcase>
-  <testcase name="testAdvertAsync" classname="network.impl.EstablisherServiceTest" time="1.059">
-    <failure message="java.lang.AssertionError" type="java.lang.AssertionError">java.lang.AssertionError
-	at org.junit.Assert.fail(Assert.java:86)
-	at org.junit.Assert.assertTrue(Assert.java:41)
-	at org.junit.Assert.assertTrue(Assert.java:52)
-	at network.impl.EstablisherServiceTest.testAdvertAsync(EstablisherServiceTest.java:171)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:498)
-	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
-	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
-	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
-	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
-	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
-	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
-	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)
-	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)
-	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
-	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
-	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
-	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
-	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
-	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
-	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
-	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.runTestClass(JUnitTestClassExecuter.java:114)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.execute(JUnitTestClassExecuter.java:57)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassProcessor.processTestClass(JUnitTestClassProcessor.java:66)
-	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.processTestClass(SuiteTestClassProcessor.java:51)
-	at sun.reflect.GeneratedMethodAccessor11.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:498)
-	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
-	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
-	at org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:32)
-	at org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:93)
-	at com.sun.proxy.$Proxy2.processTestClass(Unknown Source)
-	at org.gradle.api.internal.tasks.testing.worker.TestWorker.processTestClass(TestWorker.java:109)
-	at sun.reflect.GeneratedMethodAccessor10.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:498)
-	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
-	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
-	at org.gradle.internal.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:377)
-	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:54)
-	at org.gradle.internal.concurrent.StoppableExecutorImpl$1.run(StoppableExecutorImpl.java:40)
-	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
-	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
-	at java.lang.Thread.run(Thread.java:748)
-</failure>
-  </testcase>
+  <testcase name="testMessage" classname="network.impl.EstablisherServiceTest" time="2.65"/>
+  <testcase name="testAdvertisementListening" classname="network.impl.EstablisherServiceTest" time="1.028"/>
+  <testcase name="testAdvertAsync" classname="network.impl.EstablisherServiceTest" time="3.08"/>
   <system-out><![CDATA[jxta will run on port 9803
 server added :tcp://localhost:9803
 server added :tcp://localhost:9804
@@ -190,7 +33,7 @@ creating new group ..
 creating new group ..
 creating new group ..
 ]]></system-out>
-  <system-err><![CDATA[Oct 14, 2017 4:39:58 PM org.jboss.netty.channel.SimpleChannelUpstreamHandler
+  <system-err><![CDATA[Oct 20, 2017 7:49:37 PM org.jboss.netty.channel.SimpleChannelUpstreamHandler
 WARNING: EXCEPTION, please implement org.jboss.netty.channel.socket.httptunnel.TunnelWrappedServerChannelHandler.exceptionCaught() for proper handling.
 java.net.BindException: Address already in use
 	at sun.nio.ch.Net.bind0(Native Method)
@@ -266,162 +109,10 @@ java.net.BindException: Address already in use
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
 	at java.lang.Thread.run(Thread.java:748)
 
-Oct 14, 2017 4:39:58 PM org.jboss.netty.channel.SimpleChannelUpstreamHandler
-WARNING: EXCEPTION, please implement org.jboss.netty.channel.socket.httptunnel.TunnelWrappedServerChannelHandler.exceptionCaught() for proper handling.
-java.net.BindException: Address already in use
-	at sun.nio.ch.Net.bind0(Native Method)
-	at sun.nio.ch.Net.bind(Net.java:433)
-	at sun.nio.ch.Net.bind(Net.java:425)
-	at sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:223)
-	at sun.nio.ch.ServerSocketAdaptor.bind(ServerSocketAdaptor.java:74)
-	at org.jboss.netty.channel.socket.nio.NioServerSocketPipelineSink.bind(NioServerSocketPipelineSink.java:140)
-	at org.jboss.netty.channel.socket.nio.NioServerSocketPipelineSink.handleServerSocket(NioServerSocketPipelineSink.java:90)
-	at org.jboss.netty.channel.socket.nio.NioServerSocketPipelineSink.eventSunk(NioServerSocketPipelineSink.java:64)
-	at org.jboss.netty.channel.Channels.bind(Channels.java:569)
-	at org.jboss.netty.channel.AbstractChannel.bind(AbstractChannel.java:189)
-	at org.jboss.netty.channel.socket.httptunnel.HttpTunnelServerChannelSink.eventSunk(HttpTunnelServerChannelSink.java:50)
-	at org.jboss.netty.channel.Channels.bind(Channels.java:569)
-	at org.jboss.netty.channel.AbstractChannel.bind(AbstractChannel.java:189)
-	at org.jboss.netty.bootstrap.ServerBootstrap$Binder.channelOpen(ServerBootstrap.java:343)
-	at org.jboss.netty.channel.Channels.fireChannelOpen(Channels.java:170)
-	at org.jboss.netty.channel.socket.httptunnel.HttpTunnelServerChannel.<init>(HttpTunnelServerChannel.java:57)
-	at org.jboss.netty.channel.socket.httptunnel.HttpTunnelServerChannelFactory.newChannel(HttpTunnelServerChannelFactory.java:41)
-	at org.jboss.netty.channel.socket.httptunnel.HttpTunnelServerChannelFactory.newChannel(HttpTunnelServerChannelFactory.java:30)
-	at org.jboss.netty.bootstrap.ServerBootstrap.bind(ServerBootstrap.java:277)
-	at net.jxta.impl.endpoint.netty.NettyTransportServer.bindServerChannel(NettyTransportServer.java:122)
-	at net.jxta.impl.endpoint.netty.NettyTransportServer.init(NettyTransportServer.java:83)
-	at net.jxta.impl.endpoint.netty.NettyTransport.initServer(NettyTransport.java:113)
-	at net.jxta.impl.endpoint.netty.NettyTransport.init(NettyTransport.java:75)
-	at net.jxta.impl.peergroup.GenericPeerGroup.loadModule(GenericPeerGroup.java:677)
-	at net.jxta.impl.peergroup.GenericPeerGroup.loadModule(GenericPeerGroup.java:801)
-	at net.jxta.impl.peergroup.StdPeerGroup.loadAllModules(StdPeerGroup.java:295)
-	at net.jxta.impl.peergroup.StdPeerGroup.initFirst(StdPeerGroup.java:842)
-	at net.jxta.impl.peergroup.Platform.initFirst(Platform.java:214)
-	at net.jxta.impl.peergroup.GenericPeerGroup.init(GenericPeerGroup.java:907)
-	at net.jxta.peergroup.WorldPeerGroupFactory.newWorldPeerGroup(WorldPeerGroupFactory.java:312)
-	at net.jxta.peergroup.WorldPeerGroupFactory.<init>(WorldPeerGroupFactory.java:182)
-	at net.jxta.peergroup.NetPeerGroupFactory.<init>(NetPeerGroupFactory.java:203)
-	at net.jxta.platform.NetworkManager.startNetwork(NetworkManager.java:408)
-	at network.impl.jxta.JxtaNode.start(JxtaNode.java:65)
-	at network.impl.jxta.JxtaPeer.start(JxtaPeer.java:44)
-	at network.factories.PeerFactory.createAndStartPeer(PeerFactory.java:158)
-	at network.factories.PeerFactory.createDefaultAndStartPeerForTest(PeerFactory.java:96)
-	at network.impl.EstablisherServiceTest.initialize(EstablisherServiceTest.java:72)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:498)
-	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
-	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
-	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
-	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:24)
-	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
-	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.runTestClass(JUnitTestClassExecuter.java:114)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.execute(JUnitTestClassExecuter.java:57)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassProcessor.processTestClass(JUnitTestClassProcessor.java:66)
-	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.processTestClass(SuiteTestClassProcessor.java:51)
-	at sun.reflect.GeneratedMethodAccessor11.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:498)
-	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
-	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
-	at org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:32)
-	at org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:93)
-	at com.sun.proxy.$Proxy2.processTestClass(Unknown Source)
-	at org.gradle.api.internal.tasks.testing.worker.TestWorker.processTestClass(TestWorker.java:109)
-	at sun.reflect.GeneratedMethodAccessor10.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:498)
-	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
-	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
-	at org.gradle.internal.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:377)
-	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:54)
-	at org.gradle.internal.concurrent.StoppableExecutorImpl$1.run(StoppableExecutorImpl.java:40)
-	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
-	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
-	at java.lang.Thread.run(Thread.java:748)
-
-Oct 14, 2017 4:39:58 PM org.jboss.netty.channel.SimpleChannelUpstreamHandler
-WARNING: EXCEPTION, please implement org.jboss.netty.channel.socket.httptunnel.TunnelWrappedServerChannelHandler.exceptionCaught() for proper handling.
-java.net.BindException: Address already in use
-	at sun.nio.ch.Net.bind0(Native Method)
-	at sun.nio.ch.Net.bind(Net.java:433)
-	at sun.nio.ch.Net.bind(Net.java:425)
-	at sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:223)
-	at sun.nio.ch.ServerSocketAdaptor.bind(ServerSocketAdaptor.java:74)
-	at org.jboss.netty.channel.socket.nio.NioServerSocketPipelineSink.bind(NioServerSocketPipelineSink.java:140)
-	at org.jboss.netty.channel.socket.nio.NioServerSocketPipelineSink.handleServerSocket(NioServerSocketPipelineSink.java:90)
-	at org.jboss.netty.channel.socket.nio.NioServerSocketPipelineSink.eventSunk(NioServerSocketPipelineSink.java:64)
-	at org.jboss.netty.channel.Channels.bind(Channels.java:569)
-	at org.jboss.netty.channel.AbstractChannel.bind(AbstractChannel.java:189)
-	at org.jboss.netty.channel.socket.httptunnel.HttpTunnelServerChannelSink.eventSunk(HttpTunnelServerChannelSink.java:50)
-	at org.jboss.netty.channel.Channels.bind(Channels.java:569)
-	at org.jboss.netty.channel.AbstractChannel.bind(AbstractChannel.java:189)
-	at org.jboss.netty.bootstrap.ServerBootstrap$Binder.channelOpen(ServerBootstrap.java:343)
-	at org.jboss.netty.channel.Channels.fireChannelOpen(Channels.java:170)
-	at org.jboss.netty.channel.socket.httptunnel.HttpTunnelServerChannel.<init>(HttpTunnelServerChannel.java:57)
-	at org.jboss.netty.channel.socket.httptunnel.HttpTunnelServerChannelFactory.newChannel(HttpTunnelServerChannelFactory.java:41)
-	at org.jboss.netty.channel.socket.httptunnel.HttpTunnelServerChannelFactory.newChannel(HttpTunnelServerChannelFactory.java:30)
-	at org.jboss.netty.bootstrap.ServerBootstrap.bind(ServerBootstrap.java:277)
-	at net.jxta.impl.endpoint.netty.NettyTransportServer.bindServerChannel(NettyTransportServer.java:122)
-	at net.jxta.impl.endpoint.netty.NettyTransportServer.init(NettyTransportServer.java:83)
-	at net.jxta.impl.endpoint.netty.NettyTransport.initServer(NettyTransport.java:113)
-	at net.jxta.impl.endpoint.netty.NettyTransport.init(NettyTransport.java:75)
-	at net.jxta.impl.peergroup.GenericPeerGroup.loadModule(GenericPeerGroup.java:677)
-	at net.jxta.impl.peergroup.GenericPeerGroup.loadModule(GenericPeerGroup.java:801)
-	at net.jxta.impl.peergroup.StdPeerGroup.loadAllModules(StdPeerGroup.java:295)
-	at net.jxta.impl.peergroup.StdPeerGroup.initFirst(StdPeerGroup.java:842)
-	at net.jxta.impl.peergroup.Platform.initFirst(Platform.java:214)
-	at net.jxta.impl.peergroup.GenericPeerGroup.init(GenericPeerGroup.java:907)
-	at net.jxta.peergroup.WorldPeerGroupFactory.newWorldPeerGroup(WorldPeerGroupFactory.java:312)
-	at net.jxta.peergroup.WorldPeerGroupFactory.<init>(WorldPeerGroupFactory.java:182)
-	at net.jxta.peergroup.NetPeerGroupFactory.<init>(NetPeerGroupFactory.java:203)
-	at net.jxta.platform.NetworkManager.startNetwork(NetworkManager.java:408)
-	at network.impl.jxta.JxtaNode.start(JxtaNode.java:65)
-	at network.impl.jxta.JxtaPeer.start(JxtaPeer.java:44)
-	at network.factories.PeerFactory.createAndStartPeer(PeerFactory.java:158)
-	at network.factories.PeerFactory.createDefaultAndStartPeerForTest(PeerFactory.java:96)
-	at network.impl.EstablisherServiceTest.initialize(EstablisherServiceTest.java:72)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:498)
-	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
-	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
-	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
-	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:24)
-	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
-	at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.runTestClass(JUnitTestClassExecuter.java:114)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassExecuter.execute(JUnitTestClassExecuter.java:57)
-	at org.gradle.api.internal.tasks.testing.junit.JUnitTestClassProcessor.processTestClass(JUnitTestClassProcessor.java:66)
-	at org.gradle.api.internal.tasks.testing.SuiteTestClassProcessor.processTestClass(SuiteTestClassProcessor.java:51)
-	at sun.reflect.GeneratedMethodAccessor11.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:498)
-	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
-	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
-	at org.gradle.internal.dispatch.ContextClassLoaderDispatch.dispatch(ContextClassLoaderDispatch.java:32)
-	at org.gradle.internal.dispatch.ProxyDispatchAdapter$DispatchingInvocationHandler.invoke(ProxyDispatchAdapter.java:93)
-	at com.sun.proxy.$Proxy2.processTestClass(Unknown Source)
-	at org.gradle.api.internal.tasks.testing.worker.TestWorker.processTestClass(TestWorker.java:109)
-	at sun.reflect.GeneratedMethodAccessor10.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:498)
-	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:35)
-	at org.gradle.internal.dispatch.ReflectionDispatch.dispatch(ReflectionDispatch.java:24)
-	at org.gradle.internal.remote.internal.hub.MessageHub$Handler.run(MessageHub.java:377)
-	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:54)
-	at org.gradle.internal.concurrent.StoppableExecutorImpl$1.run(StoppableExecutorImpl.java:40)
-	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
-	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
-	at java.lang.Thread.run(Thread.java:748)
-
-Oct 14, 2017 4:39:59 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:37 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@3cfc1c32 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@13209f62[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 2]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@446015fd rejected from java.util.concurrent.ScheduledThreadPoolExecutor@ec4ef5f[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 52]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -448,10 +139,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:39:59 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:37 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@20c0e1ae rejected from java.util.concurrent.ScheduledThreadPoolExecutor@15959616[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 2]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@2bf7486a rejected from java.util.concurrent.ScheduledThreadPoolExecutor@45051ece[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 2]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -478,10 +169,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:39:59 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:37 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@7d15f880 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@471704a6[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@2d045693 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@fde2525[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 3]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -508,10 +199,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:39:59 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:37 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@2da04038 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@4b63294a[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 3]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@69870c26 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@63743128[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 2]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -538,10 +229,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:39:59 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:37 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@6295d976 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@76a58a00[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 3]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@6c66cd64 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@77cdc036[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 3]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -568,10 +259,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:39:59 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:37 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@780230a6 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@20c65578[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@5a952078 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@30d1b93a[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -598,10 +289,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:39:59 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:37 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@3b77f40c rejected from java.util.concurrent.ScheduledThreadPoolExecutor@471704a6[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@1a56da04 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@ec4ef5f[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 52]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -628,10 +319,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:39:59 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:37 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@4be6a62d rejected from java.util.concurrent.ScheduledThreadPoolExecutor@20c65578[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@27ca1611 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@30d1b93a[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -658,10 +349,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:39:59 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:38 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@4b4e828 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@20c65578[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@6236a32 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@ec4ef5f[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 52]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -688,10 +379,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:39:59 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:38 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@1c3122b8 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@471704a6[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@7619b85b rejected from java.util.concurrent.ScheduledThreadPoolExecutor@30d1b93a[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -718,10 +409,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:39:59 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:38 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@2e5fc582 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@20c65578[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@142eab23 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@30d1b93a[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -748,10 +439,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:39:59 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:38 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@1b8e0115 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@471704a6[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@48867216 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@ec4ef5f[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 52]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -778,10 +469,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:39:59 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:38 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@e8326f rejected from java.util.concurrent.ScheduledThreadPoolExecutor@76a58a00[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 3]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@64ab24c9 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@fde2525[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 3]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -808,10 +499,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:39:59 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:38 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@3e5bdd15 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@4b63294a[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 3]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@66449107 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@77cdc036[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 3]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -838,10 +529,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:39:59 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:38 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@2df00e4e rejected from java.util.concurrent.ScheduledThreadPoolExecutor@471704a6[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@6e674c46 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@30d1b93a[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -868,10 +559,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:39:59 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:38 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@60245f55 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@20c65578[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@1279c70d rejected from java.util.concurrent.ScheduledThreadPoolExecutor@ec4ef5f[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 52]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -898,10 +589,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:39:59 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:38 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@2a0ee812 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@471704a6[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@6a315b53 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@ec4ef5f[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 52]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -928,10 +619,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:39:59 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:38 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@470e0217 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@20c65578[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@52ff0e81 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@30d1b93a[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -958,10 +649,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:39:59 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:38 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@10b44636 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@20c65578[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@f8cadd3 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@ec4ef5f[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 52]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -988,10 +679,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:39:59 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:38 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@69a768bb rejected from java.util.concurrent.ScheduledThreadPoolExecutor@471704a6[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@2412823a rejected from java.util.concurrent.ScheduledThreadPoolExecutor@30d1b93a[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -1018,10 +709,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:39:59 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:38 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@7d0cd75b rejected from java.util.concurrent.ScheduledThreadPoolExecutor@471704a6[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@3ff1556d rejected from java.util.concurrent.ScheduledThreadPoolExecutor@ec4ef5f[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 52]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -1048,10 +739,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:39:59 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:38 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@7d4c85ce rejected from java.util.concurrent.ScheduledThreadPoolExecutor@20c65578[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@78024c09 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@30d1b93a[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -1078,7 +769,7 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:40:00 PM org.jboss.netty.channel.SimpleChannelUpstreamHandler
+Oct 20, 2017 7:49:39 PM org.jboss.netty.channel.SimpleChannelUpstreamHandler
 WARNING: EXCEPTION, please implement org.jboss.netty.channel.socket.httptunnel.TunnelWrappedServerChannelHandler.exceptionCaught() for proper handling.
 java.net.BindException: Address already in use
 	at sun.nio.ch.Net.bind0(Native Method)
@@ -1154,7 +845,7 @@ java.net.BindException: Address already in use
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
 	at java.lang.Thread.run(Thread.java:748)
 
-Oct 14, 2017 4:40:00 PM org.jboss.netty.channel.SimpleChannelUpstreamHandler
+Oct 20, 2017 7:49:39 PM org.jboss.netty.channel.SimpleChannelUpstreamHandler
 WARNING: EXCEPTION, please implement org.jboss.netty.channel.socket.httptunnel.TunnelWrappedServerChannelHandler.exceptionCaught() for proper handling.
 java.net.BindException: Address already in use
 	at sun.nio.ch.Net.bind0(Native Method)
@@ -1230,7 +921,7 @@ java.net.BindException: Address already in use
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
 	at java.lang.Thread.run(Thread.java:748)
 
-Oct 14, 2017 4:40:00 PM org.jboss.netty.channel.SimpleChannelUpstreamHandler
+Oct 20, 2017 7:49:39 PM org.jboss.netty.channel.SimpleChannelUpstreamHandler
 WARNING: EXCEPTION, please implement org.jboss.netty.channel.socket.httptunnel.TunnelWrappedServerChannelHandler.exceptionCaught() for proper handling.
 java.net.BindException: Address already in use
 	at sun.nio.ch.Net.bind0(Native Method)
@@ -1306,7 +997,7 @@ java.net.BindException: Address already in use
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
 	at java.lang.Thread.run(Thread.java:748)
 
-Oct 14, 2017 4:40:00 PM org.jboss.netty.channel.SimpleChannelUpstreamHandler
+Oct 20, 2017 7:49:39 PM org.jboss.netty.channel.SimpleChannelUpstreamHandler
 WARNING: EXCEPTION, please implement org.jboss.netty.channel.socket.httptunnel.TunnelWrappedServerChannelHandler.exceptionCaught() for proper handling.
 java.net.BindException: Address already in use
 	at sun.nio.ch.Net.bind0(Native Method)
@@ -1382,7 +1073,7 @@ java.net.BindException: Address already in use
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
 	at java.lang.Thread.run(Thread.java:748)
 
-Oct 14, 2017 4:40:00 PM org.jboss.netty.channel.SimpleChannelUpstreamHandler
+Oct 20, 2017 7:49:39 PM org.jboss.netty.channel.SimpleChannelUpstreamHandler
 WARNING: EXCEPTION, please implement org.jboss.netty.channel.socket.httptunnel.TunnelWrappedServerChannelHandler.exceptionCaught() for proper handling.
 java.net.BindException: Address already in use
 	at sun.nio.ch.Net.bind0(Native Method)
@@ -1458,7 +1149,7 @@ java.net.BindException: Address already in use
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
 	at java.lang.Thread.run(Thread.java:748)
 
-Oct 14, 2017 4:40:00 PM org.jboss.netty.channel.SimpleChannelUpstreamHandler
+Oct 20, 2017 7:49:39 PM org.jboss.netty.channel.SimpleChannelUpstreamHandler
 WARNING: EXCEPTION, please implement org.jboss.netty.channel.socket.httptunnel.TunnelWrappedServerChannelHandler.exceptionCaught() for proper handling.
 java.net.BindException: Address already in use
 	at sun.nio.ch.Net.bind0(Native Method)
@@ -1534,10 +1225,10 @@ java.net.BindException: Address already in use
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
 	at java.lang.Thread.run(Thread.java:748)
 
-Oct 14, 2017 4:40:01 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:40 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@19b0dee4 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@13209f62[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 2]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@1378c335 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@77cdc036[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 3]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -1564,10 +1255,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:40:01 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:40 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@66914c06 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@471704a6[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@21065c4c rejected from java.util.concurrent.ScheduledThreadPoolExecutor@ec4ef5f[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 52]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -1594,10 +1285,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:40:01 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:40 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@5757f45c rejected from java.util.concurrent.ScheduledThreadPoolExecutor@76a58a00[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 3]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@4cb5a0d0 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@30d1b93a[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -1624,10 +1315,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:40:01 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:40 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@36e3b859 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@4b63294a[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 3]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@325b69a8 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@fde2525[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 3]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -1654,10 +1345,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:40:01 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:40 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@66309628 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@15959616[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 2]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@211e8c99 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@63743128[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 2]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -1684,10 +1375,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:40:01 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:40 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@1f34ff88 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@20c65578[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@bb1391d rejected from java.util.concurrent.ScheduledThreadPoolExecutor@45051ece[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 2]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -1714,10 +1405,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:40:01 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:40 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@555d5994 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@471704a6[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@527d1f21 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@ec4ef5f[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 52]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -1744,10 +1435,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:40:01 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:40 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@7fe3d56a rejected from java.util.concurrent.ScheduledThreadPoolExecutor@20c65578[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@44869b11 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@30d1b93a[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -1774,10 +1465,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:40:01 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:40 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@50cf57ce rejected from java.util.concurrent.ScheduledThreadPoolExecutor@471704a6[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@1be58d41 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@ec4ef5f[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 52]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -1804,10 +1495,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:40:01 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:40 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@537db858 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@20c65578[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@3b26ff6a rejected from java.util.concurrent.ScheduledThreadPoolExecutor@30d1b93a[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -1834,10 +1525,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:40:01 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:40 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@385249d3 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@471704a6[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@3f695fc rejected from java.util.concurrent.ScheduledThreadPoolExecutor@ec4ef5f[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 52]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -1864,10 +1555,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:40:01 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:40 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@3aac1437 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@4b63294a[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 3]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@6c4fef06 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@30d1b93a[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -1894,10 +1585,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:40:01 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:40 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@4ea93120 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@76a58a00[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 3]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@218977fb rejected from java.util.concurrent.ScheduledThreadPoolExecutor@fde2525[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 3]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -1924,10 +1615,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:40:01 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:40 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@1606fcf4 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@20c65578[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@355d0f6a rejected from java.util.concurrent.ScheduledThreadPoolExecutor@77cdc036[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 3]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -1954,10 +1645,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:40:01 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:40 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@476592bf rejected from java.util.concurrent.ScheduledThreadPoolExecutor@471704a6[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@67f0fdf1 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@30d1b93a[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -1984,10 +1675,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:40:01 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:40 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@40123e88 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@20c65578[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@3c4e0225 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@ec4ef5f[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 52]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -2014,10 +1705,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:40:01 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:41 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@4cf9ce97 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@471704a6[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@446bb38d rejected from java.util.concurrent.ScheduledThreadPoolExecutor@ec4ef5f[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 52]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -2044,10 +1735,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:40:01 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:41 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@6efe1bed rejected from java.util.concurrent.ScheduledThreadPoolExecutor@20c65578[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@18c4ae61 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@30d1b93a[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -2074,10 +1765,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:40:02 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:41 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@654f3fe2 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@471704a6[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@5ef3c2ec rejected from java.util.concurrent.ScheduledThreadPoolExecutor@30d1b93a[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -2104,10 +1795,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:40:02 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:41 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@6f7ed05c rejected from java.util.concurrent.ScheduledThreadPoolExecutor@20c65578[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@32db524f rejected from java.util.concurrent.ScheduledThreadPoolExecutor@ec4ef5f[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 52]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -2134,10 +1825,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:40:02 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:41 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@5054110a rejected from java.util.concurrent.ScheduledThreadPoolExecutor@471704a6[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@5e74d4d1 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@30d1b93a[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -2164,10 +1855,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:40:02 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:41 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@4b153197 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@20c65578[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@48662b16 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@ec4ef5f[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 52]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -2194,10 +1885,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:40:05 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:43 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@2ce7f0b8 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@471704a6[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@3b4b006c rejected from java.util.concurrent.ScheduledThreadPoolExecutor@45051ece[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 2]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -2224,10 +1915,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:40:05 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:43 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@269283a rejected from java.util.concurrent.ScheduledThreadPoolExecutor@76a58a00[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 3]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@5c62e202 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@77cdc036[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 3]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -2254,10 +1945,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:40:05 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:43 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@721f5ffb rejected from java.util.concurrent.ScheduledThreadPoolExecutor@15959616[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 2]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@7a91fa65 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@30d1b93a[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -2284,10 +1975,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:40:05 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:43 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@4f224164 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@4b63294a[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 3]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@30f8f975 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@fde2525[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 3]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -2314,10 +2005,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:40:05 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:43 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@1734a539 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@20c65578[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@bc183b8 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@63743128[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 2]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -2344,10 +2035,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:40:05 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:43 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@5996cb91 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@13209f62[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 2]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@16ff4009 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@ec4ef5f[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 52]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -2374,10 +2065,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:40:06 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:44 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@bc93394 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@15959616[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 2]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@63c373dd rejected from java.util.concurrent.ScheduledThreadPoolExecutor@63743128[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 2]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -2404,10 +2095,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:40:06 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:44 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@149e70c2 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@471704a6[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@7e678a18 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@30d1b93a[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -2434,10 +2125,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:40:06 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:44 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@120f3eb1 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@4b63294a[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 3]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@46ad75fe rejected from java.util.concurrent.ScheduledThreadPoolExecutor@ec4ef5f[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 52]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -2464,10 +2155,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:40:06 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:44 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@44183b80 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@20c65578[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@7947914e rejected from java.util.concurrent.ScheduledThreadPoolExecutor@fde2525[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 3]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -2494,10 +2185,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:40:06 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:44 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@6cd0fb1c rejected from java.util.concurrent.ScheduledThreadPoolExecutor@13209f62[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 2]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@606f3bbf rejected from java.util.concurrent.ScheduledThreadPoolExecutor@77cdc036[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 3]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -2524,10 +2215,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:40:06 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:44 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@3ce831e rejected from java.util.concurrent.ScheduledThreadPoolExecutor@76a58a00[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 3]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@71597a95 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@45051ece[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 2]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -2554,10 +2245,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:40:06 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:45 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@63778c32 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@15959616[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 2]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@5939e0d9 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@63743128[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 2]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -2584,10 +2275,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:40:06 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:45 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@4e4f4602 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@4b63294a[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 3]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@3d980d02 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@45051ece[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 2]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -2614,10 +2305,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:40:06 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:45 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@11638297 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@20c65578[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@47509f3a rejected from java.util.concurrent.ScheduledThreadPoolExecutor@ec4ef5f[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 52]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -2644,10 +2335,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:40:06 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:45 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@6ba17723 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@471704a6[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@7cef3d87 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@30d1b93a[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -2674,10 +2365,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:40:06 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:45 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@7a2ce46f rejected from java.util.concurrent.ScheduledThreadPoolExecutor@76a58a00[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 3]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@32f08ba3 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@fde2525[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 3]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -2704,10 +2395,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:40:06 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:45 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@77577c25 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@13209f62[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 2]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@e123723 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@77cdc036[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 3]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -2734,10 +2425,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:40:07 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:45 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@5fbfdf2d rejected from java.util.concurrent.ScheduledThreadPoolExecutor@15959616[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 2]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@6f998d3a rejected from java.util.concurrent.ScheduledThreadPoolExecutor@63743128[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 2]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -2764,10 +2455,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:40:07 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:45 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@3e1a4965 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@76a58a00[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 3]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@73588de1 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@fde2525[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 3]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -2794,10 +2485,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:40:07 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:45 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@2b8b4c91 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@20c65578[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@333050f6 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@77cdc036[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 3]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -2824,10 +2515,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:40:07 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:45 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@2a59c0f0 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@471704a6[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@5a57e0e6 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@30d1b93a[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -2854,10 +2545,10 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:40:07 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:45 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@77364f8b rejected from java.util.concurrent.ScheduledThreadPoolExecutor@4b63294a[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 3]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@6f37ecae rejected from java.util.concurrent.ScheduledThreadPoolExecutor@ec4ef5f[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 52]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
@@ -2884,10 +2575,670 @@ Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
 Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
 Line 748 java.lang.Thread.run()
 
-Oct 14, 2017 4:40:07 PM net.jxta.logging.Logging logCheckedSevere
+Oct 20, 2017 7:49:45 PM net.jxta.logging.Logging logCheckedSevere
 SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
 Cannot set timer. RPV will not work.
-java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@1b2980fa rejected from java.util.concurrent.ScheduledThreadPoolExecutor@13209f62[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 2]
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@5c85f121 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@45051ece[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 2]
+Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
+Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
+Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
+Line 533 java.util.concurrent.ScheduledThreadPoolExecutor.schedule()
+Line 729 java.util.concurrent.Executors$DelegatedScheduledExecutorService.schedule()
+Line 124 net.jxta.impl.util.threads.ProxiedScheduledExecutorService.schedule()
+Line 930 net.jxta.impl.rendezvous.rpv.PeerView.addTask()
+Line 1417 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
+Line 1303 net.jxta.impl.rendezvous.rpv.PeerView.notifyFailure()
+Line 380 net.jxta.impl.rendezvous.rpv.PeerViewElement.getCachedMessenger()
+Line 292 net.jxta.impl.rendezvous.rpv.PeerViewElement.sendMessage()
+Line 1101 net.jxta.impl.rendezvous.rpv.PeerView.send()
+Line 740 net.jxta.impl.rendezvous.rpv.PeerView.handlePeerViewMessage()
+Line 666 net.jxta.impl.rendezvous.rpv.PeerView.processIncomingMessage()
+Line 1024 net.jxta.impl.endpoint.EndpointServiceImpl.processIncomingMessage()
+Line 767 net.jxta.impl.endpoint.mcast.McastTransport.processMulticast()
+Line 890 net.jxta.impl.endpoint.mcast.McastTransport$DatagramProcessor.run()
+Line 17 net.jxta.impl.util.threads.RunnableAsCallableWrapper.call()
+Line 50 net.jxta.impl.util.threads.RunMetricsWrapper.call()
+Line 34 net.jxta.impl.util.threads.QueueTimeRunMetricsWrapper.call()
+Line 93 net.jxta.impl.util.threads.RunMetricsWrapper.run()
+Line 9 net.jxta.impl.util.threads.QueueTimeRunMetricsWrapper.run()
+Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
+Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
+Line 748 java.lang.Thread.run()
+
+Oct 20, 2017 7:49:46 PM net.jxta.logging.Logging logCheckedSevere
+SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
+Cannot set timer. RPV will not work.
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@46bbca4e rejected from java.util.concurrent.ScheduledThreadPoolExecutor@30d1b93a[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
+Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
+Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
+Line 533 java.util.concurrent.ScheduledThreadPoolExecutor.schedule()
+Line 729 java.util.concurrent.Executors$DelegatedScheduledExecutorService.schedule()
+Line 124 net.jxta.impl.util.threads.ProxiedScheduledExecutorService.schedule()
+Line 930 net.jxta.impl.rendezvous.rpv.PeerView.addTask()
+Line 1417 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
+Line 1303 net.jxta.impl.rendezvous.rpv.PeerView.notifyFailure()
+Line 380 net.jxta.impl.rendezvous.rpv.PeerViewElement.getCachedMessenger()
+Line 292 net.jxta.impl.rendezvous.rpv.PeerViewElement.sendMessage()
+Line 1101 net.jxta.impl.rendezvous.rpv.PeerView.send()
+Line 740 net.jxta.impl.rendezvous.rpv.PeerView.handlePeerViewMessage()
+Line 666 net.jxta.impl.rendezvous.rpv.PeerView.processIncomingMessage()
+Line 1024 net.jxta.impl.endpoint.EndpointServiceImpl.processIncomingMessage()
+Line 767 net.jxta.impl.endpoint.mcast.McastTransport.processMulticast()
+Line 890 net.jxta.impl.endpoint.mcast.McastTransport$DatagramProcessor.run()
+Line 17 net.jxta.impl.util.threads.RunnableAsCallableWrapper.call()
+Line 50 net.jxta.impl.util.threads.RunMetricsWrapper.call()
+Line 34 net.jxta.impl.util.threads.QueueTimeRunMetricsWrapper.call()
+Line 93 net.jxta.impl.util.threads.RunMetricsWrapper.run()
+Line 9 net.jxta.impl.util.threads.QueueTimeRunMetricsWrapper.run()
+Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
+Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
+Line 748 java.lang.Thread.run()
+
+Oct 20, 2017 7:49:46 PM net.jxta.logging.Logging logCheckedSevere
+SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
+Cannot set timer. RPV will not work.
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@3d864cc7 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@45051ece[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 2]
+Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
+Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
+Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
+Line 533 java.util.concurrent.ScheduledThreadPoolExecutor.schedule()
+Line 729 java.util.concurrent.Executors$DelegatedScheduledExecutorService.schedule()
+Line 124 net.jxta.impl.util.threads.ProxiedScheduledExecutorService.schedule()
+Line 930 net.jxta.impl.rendezvous.rpv.PeerView.addTask()
+Line 1417 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
+Line 1303 net.jxta.impl.rendezvous.rpv.PeerView.notifyFailure()
+Line 380 net.jxta.impl.rendezvous.rpv.PeerViewElement.getCachedMessenger()
+Line 292 net.jxta.impl.rendezvous.rpv.PeerViewElement.sendMessage()
+Line 1101 net.jxta.impl.rendezvous.rpv.PeerView.send()
+Line 740 net.jxta.impl.rendezvous.rpv.PeerView.handlePeerViewMessage()
+Line 666 net.jxta.impl.rendezvous.rpv.PeerView.processIncomingMessage()
+Line 1024 net.jxta.impl.endpoint.EndpointServiceImpl.processIncomingMessage()
+Line 767 net.jxta.impl.endpoint.mcast.McastTransport.processMulticast()
+Line 890 net.jxta.impl.endpoint.mcast.McastTransport$DatagramProcessor.run()
+Line 17 net.jxta.impl.util.threads.RunnableAsCallableWrapper.call()
+Line 50 net.jxta.impl.util.threads.RunMetricsWrapper.call()
+Line 34 net.jxta.impl.util.threads.QueueTimeRunMetricsWrapper.call()
+Line 93 net.jxta.impl.util.threads.RunMetricsWrapper.run()
+Line 9 net.jxta.impl.util.threads.QueueTimeRunMetricsWrapper.run()
+Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
+Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
+Line 748 java.lang.Thread.run()
+
+Oct 20, 2017 7:49:46 PM net.jxta.logging.Logging logCheckedSevere
+SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
+Cannot set timer. RPV will not work.
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@3d10cde2 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@77cdc036[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 3]
+Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
+Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
+Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
+Line 533 java.util.concurrent.ScheduledThreadPoolExecutor.schedule()
+Line 729 java.util.concurrent.Executors$DelegatedScheduledExecutorService.schedule()
+Line 124 net.jxta.impl.util.threads.ProxiedScheduledExecutorService.schedule()
+Line 930 net.jxta.impl.rendezvous.rpv.PeerView.addTask()
+Line 1417 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
+Line 1303 net.jxta.impl.rendezvous.rpv.PeerView.notifyFailure()
+Line 380 net.jxta.impl.rendezvous.rpv.PeerViewElement.getCachedMessenger()
+Line 292 net.jxta.impl.rendezvous.rpv.PeerViewElement.sendMessage()
+Line 1101 net.jxta.impl.rendezvous.rpv.PeerView.send()
+Line 740 net.jxta.impl.rendezvous.rpv.PeerView.handlePeerViewMessage()
+Line 666 net.jxta.impl.rendezvous.rpv.PeerView.processIncomingMessage()
+Line 1024 net.jxta.impl.endpoint.EndpointServiceImpl.processIncomingMessage()
+Line 767 net.jxta.impl.endpoint.mcast.McastTransport.processMulticast()
+Line 890 net.jxta.impl.endpoint.mcast.McastTransport$DatagramProcessor.run()
+Line 17 net.jxta.impl.util.threads.RunnableAsCallableWrapper.call()
+Line 50 net.jxta.impl.util.threads.RunMetricsWrapper.call()
+Line 34 net.jxta.impl.util.threads.QueueTimeRunMetricsWrapper.call()
+Line 93 net.jxta.impl.util.threads.RunMetricsWrapper.run()
+Line 9 net.jxta.impl.util.threads.QueueTimeRunMetricsWrapper.run()
+Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
+Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
+Line 748 java.lang.Thread.run()
+
+Oct 20, 2017 7:49:46 PM net.jxta.logging.Logging logCheckedSevere
+SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
+Cannot set timer. RPV will not work.
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@1b34f3e1 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@63743128[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 2]
+Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
+Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
+Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
+Line 533 java.util.concurrent.ScheduledThreadPoolExecutor.schedule()
+Line 729 java.util.concurrent.Executors$DelegatedScheduledExecutorService.schedule()
+Line 124 net.jxta.impl.util.threads.ProxiedScheduledExecutorService.schedule()
+Line 930 net.jxta.impl.rendezvous.rpv.PeerView.addTask()
+Line 1417 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
+Line 1303 net.jxta.impl.rendezvous.rpv.PeerView.notifyFailure()
+Line 380 net.jxta.impl.rendezvous.rpv.PeerViewElement.getCachedMessenger()
+Line 292 net.jxta.impl.rendezvous.rpv.PeerViewElement.sendMessage()
+Line 1101 net.jxta.impl.rendezvous.rpv.PeerView.send()
+Line 740 net.jxta.impl.rendezvous.rpv.PeerView.handlePeerViewMessage()
+Line 666 net.jxta.impl.rendezvous.rpv.PeerView.processIncomingMessage()
+Line 1024 net.jxta.impl.endpoint.EndpointServiceImpl.processIncomingMessage()
+Line 767 net.jxta.impl.endpoint.mcast.McastTransport.processMulticast()
+Line 890 net.jxta.impl.endpoint.mcast.McastTransport$DatagramProcessor.run()
+Line 17 net.jxta.impl.util.threads.RunnableAsCallableWrapper.call()
+Line 50 net.jxta.impl.util.threads.RunMetricsWrapper.call()
+Line 34 net.jxta.impl.util.threads.QueueTimeRunMetricsWrapper.call()
+Line 93 net.jxta.impl.util.threads.RunMetricsWrapper.run()
+Line 9 net.jxta.impl.util.threads.QueueTimeRunMetricsWrapper.run()
+Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
+Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
+Line 748 java.lang.Thread.run()
+
+Oct 20, 2017 7:49:46 PM net.jxta.logging.Logging logCheckedSevere
+SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
+Cannot set timer. RPV will not work.
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@1b366b5e rejected from java.util.concurrent.ScheduledThreadPoolExecutor@ec4ef5f[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 52]
+Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
+Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
+Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
+Line 533 java.util.concurrent.ScheduledThreadPoolExecutor.schedule()
+Line 729 java.util.concurrent.Executors$DelegatedScheduledExecutorService.schedule()
+Line 124 net.jxta.impl.util.threads.ProxiedScheduledExecutorService.schedule()
+Line 930 net.jxta.impl.rendezvous.rpv.PeerView.addTask()
+Line 1417 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
+Line 1303 net.jxta.impl.rendezvous.rpv.PeerView.notifyFailure()
+Line 380 net.jxta.impl.rendezvous.rpv.PeerViewElement.getCachedMessenger()
+Line 292 net.jxta.impl.rendezvous.rpv.PeerViewElement.sendMessage()
+Line 1101 net.jxta.impl.rendezvous.rpv.PeerView.send()
+Line 740 net.jxta.impl.rendezvous.rpv.PeerView.handlePeerViewMessage()
+Line 666 net.jxta.impl.rendezvous.rpv.PeerView.processIncomingMessage()
+Line 1024 net.jxta.impl.endpoint.EndpointServiceImpl.processIncomingMessage()
+Line 767 net.jxta.impl.endpoint.mcast.McastTransport.processMulticast()
+Line 890 net.jxta.impl.endpoint.mcast.McastTransport$DatagramProcessor.run()
+Line 17 net.jxta.impl.util.threads.RunnableAsCallableWrapper.call()
+Line 50 net.jxta.impl.util.threads.RunMetricsWrapper.call()
+Line 34 net.jxta.impl.util.threads.QueueTimeRunMetricsWrapper.call()
+Line 93 net.jxta.impl.util.threads.RunMetricsWrapper.run()
+Line 9 net.jxta.impl.util.threads.QueueTimeRunMetricsWrapper.run()
+Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
+Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
+Line 748 java.lang.Thread.run()
+
+Oct 20, 2017 7:49:46 PM net.jxta.logging.Logging logCheckedSevere
+SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
+Cannot set timer. RPV will not work.
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@684cc805 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@fde2525[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 3]
+Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
+Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
+Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
+Line 533 java.util.concurrent.ScheduledThreadPoolExecutor.schedule()
+Line 729 java.util.concurrent.Executors$DelegatedScheduledExecutorService.schedule()
+Line 124 net.jxta.impl.util.threads.ProxiedScheduledExecutorService.schedule()
+Line 930 net.jxta.impl.rendezvous.rpv.PeerView.addTask()
+Line 1417 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
+Line 1303 net.jxta.impl.rendezvous.rpv.PeerView.notifyFailure()
+Line 380 net.jxta.impl.rendezvous.rpv.PeerViewElement.getCachedMessenger()
+Line 292 net.jxta.impl.rendezvous.rpv.PeerViewElement.sendMessage()
+Line 1101 net.jxta.impl.rendezvous.rpv.PeerView.send()
+Line 740 net.jxta.impl.rendezvous.rpv.PeerView.handlePeerViewMessage()
+Line 666 net.jxta.impl.rendezvous.rpv.PeerView.processIncomingMessage()
+Line 1024 net.jxta.impl.endpoint.EndpointServiceImpl.processIncomingMessage()
+Line 767 net.jxta.impl.endpoint.mcast.McastTransport.processMulticast()
+Line 890 net.jxta.impl.endpoint.mcast.McastTransport$DatagramProcessor.run()
+Line 17 net.jxta.impl.util.threads.RunnableAsCallableWrapper.call()
+Line 50 net.jxta.impl.util.threads.RunMetricsWrapper.call()
+Line 34 net.jxta.impl.util.threads.QueueTimeRunMetricsWrapper.call()
+Line 93 net.jxta.impl.util.threads.RunMetricsWrapper.run()
+Line 9 net.jxta.impl.util.threads.QueueTimeRunMetricsWrapper.run()
+Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
+Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
+Line 748 java.lang.Thread.run()
+
+Oct 20, 2017 7:49:47 PM net.jxta.logging.Logging logCheckedSevere
+SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
+Cannot set timer. RPV will not work.
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@29ea097e rejected from java.util.concurrent.ScheduledThreadPoolExecutor@30d1b93a[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
+Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
+Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
+Line 533 java.util.concurrent.ScheduledThreadPoolExecutor.schedule()
+Line 729 java.util.concurrent.Executors$DelegatedScheduledExecutorService.schedule()
+Line 124 net.jxta.impl.util.threads.ProxiedScheduledExecutorService.schedule()
+Line 930 net.jxta.impl.rendezvous.rpv.PeerView.addTask()
+Line 1417 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
+Line 1303 net.jxta.impl.rendezvous.rpv.PeerView.notifyFailure()
+Line 380 net.jxta.impl.rendezvous.rpv.PeerViewElement.getCachedMessenger()
+Line 292 net.jxta.impl.rendezvous.rpv.PeerViewElement.sendMessage()
+Line 1101 net.jxta.impl.rendezvous.rpv.PeerView.send()
+Line 740 net.jxta.impl.rendezvous.rpv.PeerView.handlePeerViewMessage()
+Line 666 net.jxta.impl.rendezvous.rpv.PeerView.processIncomingMessage()
+Line 1024 net.jxta.impl.endpoint.EndpointServiceImpl.processIncomingMessage()
+Line 767 net.jxta.impl.endpoint.mcast.McastTransport.processMulticast()
+Line 890 net.jxta.impl.endpoint.mcast.McastTransport$DatagramProcessor.run()
+Line 17 net.jxta.impl.util.threads.RunnableAsCallableWrapper.call()
+Line 50 net.jxta.impl.util.threads.RunMetricsWrapper.call()
+Line 34 net.jxta.impl.util.threads.QueueTimeRunMetricsWrapper.call()
+Line 93 net.jxta.impl.util.threads.RunMetricsWrapper.run()
+Line 9 net.jxta.impl.util.threads.QueueTimeRunMetricsWrapper.run()
+Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
+Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
+Line 748 java.lang.Thread.run()
+
+Oct 20, 2017 7:49:47 PM net.jxta.logging.Logging logCheckedSevere
+SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
+Cannot set timer. RPV will not work.
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@41726f19 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@ec4ef5f[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 52]
+Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
+Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
+Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
+Line 533 java.util.concurrent.ScheduledThreadPoolExecutor.schedule()
+Line 729 java.util.concurrent.Executors$DelegatedScheduledExecutorService.schedule()
+Line 124 net.jxta.impl.util.threads.ProxiedScheduledExecutorService.schedule()
+Line 930 net.jxta.impl.rendezvous.rpv.PeerView.addTask()
+Line 1417 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
+Line 1303 net.jxta.impl.rendezvous.rpv.PeerView.notifyFailure()
+Line 380 net.jxta.impl.rendezvous.rpv.PeerViewElement.getCachedMessenger()
+Line 292 net.jxta.impl.rendezvous.rpv.PeerViewElement.sendMessage()
+Line 1101 net.jxta.impl.rendezvous.rpv.PeerView.send()
+Line 740 net.jxta.impl.rendezvous.rpv.PeerView.handlePeerViewMessage()
+Line 666 net.jxta.impl.rendezvous.rpv.PeerView.processIncomingMessage()
+Line 1024 net.jxta.impl.endpoint.EndpointServiceImpl.processIncomingMessage()
+Line 767 net.jxta.impl.endpoint.mcast.McastTransport.processMulticast()
+Line 890 net.jxta.impl.endpoint.mcast.McastTransport$DatagramProcessor.run()
+Line 17 net.jxta.impl.util.threads.RunnableAsCallableWrapper.call()
+Line 50 net.jxta.impl.util.threads.RunMetricsWrapper.call()
+Line 34 net.jxta.impl.util.threads.QueueTimeRunMetricsWrapper.call()
+Line 93 net.jxta.impl.util.threads.RunMetricsWrapper.run()
+Line 9 net.jxta.impl.util.threads.QueueTimeRunMetricsWrapper.run()
+Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
+Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
+Line 748 java.lang.Thread.run()
+
+Oct 20, 2017 7:49:47 PM net.jxta.logging.Logging logCheckedSevere
+SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
+Cannot set timer. RPV will not work.
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@6f462c9c rejected from java.util.concurrent.ScheduledThreadPoolExecutor@ec4ef5f[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 52]
+Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
+Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
+Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
+Line 533 java.util.concurrent.ScheduledThreadPoolExecutor.schedule()
+Line 729 java.util.concurrent.Executors$DelegatedScheduledExecutorService.schedule()
+Line 124 net.jxta.impl.util.threads.ProxiedScheduledExecutorService.schedule()
+Line 930 net.jxta.impl.rendezvous.rpv.PeerView.addTask()
+Line 1417 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
+Line 1303 net.jxta.impl.rendezvous.rpv.PeerView.notifyFailure()
+Line 380 net.jxta.impl.rendezvous.rpv.PeerViewElement.getCachedMessenger()
+Line 292 net.jxta.impl.rendezvous.rpv.PeerViewElement.sendMessage()
+Line 1101 net.jxta.impl.rendezvous.rpv.PeerView.send()
+Line 740 net.jxta.impl.rendezvous.rpv.PeerView.handlePeerViewMessage()
+Line 666 net.jxta.impl.rendezvous.rpv.PeerView.processIncomingMessage()
+Line 1024 net.jxta.impl.endpoint.EndpointServiceImpl.processIncomingMessage()
+Line 767 net.jxta.impl.endpoint.mcast.McastTransport.processMulticast()
+Line 890 net.jxta.impl.endpoint.mcast.McastTransport$DatagramProcessor.run()
+Line 17 net.jxta.impl.util.threads.RunnableAsCallableWrapper.call()
+Line 50 net.jxta.impl.util.threads.RunMetricsWrapper.call()
+Line 34 net.jxta.impl.util.threads.QueueTimeRunMetricsWrapper.call()
+Line 93 net.jxta.impl.util.threads.RunMetricsWrapper.run()
+Line 9 net.jxta.impl.util.threads.QueueTimeRunMetricsWrapper.run()
+Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
+Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
+Line 748 java.lang.Thread.run()
+
+Oct 20, 2017 7:49:47 PM net.jxta.logging.Logging logCheckedSevere
+SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
+Cannot set timer. RPV will not work.
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@599d6b17 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@30d1b93a[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
+Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
+Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
+Line 533 java.util.concurrent.ScheduledThreadPoolExecutor.schedule()
+Line 729 java.util.concurrent.Executors$DelegatedScheduledExecutorService.schedule()
+Line 124 net.jxta.impl.util.threads.ProxiedScheduledExecutorService.schedule()
+Line 930 net.jxta.impl.rendezvous.rpv.PeerView.addTask()
+Line 1417 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
+Line 1303 net.jxta.impl.rendezvous.rpv.PeerView.notifyFailure()
+Line 380 net.jxta.impl.rendezvous.rpv.PeerViewElement.getCachedMessenger()
+Line 292 net.jxta.impl.rendezvous.rpv.PeerViewElement.sendMessage()
+Line 1101 net.jxta.impl.rendezvous.rpv.PeerView.send()
+Line 740 net.jxta.impl.rendezvous.rpv.PeerView.handlePeerViewMessage()
+Line 666 net.jxta.impl.rendezvous.rpv.PeerView.processIncomingMessage()
+Line 1024 net.jxta.impl.endpoint.EndpointServiceImpl.processIncomingMessage()
+Line 767 net.jxta.impl.endpoint.mcast.McastTransport.processMulticast()
+Line 890 net.jxta.impl.endpoint.mcast.McastTransport$DatagramProcessor.run()
+Line 17 net.jxta.impl.util.threads.RunnableAsCallableWrapper.call()
+Line 50 net.jxta.impl.util.threads.RunMetricsWrapper.call()
+Line 34 net.jxta.impl.util.threads.QueueTimeRunMetricsWrapper.call()
+Line 93 net.jxta.impl.util.threads.RunMetricsWrapper.run()
+Line 9 net.jxta.impl.util.threads.QueueTimeRunMetricsWrapper.run()
+Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
+Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
+Line 748 java.lang.Thread.run()
+
+Oct 20, 2017 7:49:47 PM net.jxta.logging.Logging logCheckedSevere
+SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
+Cannot set timer. RPV will not work.
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@4a5e0a8 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@ec4ef5f[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 52]
+Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
+Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
+Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
+Line 533 java.util.concurrent.ScheduledThreadPoolExecutor.schedule()
+Line 729 java.util.concurrent.Executors$DelegatedScheduledExecutorService.schedule()
+Line 124 net.jxta.impl.util.threads.ProxiedScheduledExecutorService.schedule()
+Line 930 net.jxta.impl.rendezvous.rpv.PeerView.addTask()
+Line 1417 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
+Line 1303 net.jxta.impl.rendezvous.rpv.PeerView.notifyFailure()
+Line 380 net.jxta.impl.rendezvous.rpv.PeerViewElement.getCachedMessenger()
+Line 292 net.jxta.impl.rendezvous.rpv.PeerViewElement.sendMessage()
+Line 1101 net.jxta.impl.rendezvous.rpv.PeerView.send()
+Line 740 net.jxta.impl.rendezvous.rpv.PeerView.handlePeerViewMessage()
+Line 666 net.jxta.impl.rendezvous.rpv.PeerView.processIncomingMessage()
+Line 1024 net.jxta.impl.endpoint.EndpointServiceImpl.processIncomingMessage()
+Line 767 net.jxta.impl.endpoint.mcast.McastTransport.processMulticast()
+Line 890 net.jxta.impl.endpoint.mcast.McastTransport$DatagramProcessor.run()
+Line 17 net.jxta.impl.util.threads.RunnableAsCallableWrapper.call()
+Line 50 net.jxta.impl.util.threads.RunMetricsWrapper.call()
+Line 34 net.jxta.impl.util.threads.QueueTimeRunMetricsWrapper.call()
+Line 93 net.jxta.impl.util.threads.RunMetricsWrapper.run()
+Line 9 net.jxta.impl.util.threads.QueueTimeRunMetricsWrapper.run()
+Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
+Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
+Line 748 java.lang.Thread.run()
+
+Oct 20, 2017 7:49:47 PM net.jxta.logging.Logging logCheckedSevere
+SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
+Cannot set timer. RPV will not work.
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@124ae8b rejected from java.util.concurrent.ScheduledThreadPoolExecutor@30d1b93a[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
+Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
+Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
+Line 533 java.util.concurrent.ScheduledThreadPoolExecutor.schedule()
+Line 729 java.util.concurrent.Executors$DelegatedScheduledExecutorService.schedule()
+Line 124 net.jxta.impl.util.threads.ProxiedScheduledExecutorService.schedule()
+Line 930 net.jxta.impl.rendezvous.rpv.PeerView.addTask()
+Line 1417 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
+Line 1303 net.jxta.impl.rendezvous.rpv.PeerView.notifyFailure()
+Line 380 net.jxta.impl.rendezvous.rpv.PeerViewElement.getCachedMessenger()
+Line 292 net.jxta.impl.rendezvous.rpv.PeerViewElement.sendMessage()
+Line 1101 net.jxta.impl.rendezvous.rpv.PeerView.send()
+Line 740 net.jxta.impl.rendezvous.rpv.PeerView.handlePeerViewMessage()
+Line 666 net.jxta.impl.rendezvous.rpv.PeerView.processIncomingMessage()
+Line 1024 net.jxta.impl.endpoint.EndpointServiceImpl.processIncomingMessage()
+Line 767 net.jxta.impl.endpoint.mcast.McastTransport.processMulticast()
+Line 890 net.jxta.impl.endpoint.mcast.McastTransport$DatagramProcessor.run()
+Line 17 net.jxta.impl.util.threads.RunnableAsCallableWrapper.call()
+Line 50 net.jxta.impl.util.threads.RunMetricsWrapper.call()
+Line 34 net.jxta.impl.util.threads.QueueTimeRunMetricsWrapper.call()
+Line 93 net.jxta.impl.util.threads.RunMetricsWrapper.run()
+Line 9 net.jxta.impl.util.threads.QueueTimeRunMetricsWrapper.run()
+Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
+Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
+Line 748 java.lang.Thread.run()
+
+Oct 20, 2017 7:49:47 PM net.jxta.logging.Logging logCheckedSevere
+SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
+Cannot set timer. RPV will not work.
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@24308084 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@77cdc036[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 3]
+Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
+Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
+Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
+Line 533 java.util.concurrent.ScheduledThreadPoolExecutor.schedule()
+Line 729 java.util.concurrent.Executors$DelegatedScheduledExecutorService.schedule()
+Line 124 net.jxta.impl.util.threads.ProxiedScheduledExecutorService.schedule()
+Line 930 net.jxta.impl.rendezvous.rpv.PeerView.addTask()
+Line 1417 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
+Line 1303 net.jxta.impl.rendezvous.rpv.PeerView.notifyFailure()
+Line 380 net.jxta.impl.rendezvous.rpv.PeerViewElement.getCachedMessenger()
+Line 292 net.jxta.impl.rendezvous.rpv.PeerViewElement.sendMessage()
+Line 1101 net.jxta.impl.rendezvous.rpv.PeerView.send()
+Line 740 net.jxta.impl.rendezvous.rpv.PeerView.handlePeerViewMessage()
+Line 666 net.jxta.impl.rendezvous.rpv.PeerView.processIncomingMessage()
+Line 1024 net.jxta.impl.endpoint.EndpointServiceImpl.processIncomingMessage()
+Line 767 net.jxta.impl.endpoint.mcast.McastTransport.processMulticast()
+Line 890 net.jxta.impl.endpoint.mcast.McastTransport$DatagramProcessor.run()
+Line 17 net.jxta.impl.util.threads.RunnableAsCallableWrapper.call()
+Line 50 net.jxta.impl.util.threads.RunMetricsWrapper.call()
+Line 34 net.jxta.impl.util.threads.QueueTimeRunMetricsWrapper.call()
+Line 93 net.jxta.impl.util.threads.RunMetricsWrapper.run()
+Line 9 net.jxta.impl.util.threads.QueueTimeRunMetricsWrapper.run()
+Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
+Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
+Line 748 java.lang.Thread.run()
+
+Oct 20, 2017 7:49:47 PM net.jxta.logging.Logging logCheckedSevere
+SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
+Cannot set timer. RPV will not work.
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@14e99ea3 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@fde2525[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 3]
+Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
+Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
+Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
+Line 533 java.util.concurrent.ScheduledThreadPoolExecutor.schedule()
+Line 729 java.util.concurrent.Executors$DelegatedScheduledExecutorService.schedule()
+Line 124 net.jxta.impl.util.threads.ProxiedScheduledExecutorService.schedule()
+Line 930 net.jxta.impl.rendezvous.rpv.PeerView.addTask()
+Line 1417 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
+Line 1303 net.jxta.impl.rendezvous.rpv.PeerView.notifyFailure()
+Line 380 net.jxta.impl.rendezvous.rpv.PeerViewElement.getCachedMessenger()
+Line 292 net.jxta.impl.rendezvous.rpv.PeerViewElement.sendMessage()
+Line 1101 net.jxta.impl.rendezvous.rpv.PeerView.send()
+Line 740 net.jxta.impl.rendezvous.rpv.PeerView.handlePeerViewMessage()
+Line 666 net.jxta.impl.rendezvous.rpv.PeerView.processIncomingMessage()
+Line 1024 net.jxta.impl.endpoint.EndpointServiceImpl.processIncomingMessage()
+Line 767 net.jxta.impl.endpoint.mcast.McastTransport.processMulticast()
+Line 890 net.jxta.impl.endpoint.mcast.McastTransport$DatagramProcessor.run()
+Line 17 net.jxta.impl.util.threads.RunnableAsCallableWrapper.call()
+Line 50 net.jxta.impl.util.threads.RunMetricsWrapper.call()
+Line 34 net.jxta.impl.util.threads.QueueTimeRunMetricsWrapper.call()
+Line 93 net.jxta.impl.util.threads.RunMetricsWrapper.run()
+Line 9 net.jxta.impl.util.threads.QueueTimeRunMetricsWrapper.run()
+Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
+Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
+Line 748 java.lang.Thread.run()
+
+Oct 20, 2017 7:49:47 PM net.jxta.logging.Logging logCheckedSevere
+SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
+Cannot set timer. RPV will not work.
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@2a152c8d rejected from java.util.concurrent.ScheduledThreadPoolExecutor@30d1b93a[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
+Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
+Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
+Line 533 java.util.concurrent.ScheduledThreadPoolExecutor.schedule()
+Line 729 java.util.concurrent.Executors$DelegatedScheduledExecutorService.schedule()
+Line 124 net.jxta.impl.util.threads.ProxiedScheduledExecutorService.schedule()
+Line 930 net.jxta.impl.rendezvous.rpv.PeerView.addTask()
+Line 1417 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
+Line 1303 net.jxta.impl.rendezvous.rpv.PeerView.notifyFailure()
+Line 380 net.jxta.impl.rendezvous.rpv.PeerViewElement.getCachedMessenger()
+Line 292 net.jxta.impl.rendezvous.rpv.PeerViewElement.sendMessage()
+Line 1101 net.jxta.impl.rendezvous.rpv.PeerView.send()
+Line 740 net.jxta.impl.rendezvous.rpv.PeerView.handlePeerViewMessage()
+Line 666 net.jxta.impl.rendezvous.rpv.PeerView.processIncomingMessage()
+Line 1024 net.jxta.impl.endpoint.EndpointServiceImpl.processIncomingMessage()
+Line 767 net.jxta.impl.endpoint.mcast.McastTransport.processMulticast()
+Line 890 net.jxta.impl.endpoint.mcast.McastTransport$DatagramProcessor.run()
+Line 17 net.jxta.impl.util.threads.RunnableAsCallableWrapper.call()
+Line 50 net.jxta.impl.util.threads.RunMetricsWrapper.call()
+Line 34 net.jxta.impl.util.threads.QueueTimeRunMetricsWrapper.call()
+Line 93 net.jxta.impl.util.threads.RunMetricsWrapper.run()
+Line 9 net.jxta.impl.util.threads.QueueTimeRunMetricsWrapper.run()
+Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
+Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
+Line 748 java.lang.Thread.run()
+
+Oct 20, 2017 7:49:47 PM net.jxta.logging.Logging logCheckedSevere
+SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
+Cannot set timer. RPV will not work.
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@44f8d541 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@ec4ef5f[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 52]
+Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
+Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
+Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
+Line 533 java.util.concurrent.ScheduledThreadPoolExecutor.schedule()
+Line 729 java.util.concurrent.Executors$DelegatedScheduledExecutorService.schedule()
+Line 124 net.jxta.impl.util.threads.ProxiedScheduledExecutorService.schedule()
+Line 930 net.jxta.impl.rendezvous.rpv.PeerView.addTask()
+Line 1417 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
+Line 1303 net.jxta.impl.rendezvous.rpv.PeerView.notifyFailure()
+Line 380 net.jxta.impl.rendezvous.rpv.PeerViewElement.getCachedMessenger()
+Line 292 net.jxta.impl.rendezvous.rpv.PeerViewElement.sendMessage()
+Line 1101 net.jxta.impl.rendezvous.rpv.PeerView.send()
+Line 740 net.jxta.impl.rendezvous.rpv.PeerView.handlePeerViewMessage()
+Line 666 net.jxta.impl.rendezvous.rpv.PeerView.processIncomingMessage()
+Line 1024 net.jxta.impl.endpoint.EndpointServiceImpl.processIncomingMessage()
+Line 767 net.jxta.impl.endpoint.mcast.McastTransport.processMulticast()
+Line 890 net.jxta.impl.endpoint.mcast.McastTransport$DatagramProcessor.run()
+Line 17 net.jxta.impl.util.threads.RunnableAsCallableWrapper.call()
+Line 50 net.jxta.impl.util.threads.RunMetricsWrapper.call()
+Line 34 net.jxta.impl.util.threads.QueueTimeRunMetricsWrapper.call()
+Line 93 net.jxta.impl.util.threads.RunMetricsWrapper.run()
+Line 9 net.jxta.impl.util.threads.QueueTimeRunMetricsWrapper.run()
+Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
+Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
+Line 748 java.lang.Thread.run()
+
+Oct 20, 2017 7:49:47 PM net.jxta.logging.Logging logCheckedSevere
+SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
+Cannot set timer. RPV will not work.
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@231934bb rejected from java.util.concurrent.ScheduledThreadPoolExecutor@ec4ef5f[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 52]
+Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
+Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
+Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
+Line 533 java.util.concurrent.ScheduledThreadPoolExecutor.schedule()
+Line 729 java.util.concurrent.Executors$DelegatedScheduledExecutorService.schedule()
+Line 124 net.jxta.impl.util.threads.ProxiedScheduledExecutorService.schedule()
+Line 930 net.jxta.impl.rendezvous.rpv.PeerView.addTask()
+Line 1417 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
+Line 1303 net.jxta.impl.rendezvous.rpv.PeerView.notifyFailure()
+Line 380 net.jxta.impl.rendezvous.rpv.PeerViewElement.getCachedMessenger()
+Line 292 net.jxta.impl.rendezvous.rpv.PeerViewElement.sendMessage()
+Line 1101 net.jxta.impl.rendezvous.rpv.PeerView.send()
+Line 740 net.jxta.impl.rendezvous.rpv.PeerView.handlePeerViewMessage()
+Line 666 net.jxta.impl.rendezvous.rpv.PeerView.processIncomingMessage()
+Line 1024 net.jxta.impl.endpoint.EndpointServiceImpl.processIncomingMessage()
+Line 767 net.jxta.impl.endpoint.mcast.McastTransport.processMulticast()
+Line 890 net.jxta.impl.endpoint.mcast.McastTransport$DatagramProcessor.run()
+Line 17 net.jxta.impl.util.threads.RunnableAsCallableWrapper.call()
+Line 50 net.jxta.impl.util.threads.RunMetricsWrapper.call()
+Line 34 net.jxta.impl.util.threads.QueueTimeRunMetricsWrapper.call()
+Line 93 net.jxta.impl.util.threads.RunMetricsWrapper.run()
+Line 9 net.jxta.impl.util.threads.QueueTimeRunMetricsWrapper.run()
+Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
+Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
+Line 748 java.lang.Thread.run()
+
+Oct 20, 2017 7:49:47 PM net.jxta.logging.Logging logCheckedSevere
+SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
+Cannot set timer. RPV will not work.
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@54c31b23 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@30d1b93a[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
+Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
+Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
+Line 533 java.util.concurrent.ScheduledThreadPoolExecutor.schedule()
+Line 729 java.util.concurrent.Executors$DelegatedScheduledExecutorService.schedule()
+Line 124 net.jxta.impl.util.threads.ProxiedScheduledExecutorService.schedule()
+Line 930 net.jxta.impl.rendezvous.rpv.PeerView.addTask()
+Line 1417 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
+Line 1303 net.jxta.impl.rendezvous.rpv.PeerView.notifyFailure()
+Line 380 net.jxta.impl.rendezvous.rpv.PeerViewElement.getCachedMessenger()
+Line 292 net.jxta.impl.rendezvous.rpv.PeerViewElement.sendMessage()
+Line 1101 net.jxta.impl.rendezvous.rpv.PeerView.send()
+Line 740 net.jxta.impl.rendezvous.rpv.PeerView.handlePeerViewMessage()
+Line 666 net.jxta.impl.rendezvous.rpv.PeerView.processIncomingMessage()
+Line 1024 net.jxta.impl.endpoint.EndpointServiceImpl.processIncomingMessage()
+Line 767 net.jxta.impl.endpoint.mcast.McastTransport.processMulticast()
+Line 890 net.jxta.impl.endpoint.mcast.McastTransport$DatagramProcessor.run()
+Line 17 net.jxta.impl.util.threads.RunnableAsCallableWrapper.call()
+Line 50 net.jxta.impl.util.threads.RunMetricsWrapper.call()
+Line 34 net.jxta.impl.util.threads.QueueTimeRunMetricsWrapper.call()
+Line 93 net.jxta.impl.util.threads.RunMetricsWrapper.run()
+Line 9 net.jxta.impl.util.threads.QueueTimeRunMetricsWrapper.run()
+Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
+Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
+Line 748 java.lang.Thread.run()
+
+Oct 20, 2017 7:49:47 PM net.jxta.logging.Logging logCheckedSevere
+SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
+Cannot set timer. RPV will not work.
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@493150c2 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@ec4ef5f[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 52]
+Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
+Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
+Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
+Line 533 java.util.concurrent.ScheduledThreadPoolExecutor.schedule()
+Line 729 java.util.concurrent.Executors$DelegatedScheduledExecutorService.schedule()
+Line 124 net.jxta.impl.util.threads.ProxiedScheduledExecutorService.schedule()
+Line 930 net.jxta.impl.rendezvous.rpv.PeerView.addTask()
+Line 1417 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
+Line 1303 net.jxta.impl.rendezvous.rpv.PeerView.notifyFailure()
+Line 380 net.jxta.impl.rendezvous.rpv.PeerViewElement.getCachedMessenger()
+Line 292 net.jxta.impl.rendezvous.rpv.PeerViewElement.sendMessage()
+Line 1101 net.jxta.impl.rendezvous.rpv.PeerView.send()
+Line 740 net.jxta.impl.rendezvous.rpv.PeerView.handlePeerViewMessage()
+Line 666 net.jxta.impl.rendezvous.rpv.PeerView.processIncomingMessage()
+Line 1024 net.jxta.impl.endpoint.EndpointServiceImpl.processIncomingMessage()
+Line 767 net.jxta.impl.endpoint.mcast.McastTransport.processMulticast()
+Line 890 net.jxta.impl.endpoint.mcast.McastTransport$DatagramProcessor.run()
+Line 17 net.jxta.impl.util.threads.RunnableAsCallableWrapper.call()
+Line 50 net.jxta.impl.util.threads.RunMetricsWrapper.call()
+Line 34 net.jxta.impl.util.threads.QueueTimeRunMetricsWrapper.call()
+Line 93 net.jxta.impl.util.threads.RunMetricsWrapper.run()
+Line 9 net.jxta.impl.util.threads.QueueTimeRunMetricsWrapper.run()
+Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
+Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
+Line 748 java.lang.Thread.run()
+
+Oct 20, 2017 7:49:47 PM net.jxta.logging.Logging logCheckedSevere
+SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
+Cannot set timer. RPV will not work.
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@1e6e419 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@30d1b93a[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
+Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
+Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
+Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
+Line 533 java.util.concurrent.ScheduledThreadPoolExecutor.schedule()
+Line 729 java.util.concurrent.Executors$DelegatedScheduledExecutorService.schedule()
+Line 124 net.jxta.impl.util.threads.ProxiedScheduledExecutorService.schedule()
+Line 930 net.jxta.impl.rendezvous.rpv.PeerView.addTask()
+Line 1417 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
+Line 1303 net.jxta.impl.rendezvous.rpv.PeerView.notifyFailure()
+Line 380 net.jxta.impl.rendezvous.rpv.PeerViewElement.getCachedMessenger()
+Line 292 net.jxta.impl.rendezvous.rpv.PeerViewElement.sendMessage()
+Line 1101 net.jxta.impl.rendezvous.rpv.PeerView.send()
+Line 740 net.jxta.impl.rendezvous.rpv.PeerView.handlePeerViewMessage()
+Line 666 net.jxta.impl.rendezvous.rpv.PeerView.processIncomingMessage()
+Line 1024 net.jxta.impl.endpoint.EndpointServiceImpl.processIncomingMessage()
+Line 767 net.jxta.impl.endpoint.mcast.McastTransport.processMulticast()
+Line 890 net.jxta.impl.endpoint.mcast.McastTransport$DatagramProcessor.run()
+Line 17 net.jxta.impl.util.threads.RunnableAsCallableWrapper.call()
+Line 50 net.jxta.impl.util.threads.RunMetricsWrapper.call()
+Line 34 net.jxta.impl.util.threads.QueueTimeRunMetricsWrapper.call()
+Line 93 net.jxta.impl.util.threads.RunMetricsWrapper.run()
+Line 9 net.jxta.impl.util.threads.QueueTimeRunMetricsWrapper.run()
+Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
+Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
+Line 748 java.lang.Thread.run()
+
+Oct 20, 2017 7:49:47 PM net.jxta.logging.Logging logCheckedSevere
+SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
+Cannot set timer. RPV will not work.
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@394755b0 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@ec4ef5f[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 52]
+Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
+Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
+Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
+Line 533 java.util.concurrent.ScheduledThreadPoolExecutor.schedule()
+Line 729 java.util.concurrent.Executors$DelegatedScheduledExecutorService.schedule()
+Line 124 net.jxta.impl.util.threads.ProxiedScheduledExecutorService.schedule()
+Line 930 net.jxta.impl.rendezvous.rpv.PeerView.addTask()
+Line 1417 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
+Line 1303 net.jxta.impl.rendezvous.rpv.PeerView.notifyFailure()
+Line 380 net.jxta.impl.rendezvous.rpv.PeerViewElement.getCachedMessenger()
+Line 292 net.jxta.impl.rendezvous.rpv.PeerViewElement.sendMessage()
+Line 1101 net.jxta.impl.rendezvous.rpv.PeerView.send()
+Line 740 net.jxta.impl.rendezvous.rpv.PeerView.handlePeerViewMessage()
+Line 666 net.jxta.impl.rendezvous.rpv.PeerView.processIncomingMessage()
+Line 1024 net.jxta.impl.endpoint.EndpointServiceImpl.processIncomingMessage()
+Line 767 net.jxta.impl.endpoint.mcast.McastTransport.processMulticast()
+Line 890 net.jxta.impl.endpoint.mcast.McastTransport$DatagramProcessor.run()
+Line 17 net.jxta.impl.util.threads.RunnableAsCallableWrapper.call()
+Line 50 net.jxta.impl.util.threads.RunMetricsWrapper.call()
+Line 34 net.jxta.impl.util.threads.QueueTimeRunMetricsWrapper.call()
+Line 93 net.jxta.impl.util.threads.RunMetricsWrapper.run()
+Line 9 net.jxta.impl.util.threads.QueueTimeRunMetricsWrapper.run()
+Line 1149 java.util.concurrent.ThreadPoolExecutor.runWorker()
+Line 624 java.util.concurrent.ThreadPoolExecutor$Worker.run()
+Line 748 java.lang.Thread.run()
+
+Oct 20, 2017 7:49:47 PM net.jxta.logging.Logging logCheckedSevere
+SEVERE: Line 1421 net.jxta.impl.rendezvous.rpv.PeerView.rescheduleKick()
+Cannot set timer. RPV will not work.
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@3efa4862 rejected from java.util.concurrent.ScheduledThreadPoolExecutor@30d1b93a[Terminated, pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 43]
 Line 2063 java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution()
 Line 830 java.util.concurrent.ThreadPoolExecutor.reject()
 Line 326 java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute()
