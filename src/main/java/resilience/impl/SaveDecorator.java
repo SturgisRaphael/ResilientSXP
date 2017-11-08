@@ -9,12 +9,12 @@ public abstract class SaveDecorator implements Save{
 		this.save = save;
 	}
 
-	public void write()
+	public void write(String path)
 	{
-		save.write();
+		save.write(path);
 	}
 	
-	public String read(){
-		return save.read();
+	public void read(String path){
+		save.read(path);
 	}
 }

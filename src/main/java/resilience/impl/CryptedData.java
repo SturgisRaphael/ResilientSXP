@@ -3,10 +3,10 @@ package resilience.impl;
 import model.api.Manager;
 import resilience.api.Save;
 
-public class ClearData extends SaveDecorator{
+public class CryptedData extends SaveDecorator{
 	private Manager db;
 	
-	ClearData(Save save, Manager db) {
+	CryptedData(Save save, Manager db) {
 		super(save);
 		this.db = db;
 	}

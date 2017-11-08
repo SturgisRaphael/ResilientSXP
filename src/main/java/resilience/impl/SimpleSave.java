@@ -13,15 +13,14 @@ public class SimpleSave implements Save{
 		
 		this.date = new Date();
 	}
-	
 	@Override
-	public String read() {
+	public void write(String path) {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
 	@Override
-	public void write() {
+	public void read(String path) {
 		// TODO Auto-generated method stub
 		
 	}
