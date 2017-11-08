@@ -13,6 +13,7 @@ public class CryptedData extends SaveDecorator{
 
 	@Override
 	public void write(String path){
+		super.write(path);
 		// db.watchlist()
 	}
 	
