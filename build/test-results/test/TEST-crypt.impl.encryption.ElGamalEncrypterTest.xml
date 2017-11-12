@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="crypt.impl.encryption.ElGamalEncrypterTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2017-10-20T17:47:38" hostname="raphael-laptop" time="0.139">
+<testsuite name="crypt.impl.encryption.ElGamalEncrypterTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2017-11-09T16:25:16" hostname="raphael-laptop" time="0.146">
   <properties/>
-  <testcase name="test[0]" classname="crypt.impl.encryption.ElGamalEncrypterTest" time="0.045"/>
-  <testcase name="testDecryptExceptions[0]" classname="crypt.impl.encryption.ElGamalEncrypterTest" time="0.0"/>
-  <testcase name="testEncryptExceptions[0]" classname="crypt.impl.encryption.ElGamalEncrypterTest" time="0.005"/>
-  <testcase name="test[1]" classname="crypt.impl.encryption.ElGamalEncrypterTest" time="0.042"/>
+  <testcase name="test[0]" classname="crypt.impl.encryption.ElGamalEncrypterTest" time="0.051"/>
+  <testcase name="testDecryptExceptions[0]" classname="crypt.impl.encryption.ElGamalEncrypterTest" time="0.001"/>
+  <testcase name="testEncryptExceptions[0]" classname="crypt.impl.encryption.ElGamalEncrypterTest" time="0.001"/>
+  <testcase name="test[1]" classname="crypt.impl.encryption.ElGamalEncrypterTest" time="0.04"/>
   <testcase name="testDecryptExceptions[1]" classname="crypt.impl.encryption.ElGamalEncrypterTest" time="0.001"/>
-  <testcase name="testEncryptExceptions[1]" classname="crypt.impl.encryption.ElGamalEncrypterTest" time="0.0"/>
+  <testcase name="testEncryptExceptions[1]" classname="crypt.impl.encryption.ElGamalEncrypterTest" time="0.002"/>
   <testcase name="test[2]" classname="crypt.impl.encryption.ElGamalEncrypterTest" time="0.041"/>
   <testcase name="testDecryptExceptions[2]" classname="crypt.impl.encryption.ElGamalEncrypterTest" time="0.001"/>
-  <testcase name="testEncryptExceptions[2]" classname="crypt.impl.encryption.ElGamalEncrypterTest" time="0.0"/>
+  <testcase name="testEncryptExceptions[2]" classname="crypt.impl.encryption.ElGamalEncrypterTest" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="model.entity.sigma.ResEncryptTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2017-10-20T17:48:05" hostname="raphael-laptop" time="0.001">
+<testsuite name="model.entity.sigma.ResEncryptTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2017-11-09T16:25:46" hostname="raphael-laptop" time="0.002">
   <properties/>
-  <testcase name="toStringTest" classname="model.entity.sigma.ResEncryptTest" time="0.0"/>
-  <testcase name="getterSetterTest" classname="model.entity.sigma.ResEncryptTest" time="0.0"/>
+  <testcase name="toStringTest" classname="model.entity.sigma.ResEncryptTest" time="0.001"/>
+  <testcase name="getterSetterTest" classname="model.entity.sigma.ResEncryptTest" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

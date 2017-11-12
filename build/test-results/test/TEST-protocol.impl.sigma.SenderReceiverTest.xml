@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="protocol.impl.sigma.SenderReceiverTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2017-10-20T17:48:53" hostname="raphael-laptop" time="0.179">
+<testsuite name="protocol.impl.sigma.SenderReceiverTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2017-11-09T16:26:26" hostname="raphael-laptop" time="0.152">
   <properties/>
-  <testcase name="sendingTest" classname="protocol.impl.sigma.SenderReceiverTest" time="0.179"/>
+  <testcase name="sendingTest" classname="protocol.impl.sigma.SenderReceiverTest" time="0.152"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

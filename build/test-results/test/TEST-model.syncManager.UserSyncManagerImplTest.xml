@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="model.syncManager.UserSyncManagerImplTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2017-10-20T17:47:45" hostname="raphael-laptop" time="17.874">
+<testsuite name="model.syncManager.UserSyncManagerImplTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2017-11-09T16:25:24" hostname="raphael-laptop" time="19.661">
   <properties/>
-  <testcase name="testA" classname="model.syncManager.UserSyncManagerImplTest" time="16.477"/>
-  <testcase name="testB" classname="model.syncManager.UserSyncManagerImplTest" time="0.268"/>
-  <testcase name="testC" classname="model.syncManager.UserSyncManagerImplTest" time="0.978"/>
-  <testcase name="testD" classname="model.syncManager.UserSyncManagerImplTest" time="0.145"/>
-  <system-out><![CDATA[[EL Info]: 2017-10-20 19:47:47.483--ServerSession(1432476948)--EclipseLink, version: Eclipse Persistence Services - 2.6.3.v20160218-180e602
-[EL Info]: connection: 2017-10-20 19:47:59.673--ServerSession(1432476948)--/file:/home/raphael/git/ResilientSXP/build/resources/main/_persistence login successful
+  <testcase name="testA" classname="model.syncManager.UserSyncManagerImplTest" time="18.286"/>
+  <testcase name="testB" classname="model.syncManager.UserSyncManagerImplTest" time="0.322"/>
+  <testcase name="testC" classname="model.syncManager.UserSyncManagerImplTest" time="0.891"/>
+  <testcase name="testD" classname="model.syncManager.UserSyncManagerImplTest" time="0.155"/>
+  <system-out><![CDATA[[EL Info]: 2017-11-09 17:25:27.285--ServerSession(940686287)--EclipseLink, version: Eclipse Persistence Services - 2.6.3.v20160218-180e602
+[EL Info]: connection: 2017-11-09 17:25:40.208--ServerSession(940686287)--/file:/home/raphael/git/ResilientSXP/build/resources/main/_persistence login successful
 javax.validation.ConstraintViolationException: Bean Validation constraint(s) violated while executing Automatic Bean Validation on callback event:'prePersist'. Please refer to embedded ConstraintViolations for details.
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>

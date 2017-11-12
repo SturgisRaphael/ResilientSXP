@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="protocol.impl.sigma.PCSTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2017-10-20T17:48:51" hostname="raphael-laptop" time="0.21">
+<testsuite name="protocol.impl.sigma.PCSTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2017-11-09T16:26:24" hostname="raphael-laptop" time="0.207">
   <properties/>
-  <testcase name="TestAa" classname="protocol.impl.sigma.PCSTest" time="0.049"/>
-  <testcase name="TestAb" classname="protocol.impl.sigma.PCSTest" time="0.055"/>
-  <testcase name="TestBa" classname="protocol.impl.sigma.PCSTest" time="0.051"/>
+  <testcase name="TestAa" classname="protocol.impl.sigma.PCSTest" time="0.048"/>
+  <testcase name="TestAb" classname="protocol.impl.sigma.PCSTest" time="0.053"/>
+  <testcase name="TestBa" classname="protocol.impl.sigma.PCSTest" time="0.049"/>
   <testcase name="TestBb" classname="protocol.impl.sigma.PCSTest" time="0.055"/>
   <system-out><![CDATA[---- Begining ----
  -->No need to worry, the following 3 lines are meant to be

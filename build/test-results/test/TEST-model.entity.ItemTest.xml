@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="model.entity.ItemTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2017-10-20T17:48:04" hostname="raphael-laptop" time="0.006">
+<testsuite name="model.entity.ItemTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2017-11-09T16:25:45" hostname="raphael-laptop" time="0.015">
   <properties/>
-  <testcase name="fieldAnnotationsTest" classname="model.entity.ItemTest" time="0.004"/>
-  <testcase name="classAnnotationsTest" classname="model.entity.ItemTest" time="0.001"/>
-  <testcase name="gettersTest" classname="model.entity.ItemTest" time="0.001"/>
+  <testcase name="fieldAnnotationsTest" classname="model.entity.ItemTest" time="0.007"/>
+  <testcase name="classAnnotationsTest" classname="model.entity.ItemTest" time="0.002"/>
+  <testcase name="gettersTest" classname="model.entity.ItemTest" time="0.003"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

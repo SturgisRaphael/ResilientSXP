@@ -205,7 +205,7 @@ public class ProtocolResolve implements ProtocolStep {
 <span class="fc bfc" id="L205" title="All 2 branches covered.">								for (SigmaSignature signature : sigSign){</span>
 <span class="fc" id="L206">									signer.setReceiverK(contract.getParties().get(sigSign.indexOf(signature)));</span>
 									
-<span class="pc bpc" id="L208" title="2 of 6 branches missed.">									if (signer.verify(data1, signature) || signer.verify(data2, signature) || signer.verify(data3, signature)){</span>
+<span class="pc bpc" id="L208" title="1 of 6 branches missed.">									if (signer.verify(data1, signature) || signer.verify(data2, signature) || signer.verify(data3, signature)){</span>
 <span class="fc" id="L209">										contract.addSignature(contract.getParties().get(sigSign.indexOf(signature)), signature);</span>
 									}
 <span class="fc" id="L211">								}</span>

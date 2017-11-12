@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="protocol.impl.sigma.SigmaContractTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2017-10-20T17:48:53" hostname="raphael-laptop" time="5.002">
+<testsuite name="protocol.impl.sigma.SigmaContractTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2017-11-09T16:26:26" hostname="raphael-laptop" time="3.662">
   <properties/>
-  <testcase name="setPartiesTest" classname="protocol.impl.sigma.SigmaContractTest" time="0.626"/>
-  <testcase name="clausesGetterTest" classname="protocol.impl.sigma.SigmaContractTest" time="0.002"/>
-  <testcase name="finalizedTest" classname="protocol.impl.sigma.SigmaContractTest" time="3.223"/>
-  <testcase name="getSetStatusTest" classname="protocol.impl.sigma.SigmaContractTest" time="0.0"/>
+  <testcase name="setPartiesTest" classname="protocol.impl.sigma.SigmaContractTest" time="0.573"/>
+  <testcase name="clausesGetterTest" classname="protocol.impl.sigma.SigmaContractTest" time="0.001"/>
+  <testcase name="finalizedTest" classname="protocol.impl.sigma.SigmaContractTest" time="1.414"/>
+  <testcase name="getSetStatusTest" classname="protocol.impl.sigma.SigmaContractTest" time="0.001"/>
   <testcase name="getSetWishTest" classname="protocol.impl.sigma.SigmaContractTest" time="0.0"/>
   <testcase name="equalsTest" classname="protocol.impl.sigma.SigmaContractTest" time="0.0"/>
-  <testcase name="addSignatureExceptionTest1" classname="protocol.impl.sigma.SigmaContractTest" time="0.126"/>
-  <testcase name="addSignatureExceptionTest2" classname="protocol.impl.sigma.SigmaContractTest" time="0.125"/>
-  <testcase name="badFinalizationTest" classname="protocol.impl.sigma.SigmaContractTest" time="0.886"/>
-  <system-out><![CDATA[[EL Info]: 2017-10-20 19:48:53.431--ServerSession(473576083)--EclipseLink, version: Eclipse Persistence Services - 2.6.3.v20160218-180e602
-[EL Info]: connection: 2017-10-20 19:48:53.441--ServerSession(473576083)--/file:/home/raphael/git/ResilientSXP/build/resources/main/_persistence login successful
-]]></system-out>
+  <testcase name="addSignatureExceptionTest1" classname="protocol.impl.sigma.SigmaContractTest" time="0.122"/>
+  <testcase name="addSignatureExceptionTest2" classname="protocol.impl.sigma.SigmaContractTest" time="0.118"/>
+  <testcase name="badFinalizationTest" classname="protocol.impl.sigma.SigmaContractTest" time="1.424"/>
+  <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

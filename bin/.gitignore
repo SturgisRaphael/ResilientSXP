@@ -1,12 +1,7 @@
-/META-INF/
 /controller/
 /crypt/
-/jetty-logging.properties
-/log4j2.xml
 /model/
 /network/
 /protocol/
 /resilience/
-/resources.xml
 /rest/
-/util/

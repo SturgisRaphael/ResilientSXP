@@ -173,18 +173,18 @@ public class ProtocolSign implements ProtocolStep {
 				// Check if the round is complete
 <span class="fc" id="L174">				boolean claimFormed = true;</span>
 <span class="fc bfc" id="L175" title="All 2 branches covered.">				for (int k=0; k&lt;N; k++){</span>
-<span class="pc bpc" id="L176" title="1 of 4 branches missed.">					if (round &lt; N+2 &amp;&amp; sigmaEstablisher.sigmaEstablisherData.getRoundReceived()[round][k] == null)</span>
+<span class="fc bfc" id="L176" title="All 4 branches covered.">					if (round &lt; N+2 &amp;&amp; sigmaEstablisher.sigmaEstablisherData.getRoundReceived()[round][k] == null)</span>
 <span class="fc" id="L177">						claimFormed= false;</span>
 				}
 				
 				/*	Send the rounds (if we have the claim needed):
 				 *  	We do a loop because sometimes, we receive the PCS for round+1 before the one for the current round
 				 */  
-<span class="pc bpc" id="L183" title="1 of 6 branches missed.">				while (round&lt;=(N+1) &amp;&amp; claimFormed &amp;&amp; contract.getStatus().equals(Status.SIGNING)){</span>
+<span class="fc bfc" id="L183" title="All 6 branches covered.">				while (round&lt;=(N+1) &amp;&amp; claimFormed &amp;&amp; contract.getStatus().equals(Status.SIGNING)){</span>
 <span class="fc" id="L184">					round++;</span>
 <span class="fc" id="L185">					sendMessage();</span>
 <span class="fc bfc" id="L186" title="All 2 branches covered.">					for (int k=0; k&lt;N; k++){</span>
-<span class="pc bpc" id="L187" title="1 of 4 branches missed.">						if (round &lt; N+2 &amp;&amp; sigmaEstablisher.sigmaEstablisherData.getRoundReceived()[round][k] == null)</span>
+<span class="fc bfc" id="L187" title="All 4 branches covered.">						if (round &lt; N+2 &amp;&amp; sigmaEstablisher.sigmaEstablisherData.getRoundReceived()[round][k] == null)</span>
 <span class="fc" id="L188">							claimFormed= false;</span>
 					}
 				}

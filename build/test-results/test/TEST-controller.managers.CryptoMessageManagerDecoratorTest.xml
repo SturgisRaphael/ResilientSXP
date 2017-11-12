@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="controller.managers.CryptoMessageManagerDecoratorTest" tests="4" skipped="0" failures="2" errors="0" timestamp="2017-10-20T17:49:28" hostname="raphael-laptop" time="1.322">
+<testsuite name="controller.managers.CryptoMessageManagerDecoratorTest" tests="4" skipped="0" failures="2" errors="0" timestamp="2017-11-09T16:26:58" hostname="raphael-laptop" time="1.282">
   <properties/>
-  <testcase name="test_A_PERSIST_function" classname="controller.managers.CryptoMessageManagerDecoratorTest" time="1.021"/>
-  <testcase name="test_B_check_Signature_Message" classname="controller.managers.CryptoMessageManagerDecoratorTest" time="0.028">
+  <testcase name="test_A_PERSIST_function" classname="controller.managers.CryptoMessageManagerDecoratorTest" time="0.792"/>
+  <testcase name="test_B_check_Signature_Message" classname="controller.managers.CryptoMessageManagerDecoratorTest" time="0.034">
     <failure message="java.lang.AssertionError" type="java.lang.AssertionError">java.lang.AssertionError
 	at org.junit.Assert.fail(Assert.java:86)
 	at org.junit.Assert.assertTrue(Assert.java:41)
@@ -55,7 +55,7 @@
 	at java.lang.Thread.run(Thread.java:748)
 </failure>
   </testcase>
-  <testcase name="test_C_check_crypted_Content" classname="controller.managers.CryptoMessageManagerDecoratorTest" time="0.056">
+  <testcase name="test_C_check_crypted_Content" classname="controller.managers.CryptoMessageManagerDecoratorTest" time="0.061">
     <failure message="java.lang.AssertionError" type="java.lang.AssertionError">java.lang.AssertionError
 	at org.junit.Assert.fail(Assert.java:86)
 	at org.junit.Assert.assertTrue(Assert.java:41)
@@ -108,7 +108,7 @@
 	at java.lang.Thread.run(Thread.java:748)
 </failure>
   </testcase>
-  <testcase name="test_Z_clean" classname="controller.managers.CryptoMessageManagerDecoratorTest" time="0.208"/>
+  <testcase name="test_Z_clean" classname="controller.managers.CryptoMessageManagerDecoratorTest" time="0.391"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

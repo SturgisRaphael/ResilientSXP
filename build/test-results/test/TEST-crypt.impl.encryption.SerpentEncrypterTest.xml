@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="crypt.impl.encryption.SerpentEncrypterTest" tests="12" skipped="0" failures="0" errors="0" timestamp="2017-10-20T17:47:38" hostname="raphael-laptop" time="0.05">
+<testsuite name="crypt.impl.encryption.SerpentEncrypterTest" tests="12" skipped="0" failures="0" errors="0" timestamp="2017-11-09T16:25:17" hostname="raphael-laptop" time="0.055">
   <properties/>
-  <testcase name="testEncrypt[0]" classname="crypt.impl.encryption.SerpentEncrypterTest" time="0.022"/>
+  <testcase name="testEncrypt[0]" classname="crypt.impl.encryption.SerpentEncrypterTest" time="0.023"/>
   <testcase name="testEncryptExceptions1[0]" classname="crypt.impl.encryption.SerpentEncrypterTest" time="0.001"/>
   <testcase name="testEncryptExceptions2[0]" classname="crypt.impl.encryption.SerpentEncrypterTest" time="0.001"/>
   <testcase name="testEncrypt[1]" classname="crypt.impl.encryption.SerpentEncrypterTest" time="0.001"/>
-  <testcase name="testEncryptExceptions1[1]" classname="crypt.impl.encryption.SerpentEncrypterTest" time="0.0"/>
-  <testcase name="testEncryptExceptions2[1]" classname="crypt.impl.encryption.SerpentEncrypterTest" time="0.0"/>
-  <testcase name="testEncrypt[2]" classname="crypt.impl.encryption.SerpentEncrypterTest" time="0.003"/>
-  <testcase name="testEncryptExceptions1[2]" classname="crypt.impl.encryption.SerpentEncrypterTest" time="0.0"/>
+  <testcase name="testEncryptExceptions1[1]" classname="crypt.impl.encryption.SerpentEncrypterTest" time="0.002"/>
+  <testcase name="testEncryptExceptions2[1]" classname="crypt.impl.encryption.SerpentEncrypterTest" time="0.001"/>
+  <testcase name="testEncrypt[2]" classname="crypt.impl.encryption.SerpentEncrypterTest" time="0.004"/>
+  <testcase name="testEncryptExceptions1[2]" classname="crypt.impl.encryption.SerpentEncrypterTest" time="0.001"/>
   <testcase name="testEncryptExceptions2[2]" classname="crypt.impl.encryption.SerpentEncrypterTest" time="0.0"/>
-  <testcase name="testEncrypt[3]" classname="crypt.impl.encryption.SerpentEncrypterTest" time="0.001"/>
-  <testcase name="testEncryptExceptions1[3]" classname="crypt.impl.encryption.SerpentEncrypterTest" time="0.0"/>
-  <testcase name="testEncryptExceptions2[3]" classname="crypt.impl.encryption.SerpentEncrypterTest" time="0.0"/>
+  <testcase name="testEncrypt[3]" classname="crypt.impl.encryption.SerpentEncrypterTest" time="0.003"/>
+  <testcase name="testEncryptExceptions1[3]" classname="crypt.impl.encryption.SerpentEncrypterTest" time="0.002"/>
+  <testcase name="testEncryptExceptions2[3]" classname="crypt.impl.encryption.SerpentEncrypterTest" time="0.003"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

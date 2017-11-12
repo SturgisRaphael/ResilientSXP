@@ -21,7 +21,7 @@ public class CryptCommander {
   }
 
   public static void main(String[] args) {
-
-    RestServerFactory.createAndStartRestServer("jetty", 8080, "crypt");
+	  System.out.println("Print!");
+	  RestServerFactory.createAndStartRestServer("jetty", 8080, "crypt");
   }
 }

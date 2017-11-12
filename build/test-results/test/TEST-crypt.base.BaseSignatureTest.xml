@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="crypt.base.BaseSignatureTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2017-10-20T17:47:41" hostname="raphael-laptop" time="0.002">
+<testsuite name="crypt.base.BaseSignatureTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2017-11-09T16:25:19" hostname="raphael-laptop" time="0.003">
   <properties/>
-  <testcase name="testGetParam" classname="crypt.base.BaseSignatureTest" time="0.002"/>
+  <testcase name="testGetParam" classname="crypt.base.BaseSignatureTest" time="0.003"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

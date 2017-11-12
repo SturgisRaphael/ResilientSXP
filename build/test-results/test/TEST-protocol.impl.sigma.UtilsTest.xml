@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="protocol.impl.sigma.UtilsTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2017-10-20T17:48:53" hostname="raphael-laptop" time="0.055">
+<testsuite name="protocol.impl.sigma.UtilsTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2017-11-09T16:26:26" hostname="raphael-laptop" time="0.021">
   <properties/>
-  <testcase name="negativeLimitTest" classname="protocol.impl.sigma.UtilsTest" time="0.0"/>
-  <testcase name="zeroRandTest" classname="protocol.impl.sigma.UtilsTest" time="0.004"/>
-  <testcase name="toHexTest" classname="protocol.impl.sigma.UtilsTest" time="0.037"/>
-  <testcase name="randGetOneTest" classname="protocol.impl.sigma.UtilsTest" time="0.001"/>
-  <testcase name="randTest" classname="protocol.impl.sigma.UtilsTest" time="0.006"/>
+  <testcase name="negativeLimitTest" classname="protocol.impl.sigma.UtilsTest" time="0.001"/>
+  <testcase name="zeroRandTest" classname="protocol.impl.sigma.UtilsTest" time="0.003"/>
+  <testcase name="toHexTest" classname="protocol.impl.sigma.UtilsTest" time="0.008"/>
+  <testcase name="randGetOneTest" classname="protocol.impl.sigma.UtilsTest" time="0.0"/>
+  <testcase name="randTest" classname="protocol.impl.sigma.UtilsTest" time="0.002"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

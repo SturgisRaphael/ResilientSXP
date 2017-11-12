@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="model.entity.sigma.ResponsesSchnorrTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2017-10-20T17:48:05" hostname="raphael-laptop" time="0.062">
+<testsuite name="model.entity.sigma.ResponsesSchnorrTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2017-11-09T16:25:46" hostname="raphael-laptop" time="0.069">
   <properties/>
-  <testcase name="verifyTest" classname="model.entity.sigma.ResponsesSchnorrTest" time="0.03"/>
+  <testcase name="verifyTest" classname="model.entity.sigma.ResponsesSchnorrTest" time="0.037"/>
   <testcase name="equalTest" classname="model.entity.sigma.ResponsesSchnorrTest" time="0.032"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>

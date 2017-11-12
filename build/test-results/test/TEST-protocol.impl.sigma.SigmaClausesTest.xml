@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="protocol.impl.sigma.SigmaClausesTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2017-10-20T17:48:51" hostname="raphael-laptop" time="0.001">
+<testsuite name="protocol.impl.sigma.SigmaClausesTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2017-11-09T16:26:24" hostname="raphael-laptop" time="0.008">
   <properties/>
-  <testcase name="getHashableDataTest" classname="protocol.impl.sigma.SigmaClausesTest" time="0.0"/>
+  <testcase name="getHashableDataTest" classname="protocol.impl.sigma.SigmaClausesTest" time="0.001"/>
   <testcase name="getClausesTest" classname="protocol.impl.sigma.SigmaClausesTest" time="0.0"/>
-  <testcase name="getSetTest" classname="protocol.impl.sigma.SigmaClausesTest" time="0.001"/>
+  <testcase name="getSetTest" classname="protocol.impl.sigma.SigmaClausesTest" time="0.0"/>
   <testcase name="equalTest" classname="protocol.impl.sigma.SigmaClausesTest" time="0.0"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>

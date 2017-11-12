@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="model.validator.ItemValidatorTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2017-10-20T17:47:44" hostname="raphael-laptop" time="0.614">
+<testsuite name="model.validator.ItemValidatorTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2017-11-09T16:25:23" hostname="raphael-laptop" time="0.606">
   <properties/>
-  <testcase name="signatureValidationTest" classname="model.validator.ItemValidatorTest" time="0.053"/>
-  <testcase name="badUsernameValidationTest" classname="model.validator.ItemValidatorTest" time="0.106"/>
-  <testcase name="badTitleValidationTest" classname="model.validator.ItemValidatorTest" time="0.164"/>
-  <testcase name="badpbKeyValidationTest" classname="model.validator.ItemValidatorTest" time="0.055"/>
-  <testcase name="badDateValidationTest" classname="model.validator.ItemValidatorTest" time="0.041"/>
-  <testcase name="badDescriptionValidationTest" classname="model.validator.ItemValidatorTest" time="0.154"/>
-  <testcase name="badUseridValidationTest" classname="model.validator.ItemValidatorTest" time="0.037"/>
+  <testcase name="signatureValidationTest" classname="model.validator.ItemValidatorTest" time="0.057"/>
+  <testcase name="badUsernameValidationTest" classname="model.validator.ItemValidatorTest" time="0.176"/>
+  <testcase name="badTitleValidationTest" classname="model.validator.ItemValidatorTest" time="0.108"/>
+  <testcase name="badpbKeyValidationTest" classname="model.validator.ItemValidatorTest" time="0.033"/>
+  <testcase name="badDateValidationTest" classname="model.validator.ItemValidatorTest" time="0.025"/>
+  <testcase name="badDescriptionValidationTest" classname="model.validator.ItemValidatorTest" time="0.141"/>
+  <testcase name="badUseridValidationTest" classname="model.validator.ItemValidatorTest" time="0.048"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
