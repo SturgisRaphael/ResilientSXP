@@ -1,8 +1,13 @@
 package resilience.impl;
 
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.StandardOpenOption;
 import java.util.Collection;
 
 import org.eclipse.persistence.jpa.rs.util.metadatasources.ItemLinksMetadataSource;
@@ -32,68 +37,77 @@ public class ClearData extends SaveDecorator{
 	}
 
 	private void writeContracts(String path) {
-		PrintWriter writer;
+		File file = new File (path);
+		BufferedWriter out;
 		try {
-			writer = new PrintWriter(path, "UTF-8");
-			writer.println("Contracts :");
+			out = new BufferedWriter(new FileWriter(file,true));
+			out.write("<contracts>");
+			out.newLine();
 			Collection<ContractEntity> contractCollection = contracts.findAll();
 			for(ContractEntity c : contractCollection)
 			{
 				if(c.getUserid() == u.getId()) {
-					writer.println(c.toString());
+					out.write(c.toString());
+					out.newLine();
 				}
 			}
-		} catch (FileNotFoundException e) {
+			out.write("</contracts>");
+			out.newLine();
+			out.close();
+		} catch (IOException e1) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e1.printStackTrace();
 		}
 	}
-	
+
 	private void writeItems(String path) {
-		PrintWriter writer;
+		File file = new File (path);
+		BufferedWriter out;
 		try {
-			writer = new PrintWriter(path, "UTF-8");
-			writer.println("Item :");
+			out = new BufferedWriter(new FileWriter(file,true));
+			out.write("<items>");
+			out.newLine();
 			Collection<Item> itemsCollection = items.findAll();
-			for(Item c : itemsCollection)
+			for(Item i : itemsCollection)
 			{
-				if(c.getUserid() == u.getId()) {
-					writer.println(c.toString());
+				if(i.getUserid() == u.getId()) {
+					out.write(i.toString());
+					out.newLine();
 				}
 			}
-		} catch (FileNotFoundException e) {
+			out.write("</items>");
+			out.newLine();
+			out.close();
+		} catch (IOException e1) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e1.printStackTrace();
 		}
 	}
-	
+
 	private void writeMessages(String path) {
-		PrintWriter writer;
+		File file = new File (path);
+		BufferedWriter out;
 		try {
-			writer = new PrintWriter(path, "UTF-8");
-			writer.println("Item :");
+			out = new BufferedWriter(new FileWriter(file,true));
+			out.write("<message>");
+			out.newLine();
 			Collection<Message> messagesCollection = messages.findAll();
-			for(Message c : messagesCollection)
+			for(Message m : messagesCollection)
 			{
-				if(c.getReceiverId() == u.getId() || c.getSenderId() == u.getId()) {
-					writer.println(c.toString());
+				if(m.getReceiverId() == u.getId() || m.getSenderId() == u.getId()) {
+					out.write(m.toString());
+					out.newLine();
 				}
 			}
-		} catch (FileNotFoundException e) {
+			out.write("</message>");
+			out.newLine();
+			out.close();
+		} catch (IOException e1) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e1.printStackTrace();
 		}
 	}
-	
+			
 	public ClearData(Save save) {
 		super(save);
 	}
@@ -105,10 +119,23 @@ public class ClearData extends SaveDecorator{
 		writeContracts(path);
 		writeItems(path);
 		writeMessages(path);
+		
+		File file = new File (path);
+		BufferedWriter out;
+		try {
+			out = new BufferedWriter(new FileWriter(file,true));
+			out.write("</data>");
+			out.close();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 	
 	@Override
-	public void read(String path) {
+	public boolean read(String path) {
+		
+		return super.read(path);
 		
 	}
 

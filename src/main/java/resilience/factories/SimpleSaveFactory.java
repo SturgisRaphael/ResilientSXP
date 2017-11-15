@@ -1,6 +1,10 @@
 package resilience.factories;
 
+import model.api.ContractSyncManager;
+import model.api.ItemSyncManager;
 import model.api.Manager;
+import model.api.MessageSyncManager;
+import model.entity.User;
 import resilience.api.Save;
 import resilience.impl.ClearData;
 import resilience.impl.SimpleSave;
@@ -16,9 +20,9 @@ public class SimpleSaveFactory {
 		this.pathToSaveFile = pathToSaveFile;
 	}
 	
-	public void writeSave(String username, Manager<?> db) {
-		header = new SimpleSave(username);
-		data = new ClearData(header, db);
+	public void writeSave(User user, ContractSyncManager  contracts, ItemSyncManager items, MessageSyncManager messages) {
+		header = new SimpleSave(user);
+		data = new ClearData(header, contracts, items, messages, user);
 		save = data;
 		save.write(pathToSaveFile);
 	}
@@ -29,5 +33,39 @@ public class SimpleSaveFactory {
 		save = data;
 		
 		save.read(pathToSaveFile);
-	}	
+	}
+
+	public SimpleSave getHeader() {
+		return header;
+	}
+
+	public void setHeader(SimpleSave header) {
+		this.header = header;
+	}
+
+	public ClearData getData() {
+		return data;
+	}
+
+	public void setData(ClearData data) {
+		this.data = data;
+	}
+
+	public Save getSave() {
+		return save;
+	}
+
+	public void setSave(Save save) {
+		this.save = save;
+	}
+
+	public String getPathToSaveFile() {
+		return pathToSaveFile;
+	}
+
+	public void setPathToSaveFile(String pathToSaveFile) {
+		this.pathToSaveFile = pathToSaveFile;
+	}
+	
+	
 }

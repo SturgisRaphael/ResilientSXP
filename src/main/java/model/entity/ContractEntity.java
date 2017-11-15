@@ -181,4 +181,44 @@ public class ContractEntity {
 	public void setEstablishementData(String e) {
 		this.establishementData = e;
 	}
+	
+	@Override
+	public String toString() {
+		return "ContractEntity [id=" + id + ", userid=" + userid + ", createdAt=" + createdAt + ", title=" + title
+				+ ", clauses=" + clauses + ", parties=" + parties + ", partiesNames=" + partiesNames + ", wish=" + wish
+				+ ", status=" + status + ", signatures=" + signatures + ", establisherType=" + establisherType
+				+ ", establishementData=" + establishementData + "]";
+	}
+
+
+	private String signaturesToString() {
+		String result = new String();
+		for(int i = 0; i < parties.size(); i++)
+			result += "<signature>" + signatures.get(parties.get(i)) + "</signature>";
+		return result;
+	}
+
+
+	private String partiesNamesToString() {
+		String result = new String();
+		for(int i = 0; i < parties.size(); i++)
+			result += "<partieName>" + partiesNames.get(parties.get(i)) + "</partieName>";
+		return result;
+	}
+
+
+	private String partiesToString() {
+		String result = new String();
+		for(int i = 0; i < parties.size(); i++)
+			result += "<partie>" + parties.get(i) + "</partie>";
+		return result;
+	}
+
+
+	private String clausesToString() {
+		String result = new String();
+		for(int i = 0; i < clauses.size(); i++)
+			result += "<clause>" + clauses.get(i) + "</clause>";
+		return result;
+	}
 }

@@ -1,6 +1,7 @@
 package model.entity;
 
 import java.math.BigInteger;
+import java.time.Instant;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -133,4 +134,11 @@ public class Item {
 	public void setSignature(ElGamalSignEntity signature) {
 		this.signature = signature;
 	}
+	
+	@Override
+	public String toString() {
+		return "Item [id=" + id + ", title=" + title + ", description=" + description + ", createdAt=" + createdAt
+				+ ", pbkey=" + pbkey + ", username=" + username + ", userid=" + userid + ", signature=" + signature
+				+ "]";
+	}	
 }

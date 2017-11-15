@@ -1,6 +1,10 @@
 package resilience.impl;
 
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 
@@ -16,21 +20,20 @@ public abstract class SaveDecorator implements Save{
 	public void write(String path)
 	{
 		save.write(path);
-				
-		PrintWriter writer;
+		File file = new File (path);
+		BufferedWriter out;
 		try {
-			writer = new PrintWriter(path, "UTF-8");
-			writer.println("Data :");
-		} catch (FileNotFoundException e) {
+			out = new BufferedWriter(new FileWriter(file, true));
+			out.write("<data>");
+	        out.newLine();
+			out.close();
+		} catch (IOException e1) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e1.printStackTrace();
 		}
 	}
 	
-	public void read(String path){
-		save.read(path);
+	public boolean read(String path){
+		return save.read(path);
 	}
 }

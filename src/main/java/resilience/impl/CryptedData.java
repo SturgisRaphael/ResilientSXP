@@ -18,7 +18,8 @@ public class CryptedData extends SaveDecorator{
 	}
 	
 	@Override
-	public void read(String path) {
+	public boolean read(String path) {
+		return false;
 		
 	}
 }

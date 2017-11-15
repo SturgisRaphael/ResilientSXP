@@ -1,0 +1,13 @@
+<Header>
+User [username=username, id=001]
+Date [date=Wed Nov 15 09:23:07 CET 2017]
+</Header>
+<data>
+<contracts>
+</contracts>
+<items>
+Item [id=0DEFD0AB-2FBC-406E-BD24-644C7C63BCC2, title=blipblip, description=blibloublou, createdAt=Wed Nov 15 09:23:07 CET 2017, pbkey=101, username=username, userid=001, signature=ElGamalSignEntity [r=10000, s=10001]]
+</items>
+<message>
+</message>
+</data>
