@@ -9,6 +9,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -56,37 +59,122 @@ public class SimpleSave implements Save{
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean read(String path) {
-		Scanner in = new Scanner(path);
-		String userLine;
-		u = new User();
+//		Scanner in = new Scanner(path);
+//		String userLine;
+//		u = new User();
+//		userLine = in.nextLine();
+//		System.out.println("userLine = " + userLine);
+//		userLine = in.nextLine();
+//		System.out.println("userLine = " + userLine);
+//		if(!userLine.contentEquals("<Header>")) {
+//			return false;
+//		}
+//		System.out.println("header ok");
+//		
+//		
+//		Scanner user = new Scanner(userLine);
+//		
+//		user.useDelimiter("[");
+//		if(user.next().contentEquals("User "))
+//			return false;
+//		System.out.println("user ok");
+//		
+//		Scanner userData = new Scanner(user.next());
+//		userData.useDelimiter(",");
+//		
+//		Scanner usernameScan = new Scanner(userData.next());
+//		usernameScan.useDelimiter("=");
+//		
+//		if(!usernameScan.next().contentEquals("username"))
+//			return false;
+//		System.out.println("username ok");
+//		u.setNick(usernameScan.next());
+//		
+//		Scanner idScan = new Scanner(user.next());
+//		idScan.useDelimiter("=");
+//		
+//		if(!idScan.next().contentEquals("id"))
+//			return false;
+//		System.out.println("id ok");
+//		u.setId(idScan.next());
+//		
+//		System.out.println("----------------test scan : " + u);
 		
-		if(!(userLine = in.nextLine()).contentEquals("<Header>")) {
-			return false;
+		FileReader fileReader;
+		try {
+			fileReader = new FileReader(path);
+						
+			 BufferedReader bufferedReader = new BufferedReader(fileReader);
+			 
+			 if(!bufferedReader.readLine().contentEquals("<Header>"))
+			 {
+				 System.out.println("Error: header");
+				 bufferedReader.close();
+				 return false;
+			 }
+			 String userLine = bufferedReader.readLine();
+			 String[] tmp = userLine.split("\\[");
+			 if(!tmp[0].contentEquals("User ")){
+				 System.out.println("Error: User");
+				 bufferedReader.close();
+				 return false;
+			 }
+			 
+			 String[] tmp2 = tmp[1].split(", ");
+			 String[] tmp3 = tmp2[0].split("=");
+			 String[] tmp4 = tmp2[1].split("=");
+			 
+			 if(!tmp3[0].contentEquals("username"))
+			 {
+				 System.out.println("Error: username");
+				 bufferedReader.close();
+				 return false;
+			 }
+			 if(!tmp4[0].contentEquals("id"))
+			 {
+				 System.out.println("Error: id");
+				 bufferedReader.close();
+				 return false;
+			 }
+			 
+			 u.setNick(tmp3[1]);
+			 u.setId(tmp4[1].substring(0, tmp4[1].length() - 1));
+			 
+			 String dateLine = bufferedReader.readLine();
+			 
+			 tmp = dateLine.split("\\[");
+			 if(!tmp[0].contentEquals("Date ")){
+				 System.out.println("Error: date line");
+				 bufferedReader.close();
+				 return false;
+			 }
+			 tmp2 = tmp[1].split("=");
+			 if(!tmp2[0].contentEquals("date")){
+				 System.out.println("Error: date");
+				 bufferedReader.close();
+				 return false;
+			 }
+			 
+			 DateFormat df = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy"); 
+			 try {
+			     date = df.parse(tmp2[1]);
+			     String newDateString = df.format(date);
+			 } catch (ParseException e) {
+			     e.printStackTrace();
+			 }
+			 
+			 bufferedReader.close();
+			 
+			 return true;
+			 
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		Scanner user = new Scanner(userLine);
-		
-		user.useDelimiter("[");
-		if(user.next().contentEquals("User "))
-			return false;
-		
-		Scanner userData = new Scanner(user.next());
-		userData.useDelimiter(",");
-		
-		Scanner usernameScan = new Scanner(userData.next());
-		usernameScan.useDelimiter("=");
-		
-		if(!usernameScan.next().contentEquals("username"))
-			return false;
-		u.setNick(usernameScan.next());
-		
-		Scanner idScan = new Scanner(user.next());
-		idScan.useDelimiter("=");
-		
-		if(!idScan.next().contentEquals("id"))
-			return false;
-		u.setId(idScan.next());
+       
 		
 		return true;
 	}

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="protocol.impl.sigma.FabricTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2017-11-09T16:26:24" hostname="raphael-laptop" time="0.076">
+<testsuite name="protocol.impl.sigma.FabricTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2017-11-15T13:32:34" hostname="raphael-laptop" time="0.064">
   <properties/>
-  <testcase name="sendResponsesTest" classname="protocol.impl.sigma.FabricTest" time="0.076"/>
+  <testcase name="sendResponsesTest" classname="protocol.impl.sigma.FabricTest" time="0.064"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

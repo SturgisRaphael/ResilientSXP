@@ -136,7 +136,6 @@ public class ClearData extends SaveDecorator{
 	public boolean read(String path) {
 		
 		return super.read(path);
-		
 	}
 
 	public ContractSyncManager getContracts() {

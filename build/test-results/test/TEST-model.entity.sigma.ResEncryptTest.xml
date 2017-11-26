@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="model.entity.sigma.ResEncryptTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2017-11-09T16:25:46" hostname="raphael-laptop" time="0.002">
+<testsuite name="model.entity.sigma.ResEncryptTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2017-11-15T13:31:45" hostname="raphael-laptop" time="0.002">
   <properties/>
   <testcase name="toStringTest" classname="model.entity.sigma.ResEncryptTest" time="0.001"/>
   <testcase name="getterSetterTest" classname="model.entity.sigma.ResEncryptTest" time="0.001"/>

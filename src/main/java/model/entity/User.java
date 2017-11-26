@@ -1,6 +1,5 @@
 package model.entity;
 
-import java.util.Arrays;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -114,12 +113,5 @@ public class User {
 
 	public void setSignature(ElGamalSignEntity signature) {
 		this.signature = signature;
-	}
-
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", nick=" + nick + ", salt=" + Arrays.toString(salt) + ", passwordHash="
-				+ Arrays.toString(passwordHash) + ", createdAt=" + createdAt + ", keys=" + keys + ", signature="
-				+ signature + "]";
 	}
 }

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="model.syncManager.ItemSyncManagerImplTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2017-11-09T16:25:44" hostname="raphael-laptop" time="0.341">
+<testsuite name="model.syncManager.ItemSyncManagerImplTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2017-11-15T13:31:44" hostname="raphael-laptop" time="0.379">
   <properties/>
-  <testcase name="testA" classname="model.syncManager.ItemSyncManagerImplTest" time="0.075"/>
-  <testcase name="testB" classname="model.syncManager.ItemSyncManagerImplTest" time="0.087"/>
-  <testcase name="testC" classname="model.syncManager.ItemSyncManagerImplTest" time="0.053"/>
-  <testcase name="testD" classname="model.syncManager.ItemSyncManagerImplTest" time="0.124"/>
+  <testcase name="testA" classname="model.syncManager.ItemSyncManagerImplTest" time="0.095"/>
+  <testcase name="testB" classname="model.syncManager.ItemSyncManagerImplTest" time="0.152"/>
+  <testcase name="testC" classname="model.syncManager.ItemSyncManagerImplTest" time="0.036"/>
+  <testcase name="testD" classname="model.syncManager.ItemSyncManagerImplTest" time="0.096"/>
   <system-out><![CDATA[javax.validation.ConstraintViolationException: Bean Validation constraint(s) violated while executing Automatic Bean Validation on callback event:'prePersist'. Please refer to embedded ConstraintViolations for details.
 ]]></system-out>
   <system-err><![CDATA[]]></system-err>

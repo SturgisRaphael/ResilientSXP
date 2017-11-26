@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="model.entity.sigma.OrTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2017-11-09T16:25:45" hostname="raphael-laptop" time="0.433">
+<testsuite name="model.entity.sigma.OrTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2017-11-15T13:31:44" hostname="raphael-laptop" time="0.42">
   <properties/>
-  <testcase name="badVerifyTest" classname="model.entity.sigma.OrTest" time="0.182"/>
-  <testcase name="goodVerifyTest" classname="model.entity.sigma.OrTest" time="0.164"/>
-  <testcase name="getterSetterTest" classname="model.entity.sigma.OrTest" time="0.084"/>
+  <testcase name="badVerifyTest" classname="model.entity.sigma.OrTest" time="0.17"/>
+  <testcase name="goodVerifyTest" classname="model.entity.sigma.OrTest" time="0.161"/>
+  <testcase name="getterSetterTest" classname="model.entity.sigma.OrTest" time="0.085"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

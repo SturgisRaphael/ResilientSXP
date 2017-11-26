@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="protocol.impl.sigma.SigmaContractTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2017-11-09T16:26:26" hostname="raphael-laptop" time="3.662">
+<testsuite name="protocol.impl.sigma.SigmaContractTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2017-11-15T13:32:36" hostname="raphael-laptop" time="2.605">
   <properties/>
-  <testcase name="setPartiesTest" classname="protocol.impl.sigma.SigmaContractTest" time="0.573"/>
+  <testcase name="setPartiesTest" classname="protocol.impl.sigma.SigmaContractTest" time="0.506"/>
   <testcase name="clausesGetterTest" classname="protocol.impl.sigma.SigmaContractTest" time="0.001"/>
-  <testcase name="finalizedTest" classname="protocol.impl.sigma.SigmaContractTest" time="1.414"/>
+  <testcase name="finalizedTest" classname="protocol.impl.sigma.SigmaContractTest" time="1.252"/>
   <testcase name="getSetStatusTest" classname="protocol.impl.sigma.SigmaContractTest" time="0.001"/>
-  <testcase name="getSetWishTest" classname="protocol.impl.sigma.SigmaContractTest" time="0.0"/>
-  <testcase name="equalsTest" classname="protocol.impl.sigma.SigmaContractTest" time="0.0"/>
-  <testcase name="addSignatureExceptionTest1" classname="protocol.impl.sigma.SigmaContractTest" time="0.122"/>
-  <testcase name="addSignatureExceptionTest2" classname="protocol.impl.sigma.SigmaContractTest" time="0.118"/>
-  <testcase name="badFinalizationTest" classname="protocol.impl.sigma.SigmaContractTest" time="1.424"/>
+  <testcase name="getSetWishTest" classname="protocol.impl.sigma.SigmaContractTest" time="0.001"/>
+  <testcase name="equalsTest" classname="protocol.impl.sigma.SigmaContractTest" time="0.001"/>
+  <testcase name="addSignatureExceptionTest1" classname="protocol.impl.sigma.SigmaContractTest" time="0.127"/>
+  <testcase name="addSignatureExceptionTest2" classname="protocol.impl.sigma.SigmaContractTest" time="0.131"/>
+  <testcase name="badFinalizationTest" classname="protocol.impl.sigma.SigmaContractTest" time="0.566"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

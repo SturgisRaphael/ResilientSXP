@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="model.entity.sigma.ResponsesCCETest" tests="2" skipped="0" failures="0" errors="0" timestamp="2017-11-09T16:25:46" hostname="raphael-laptop" time="0.273">
+<testsuite name="model.entity.sigma.ResponsesCCETest" tests="2" skipped="0" failures="0" errors="0" timestamp="2017-11-15T13:31:45" hostname="raphael-laptop" time="0.283">
   <properties/>
-  <testcase name="verifyTest" classname="model.entity.sigma.ResponsesCCETest" time="0.132"/>
-  <testcase name="equalTest" classname="model.entity.sigma.ResponsesCCETest" time="0.14"/>
+  <testcase name="verifyTest" classname="model.entity.sigma.ResponsesCCETest" time="0.114"/>
+  <testcase name="equalTest" classname="model.entity.sigma.ResponsesCCETest" time="0.168"/>
   <system-out><![CDATA[CCE verification failed on test 2
 CCE verification failed on test 1
 ]]></system-out>

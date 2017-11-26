@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="crypt.impl.signatures.ElGamalSignerTest" tests="20" skipped="0" failures="0" errors="0" timestamp="2017-11-09T16:25:10" hostname="raphael-laptop" time="2.54">
+<testsuite name="crypt.impl.signatures.ElGamalSignerTest" tests="20" skipped="0" failures="0" errors="0" timestamp="2017-11-15T13:31:10" hostname="raphael-laptop" time="3.477">
   <properties/>
-  <testcase name="testVerifyExceptions2[0]" classname="crypt.impl.signatures.ElGamalSignerTest" time="0.423"/>
-  <testcase name="test[0]" classname="crypt.impl.signatures.ElGamalSignerTest" time="0.906"/>
-  <testcase name="testSignExceptions2[0]" classname="crypt.impl.signatures.ElGamalSignerTest" time="0.012"/>
+  <testcase name="testVerifyExceptions2[0]" classname="crypt.impl.signatures.ElGamalSignerTest" time="0.391"/>
+  <testcase name="test[0]" classname="crypt.impl.signatures.ElGamalSignerTest" time="0.716"/>
+  <testcase name="testSignExceptions2[0]" classname="crypt.impl.signatures.ElGamalSignerTest" time="0.014"/>
   <testcase name="testVerifyExceptions[0]" classname="crypt.impl.signatures.ElGamalSignerTest" time="0.006"/>
   <testcase name="testSignExceptions[0]" classname="crypt.impl.signatures.ElGamalSignerTest" time="0.001"/>
-  <testcase name="testVerifyExceptions2[1]" classname="crypt.impl.signatures.ElGamalSignerTest" time="0.016"/>
-  <testcase name="test[1]" classname="crypt.impl.signatures.ElGamalSignerTest" time="0.328"/>
-  <testcase name="testSignExceptions2[1]" classname="crypt.impl.signatures.ElGamalSignerTest" time="0.017"/>
-  <testcase name="testVerifyExceptions[1]" classname="crypt.impl.signatures.ElGamalSignerTest" time="0.002"/>
-  <testcase name="testSignExceptions[1]" classname="crypt.impl.signatures.ElGamalSignerTest" time="0.001"/>
+  <testcase name="testVerifyExceptions2[1]" classname="crypt.impl.signatures.ElGamalSignerTest" time="0.021"/>
+  <testcase name="test[1]" classname="crypt.impl.signatures.ElGamalSignerTest" time="0.278"/>
+  <testcase name="testSignExceptions2[1]" classname="crypt.impl.signatures.ElGamalSignerTest" time="0.012"/>
+  <testcase name="testVerifyExceptions[1]" classname="crypt.impl.signatures.ElGamalSignerTest" time="0.004"/>
+  <testcase name="testSignExceptions[1]" classname="crypt.impl.signatures.ElGamalSignerTest" time="0.002"/>
   <testcase name="testVerifyExceptions2[2]" classname="crypt.impl.signatures.ElGamalSignerTest" time="0.016"/>
-  <testcase name="test[2]" classname="crypt.impl.signatures.ElGamalSignerTest" time="0.466"/>
-  <testcase name="testSignExceptions2[2]" classname="crypt.impl.signatures.ElGamalSignerTest" time="0.012"/>
+  <testcase name="test[2]" classname="crypt.impl.signatures.ElGamalSignerTest" time="0.919"/>
+  <testcase name="testSignExceptions2[2]" classname="crypt.impl.signatures.ElGamalSignerTest" time="0.013"/>
   <testcase name="testVerifyExceptions[2]" classname="crypt.impl.signatures.ElGamalSignerTest" time="0.004"/>
   <testcase name="testSignExceptions[2]" classname="crypt.impl.signatures.ElGamalSignerTest" time="0.003"/>
-  <testcase name="testVerifyExceptions2[3]" classname="crypt.impl.signatures.ElGamalSignerTest" time="0.012"/>
-  <testcase name="test[3]" classname="crypt.impl.signatures.ElGamalSignerTest" time="0.269"/>
-  <testcase name="testSignExceptions2[3]" classname="crypt.impl.signatures.ElGamalSignerTest" time="0.017"/>
-  <testcase name="testVerifyExceptions[3]" classname="crypt.impl.signatures.ElGamalSignerTest" time="0.004"/>
+  <testcase name="testVerifyExceptions2[3]" classname="crypt.impl.signatures.ElGamalSignerTest" time="0.01"/>
+  <testcase name="test[3]" classname="crypt.impl.signatures.ElGamalSignerTest" time="0.97"/>
+  <testcase name="testSignExceptions2[3]" classname="crypt.impl.signatures.ElGamalSignerTest" time="0.024"/>
+  <testcase name="testVerifyExceptions[3]" classname="crypt.impl.signatures.ElGamalSignerTest" time="0.0"/>
   <testcase name="testSignExceptions[3]" classname="crypt.impl.signatures.ElGamalSignerTest" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>

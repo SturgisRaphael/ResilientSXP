@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="crypt.impl.hashs.SHA256HasherTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2017-11-09T16:25:15" hostname="raphael-laptop" time="1.442">
+<testsuite name="crypt.impl.hashs.SHA256HasherTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2017-11-15T13:31:16" hostname="raphael-laptop" time="1.576">
   <properties/>
-  <testcase name="testDeterminism[0]" classname="crypt.impl.hashs.SHA256HasherTest" time="0.008"/>
-  <testcase name="testHashLength[0]" classname="crypt.impl.hashs.SHA256HasherTest" time="0.027"/>
-  <testcase name="testSaltEffect[0]" classname="crypt.impl.hashs.SHA256HasherTest" time="0.002"/>
-  <testcase name="testHashableHash[0]" classname="crypt.impl.hashs.SHA256HasherTest" time="0.006"/>
-  <testcase name="testForCollisions[0]" classname="crypt.impl.hashs.SHA256HasherTest" time="0.762"/>
+  <testcase name="testDeterminism[0]" classname="crypt.impl.hashs.SHA256HasherTest" time="0.002"/>
+  <testcase name="testHashLength[0]" classname="crypt.impl.hashs.SHA256HasherTest" time="0.021"/>
+  <testcase name="testSaltEffect[0]" classname="crypt.impl.hashs.SHA256HasherTest" time="0.006"/>
+  <testcase name="testHashableHash[0]" classname="crypt.impl.hashs.SHA256HasherTest" time="0.008"/>
+  <testcase name="testForCollisions[0]" classname="crypt.impl.hashs.SHA256HasherTest" time="0.877"/>
   <testcase name="testDeterminism[1]" classname="crypt.impl.hashs.SHA256HasherTest" time="0.001"/>
-  <testcase name="testHashLength[1]" classname="crypt.impl.hashs.SHA256HasherTest" time="0.004"/>
-  <testcase name="testSaltEffect[1]" classname="crypt.impl.hashs.SHA256HasherTest" time="0.001"/>
-  <testcase name="testHashableHash[1]" classname="crypt.impl.hashs.SHA256HasherTest" time="0.002"/>
-  <testcase name="testForCollisions[1]" classname="crypt.impl.hashs.SHA256HasherTest" time="0.609"/>
+  <testcase name="testHashLength[1]" classname="crypt.impl.hashs.SHA256HasherTest" time="0.01"/>
+  <testcase name="testSaltEffect[1]" classname="crypt.impl.hashs.SHA256HasherTest" time="0.003"/>
+  <testcase name="testHashableHash[1]" classname="crypt.impl.hashs.SHA256HasherTest" time="0.005"/>
+  <testcase name="testForCollisions[1]" classname="crypt.impl.hashs.SHA256HasherTest" time="0.617"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

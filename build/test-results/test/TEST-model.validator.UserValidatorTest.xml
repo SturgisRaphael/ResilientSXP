@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="model.validator.UserValidatorTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2017-11-09T16:25:22" hostname="raphael-laptop" time="1.684">
+<testsuite name="model.validator.UserValidatorTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2017-11-15T13:31:22" hostname="raphael-laptop" time="1.946">
   <properties/>
-  <testcase name="badPasswordHashValidationTest" classname="model.validator.UserValidatorTest" time="1.342"/>
-  <testcase name="goodValidationTest" classname="model.validator.UserValidatorTest" time="0.038"/>
-  <testcase name="badSaltValidationTest" classname="model.validator.UserValidatorTest" time="0.034"/>
-  <testcase name="noEntityTest" classname="model.validator.UserValidatorTest" time="0.001"/>
-  <testcase name="badKeyValidationTest" classname="model.validator.UserValidatorTest" time="0.049"/>
-  <testcase name="badCreatedAtValidationTest" classname="model.validator.UserValidatorTest" time="0.048"/>
-  <testcase name="badNickValidationTest" classname="model.validator.UserValidatorTest" time="0.17"/>
+  <testcase name="badPasswordHashValidationTest" classname="model.validator.UserValidatorTest" time="1.494"/>
+  <testcase name="goodValidationTest" classname="model.validator.UserValidatorTest" time="0.07"/>
+  <testcase name="badSaltValidationTest" classname="model.validator.UserValidatorTest" time="0.072"/>
+  <testcase name="noEntityTest" classname="model.validator.UserValidatorTest" time="0.003"/>
+  <testcase name="badKeyValidationTest" classname="model.validator.UserValidatorTest" time="0.078"/>
+  <testcase name="badCreatedAtValidationTest" classname="model.validator.UserValidatorTest" time="0.067"/>
+  <testcase name="badNickValidationTest" classname="model.validator.UserValidatorTest" time="0.161"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

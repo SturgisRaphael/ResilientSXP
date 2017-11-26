@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="crypt.utils.CryptoParserTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2017-11-09T16:25:18" hostname="raphael-laptop" time="1.449">
+<testsuite name="crypt.utils.CryptoParserTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2017-11-15T13:31:19" hostname="raphael-laptop" time="1.423">
   <properties/>
-  <testcase name="test_A_HashUser" classname="crypt.utils.CryptoParserTest" time="0.063"/>
-  <testcase name="test_B_SignuatureUser" classname="crypt.utils.CryptoParserTest" time="0.151"/>
-  <testcase name="test_C_signatureItem" classname="crypt.utils.CryptoParserTest" time="0.227"/>
-  <testcase name="test_D_signMessage" classname="crypt.utils.CryptoParserTest" time="0.85"/>
-  <testcase name="test_E_cryptAndDecryptMessage" classname="crypt.utils.CryptoParserTest" time="0.153"/>
+  <testcase name="test_A_HashUser" classname="crypt.utils.CryptoParserTest" time="0.05"/>
+  <testcase name="test_B_SignuatureUser" classname="crypt.utils.CryptoParserTest" time="0.169"/>
+  <testcase name="test_C_signatureItem" classname="crypt.utils.CryptoParserTest" time="0.723"/>
+  <testcase name="test_D_signMessage" classname="crypt.utils.CryptoParserTest" time="0.337"/>
+  <testcase name="test_E_cryptAndDecryptMessage" classname="crypt.utils.CryptoParserTest" time="0.14"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

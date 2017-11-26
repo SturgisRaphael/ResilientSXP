@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="protocol.impl.sigma.ElGamalEncryptTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2017-11-09T16:26:26" hostname="raphael-laptop" time="0.006">
+<testsuite name="protocol.impl.sigma.ElGamalEncryptTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2017-11-15T13:32:35" hostname="raphael-laptop" time="0.002">
   <properties/>
-  <testcase name="gettertest" classname="protocol.impl.sigma.ElGamalEncryptTest" time="0.004"/>
+  <testcase name="gettertest" classname="protocol.impl.sigma.ElGamalEncryptTest" time="0.001"/>
   <testcase name="setMTest" classname="protocol.impl.sigma.ElGamalEncryptTest" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>

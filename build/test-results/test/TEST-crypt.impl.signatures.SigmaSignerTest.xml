@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="crypt.impl.signatures.SigmaSignerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2017-11-09T16:25:15" hostname="raphael-laptop" time="0.267">
+<testsuite name="crypt.impl.signatures.SigmaSignerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2017-11-15T13:31:15" hostname="raphael-laptop" time="0.281">
   <properties/>
-  <testcase name="test" classname="crypt.impl.signatures.SigmaSignerTest" time="0.267"/>
+  <testcase name="test" classname="crypt.impl.signatures.SigmaSignerTest" time="0.281"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

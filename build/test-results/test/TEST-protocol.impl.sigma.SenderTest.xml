@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="protocol.impl.sigma.SenderTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2017-11-09T16:26:26" hostname="raphael-laptop" time="0.236">
+<testsuite name="protocol.impl.sigma.SenderTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2017-11-15T13:32:35" hostname="raphael-laptop" time="0.265">
   <properties/>
-  <testcase name="getKeyTest" classname="protocol.impl.sigma.SenderTest" time="0.018"/>
-  <testcase name="schnorrResponseTest" classname="protocol.impl.sigma.SenderTest" time="0.074"/>
-  <testcase name="CCEResponseTest" classname="protocol.impl.sigma.SenderTest" time="0.144"/>
+  <testcase name="getKeyTest" classname="protocol.impl.sigma.SenderTest" time="0.02"/>
+  <testcase name="schnorrResponseTest" classname="protocol.impl.sigma.SenderTest" time="0.086"/>
+  <testcase name="CCEResponseTest" classname="protocol.impl.sigma.SenderTest" time="0.158"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

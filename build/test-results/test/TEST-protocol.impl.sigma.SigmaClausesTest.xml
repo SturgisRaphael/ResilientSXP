@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="protocol.impl.sigma.SigmaClausesTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2017-11-09T16:26:24" hostname="raphael-laptop" time="0.008">
+<testsuite name="protocol.impl.sigma.SigmaClausesTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2017-11-15T13:32:34" hostname="raphael-laptop" time="0.001">
   <properties/>
   <testcase name="getHashableDataTest" classname="protocol.impl.sigma.SigmaClausesTest" time="0.001"/>
   <testcase name="getClausesTest" classname="protocol.impl.sigma.SigmaClausesTest" time="0.0"/>

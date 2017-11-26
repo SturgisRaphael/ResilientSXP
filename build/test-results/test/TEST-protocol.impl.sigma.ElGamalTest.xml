@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="protocol.impl.sigma.ElGamalTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2017-11-09T16:26:24" hostname="raphael-laptop" time="1.212">
+<testsuite name="protocol.impl.sigma.ElGamalTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2017-11-15T13:32:34" hostname="raphael-laptop" time="0.942">
   <properties/>
-  <testcase name="signatureVerifyTest" classname="protocol.impl.sigma.ElGamalTest" time="0.448"/>
-  <testcase name="privateKeyNullExceptionTest" classname="protocol.impl.sigma.ElGamalTest" time="0.012"/>
-  <testcase name="encryptDecryptTest" classname="protocol.impl.sigma.ElGamalTest" time="0.043"/>
+  <testcase name="signatureVerifyTest" classname="protocol.impl.sigma.ElGamalTest" time="0.291"/>
+  <testcase name="privateKeyNullExceptionTest" classname="protocol.impl.sigma.ElGamalTest" time="0.01"/>
+  <testcase name="encryptDecryptTest" classname="protocol.impl.sigma.ElGamalTest" time="0.036"/>
   <testcase name="verifySignatureException0Test" classname="protocol.impl.sigma.ElGamalTest" time="0.013"/>
-  <testcase name="verifySignatureException1Test" classname="protocol.impl.sigma.ElGamalTest" time="0.023"/>
-  <testcase name="verifySignatureException2Test" classname="protocol.impl.sigma.ElGamalTest" time="0.018"/>
-  <testcase name="verifySignatureException3Test" classname="protocol.impl.sigma.ElGamalTest" time="0.574"/>
-  <testcase name="encryptForContractTest" classname="protocol.impl.sigma.ElGamalTest" time="0.076"/>
+  <testcase name="verifySignatureException1Test" classname="protocol.impl.sigma.ElGamalTest" time="0.02"/>
+  <testcase name="verifySignatureException2Test" classname="protocol.impl.sigma.ElGamalTest" time="0.021"/>
+  <testcase name="verifySignatureException3Test" classname="protocol.impl.sigma.ElGamalTest" time="0.435"/>
+  <testcase name="encryptForContractTest" classname="protocol.impl.sigma.ElGamalTest" time="0.107"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

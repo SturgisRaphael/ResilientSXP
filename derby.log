@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Wed Nov 15 09:23:05 CET 2017:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-015f-bec6-4339-000005325fb8 
+Sat Nov 25 16:58:32 CET 2017:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-015f-f3e6-d6ce-000002141f80 
 on database directory /home/raphael/git/ResilientSXP/simpleDb with class loader sun.misc.Launcher$AppClassLoader@75b84c92 
 Loaded from file:/home/raphael/.gradle/caches/modules-2/files-2.1/org.apache.derby/derby/10.12.1.1/75070c744a8e52a7d17b8b476468580309d5cd09/derby-10.12.1.1.jar
 java.vendor=Oracle Corporation
