@@ -1,39 +1,39 @@
 package resilience.impl;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-
+import model.entity.User;
 import resilience.api.Save;
 
 public abstract class SaveDecorator implements Save{
 	protected Save save;
+	protected User u;
 	
-	public SaveDecorator(Save save) {
+	public SaveDecorator(Save save, User u) {
+		super();
 		this.save = save;
+		this.u = u;
 	}
 
-	public void write(String path)
-	{
-		save.write(path);
-		File file = new File (path);
-		BufferedWriter out;
-		try {
-			out = new BufferedWriter(new FileWriter(file, true));
-			out.write("<data>");
-	        out.newLine();
-			out.close();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+	public SaveDecorator(Save save) {
+		super();
+		this.save = save;
+		this.u = new User();
 	}
-	
-	public boolean read(String path){
-		return save.read(path);
+
+	@Override
+	public String write() {
+		return save.write();
+	}
+
+	@Override
+	public int read(String s) {
+		return save.read(s);
+	}
+
+	public Save getSave() {
+		return save;
+	}
+
+	public User getU() {
+		return u;
 	}
 }

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="crypt.impl.encryption.ElGamalEncrypterTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2017-11-18T18:01:52" hostname="raphael-MS-7816" time="0.029">
+  <properties/>
+  <testcase name="test[0]" classname="crypt.impl.encryption.ElGamalEncrypterTest" time="0.009"/>
+  <testcase name="testDecryptExceptions[0]" classname="crypt.impl.encryption.ElGamalEncrypterTest" time="0.0"/>
+  <testcase name="testEncryptExceptions[0]" classname="crypt.impl.encryption.ElGamalEncrypterTest" time="0.0"/>
+  <testcase name="test[1]" classname="crypt.impl.encryption.ElGamalEncrypterTest" time="0.009"/>
+  <testcase name="testDecryptExceptions[1]" classname="crypt.impl.encryption.ElGamalEncrypterTest" time="0.0"/>
+  <testcase name="testEncryptExceptions[1]" classname="crypt.impl.encryption.ElGamalEncrypterTest" time="0.0"/>
+  <testcase name="test[2]" classname="crypt.impl.encryption.ElGamalEncrypterTest" time="0.009"/>
+  <testcase name="testDecryptExceptions[2]" classname="crypt.impl.encryption.ElGamalEncrypterTest" time="0.0"/>
+  <testcase name="testEncryptExceptions[2]" classname="crypt.impl.encryption.ElGamalEncrypterTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="network.impl.messages.RequestItemMessageTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2017-11-18T18:01:40" hostname="raphael-MS-7816" time="0.011">
+  <properties/>
+  <testcase name="getterTest" classname="network.impl.messages.RequestItemMessageTest" time="0.001"/>
+  <testcase name="testFieldExceptions" classname="network.impl.messages.RequestItemMessageTest" time="0.01"/>
+  <testcase name="annotationTest" classname="network.impl.messages.RequestItemMessageTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="model.entity.sigma.OrTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2017-11-18T18:01:56" hostname="raphael-MS-7816" time="0.098">
+  <properties/>
+  <testcase name="badVerifyTest" classname="model.entity.sigma.OrTest" time="0.037"/>
+  <testcase name="goodVerifyTest" classname="model.entity.sigma.OrTest" time="0.038"/>
+  <testcase name="getterSetterTest" classname="model.entity.sigma.OrTest" time="0.022"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

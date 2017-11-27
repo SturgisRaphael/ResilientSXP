@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="controller.managers.CryptoUserManagerDecoratorTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2017-11-18T18:02:21" hostname="raphael-MS-7816" time="0.326">
+  <properties/>
+  <testcase name="test_A_PERSIST_and_END_function" classname="controller.managers.CryptoUserManagerDecoratorTest" time="0.181"/>
+  <testcase name="test_C_Hashed_Password_User" classname="controller.managers.CryptoUserManagerDecoratorTest" time="0.003"/>
+  <testcase name="test_C_check_Signature_User" classname="controller.managers.CryptoUserManagerDecoratorTest" time="0.01"/>
+  <testcase name="test_Z_cleanUsers" classname="controller.managers.CryptoUserManagerDecoratorTest" time="0.132"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

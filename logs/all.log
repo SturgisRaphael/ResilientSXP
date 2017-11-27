@@ -1,8 +1,49 @@
-2017-11-25 17:13:12.051 [main] DEBUG org.jboss.logging - Logging Provider: org.jboss.logging.Log4j2LoggerProvider
-2017-11-25 17:13:12.054 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 5.3.3.Final
-2017-11-25 17:13:12.106 [main] DEBUG org.hibernate.validator.internal.engine.resolver.DefaultTraversableResolver - Found javax.persistence.Persistence on classpath containing 'getPersistenceUtil'. Assuming JPA 2 environment. Trying to instantiate JPA aware TraversableResolver
-2017-11-25 17:13:12.108 [main] DEBUG org.hibernate.validator.internal.engine.resolver.DefaultTraversableResolver - Instantiated JPA aware TraversableResolver of type org.hibernate.validator.internal.engine.resolver.JPATraversableResolver.
-2017-11-25 17:13:12.124 [main] DEBUG org.hibernate.validator.internal.xml.ValidationXmlParser - Trying to load META-INF/validation.xml for XML based Validator configuration.
-2017-11-25 17:13:12.130 [main] DEBUG org.hibernate.validator.internal.xml.ResourceLoaderHelper - Trying to load META-INF/validation.xml via TCCL
-2017-11-25 17:13:12.131 [main] DEBUG org.hibernate.validator.internal.xml.ResourceLoaderHelper - Trying to load META-INF/validation.xml via Hibernate Validator's class loader
-2017-11-25 17:13:12.135 [main] DEBUG org.hibernate.validator.internal.xml.ValidationXmlParser - No META-INF/validation.xml found. Using annotation based configuration only.
+2017-11-27 22:32:31.873 [main] DEBUG org.jboss.logging - Logging Provider: org.jboss.logging.Log4j2LoggerProvider
+2017-11-27 22:32:31.874 [main] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 5.3.3.Final
+2017-11-27 22:32:31.886 [main] DEBUG org.hibernate.validator.internal.engine.resolver.DefaultTraversableResolver - Found javax.persistence.Persistence on classpath containing 'getPersistenceUtil'. Assuming JPA 2 environment. Trying to instantiate JPA aware TraversableResolver
+2017-11-27 22:32:31.887 [main] DEBUG org.hibernate.validator.internal.engine.resolver.DefaultTraversableResolver - Instantiated JPA aware TraversableResolver of type org.hibernate.validator.internal.engine.resolver.JPATraversableResolver.
+2017-11-27 22:32:31.888 [main] DEBUG org.hibernate.validator.internal.xml.ValidationXmlParser - Trying to load META-INF/validation.xml for XML based Validator configuration.
+2017-11-27 22:32:31.889 [main] DEBUG org.hibernate.validator.internal.xml.ResourceLoaderHelper - Trying to load META-INF/validation.xml via TCCL
+2017-11-27 22:32:31.890 [main] DEBUG org.hibernate.validator.internal.xml.ResourceLoaderHelper - Trying to load META-INF/validation.xml via Hibernate Validator's class loader
+2017-11-27 22:32:31.890 [main] DEBUG org.hibernate.validator.internal.xml.ValidationXmlParser - No META-INF/validation.xml found. Using annotation based configuration only.
+2017-11-27 22:33:32.636 [main] ERROR org.eclipse.persistence.internal.jpa.QueryImpl - javax.persistence.PersistenceException: Exception [EclipseLink-4002] (Eclipse Persistence Services - 2.6.3.v20160218-180e602): org.eclipse.persistence.exceptions.DatabaseException
+Internal Exception: java.sql.SQLTransactionRollbackException: A lock could not be obtained within the time requested
+Error Code: 30000
+Call: SELECT ID, CREATEDAT, DESCRIPTION, PBKEY, SIGNATURE, TITLE, USERID, USERNAME FROM ITEM
+Query: ReadAllQuery(referenceClass=Item sql="SELECT ID, CREATEDAT, DESCRIPTION, PBKEY, SIGNATURE, TITLE, USERID, USERNAME FROM ITEM")
+Exception [EclipseLink-4002] (Eclipse Persistence Services - 2.6.3.v20160218-180e602): org.eclipse.persistence.exceptions.DatabaseException
+Internal Exception: java.sql.SQLTransactionRollbackException: A lock could not be obtained within the time requested
+Error Code: 30000
+Call: SELECT ID, CREATEDAT, DESCRIPTION, PBKEY, SIGNATURE, TITLE, USERID, USERNAME FROM ITEM
+Query: ReadAllQuery(referenceClass=Item sql="SELECT ID, CREATEDAT, DESCRIPTION, PBKEY, SIGNATURE, TITLE, USERID, USERNAME FROM ITEM")
+org.eclipse.persistence.internal.jpa.QueryImpl.getDetailedException(QueryImpl.java:382)
+org.eclipse.persistence.internal.jpa.QueryImpl.executeReadQuery(QueryImpl.java:260)
+org.eclipse.persistence.internal.jpa.QueryImpl.getResultList(QueryImpl.java:473)
+model.syncManager.AbstractSyncManager.findAll(AbstractSyncManager.java:57)
+resilience.impl.ItemsDecoratorTest.testRead(ItemsDecoratorTest.java:84)
+sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+java.lang.reflect.Method.invoke(Method.java:498)
+org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)
+org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)
+org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)
+org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)
+org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)
+org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
+org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
+org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:86)
+org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:539)
+org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:761)
+org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:461)
+org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:207)
+

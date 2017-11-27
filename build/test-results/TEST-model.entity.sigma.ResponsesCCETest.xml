@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="model.entity.sigma.ResponsesCCETest" tests="2" skipped="0" failures="0" errors="0" timestamp="2017-11-18T18:01:56" hostname="raphael-MS-7816" time="0.054">
+  <properties/>
+  <testcase name="verifyTest" classname="model.entity.sigma.ResponsesCCETest" time="0.028"/>
+  <testcase name="equalTest" classname="model.entity.sigma.ResponsesCCETest" time="0.026"/>
+  <system-out><![CDATA[CCE verification failed on test 2
+CCE verification failed on test 1
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

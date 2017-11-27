@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="protocol.impl.sigma.TrentTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2017-11-18T18:02:08" hostname="raphael-MS-7816" time="0.042">
+  <properties/>
+  <testcase name="getterTest" classname="protocol.impl.sigma.TrentTest" time="0.0"/>
+  <testcase name="sendResponseTest2" classname="protocol.impl.sigma.TrentTest" time="0.019"/>
+  <testcase name="sendResponseTest" classname="protocol.impl.sigma.TrentTest" time="0.016"/>
+  <testcase name="decryptionTest" classname="protocol.impl.sigma.TrentTest" time="0.007"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

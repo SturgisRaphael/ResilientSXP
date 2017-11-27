@@ -133,4 +133,13 @@ public class Item {
 	public void setSignature(ElGamalSignEntity signature) {
 		this.signature = signature;
 	}
+
+	@Override
+	public String toString() {
+		return "Item [id=" + id + ", title=" + title + ", description=" + description + ", createdAt=" + createdAt
+				+ ", pbkey=" + pbkey + ", username=" + username + ", userid=" + userid + ", signature=" + signature
+				+ "]";
+	}
+	
+	
 }

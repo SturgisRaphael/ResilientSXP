@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EncryptedData.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ResilientSXP</a> &gt; <a href="index.source.html" class="el_package">resilience.impl</a> &gt; <span class="el_source">EncryptedData.java</span></div><h1>EncryptedData.java</h1><pre class="source lang-java linenums">package resilience.impl;
+
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.util.Collection;
+
+import crypt.api.encryption.Encrypter;
+import crypt.impl.encryption.ElGamalSerpentEncrypter;
+import model.api.ContractSyncManager;
+import model.api.ItemSyncManager;
+import model.api.Manager;
+import model.api.MessageSyncManager;
+import model.entity.ContractEntity;
+import model.entity.ElGamalKey;
+import model.entity.Item;
+import model.entity.Message;
+import model.entity.User;
+import resilience.api.Save;
+
+public class EncryptedData extends SaveDecorator{
+	private ContractSyncManager contracts;
+	private ItemSyncManager items;
+	private MessageSyncManager messages;
+	private User u;
+	private ElGamalKey key;
+	private Encrypter &lt;ElGamalKey&gt; encrypter;
+	
+	public EncryptedData(Save save, ContractSyncManager contracts, ItemSyncManager items, MessageSyncManager messages, User u) {
+<span class="nc" id="L31">		super(save);</span>
+<span class="nc" id="L32">		this.contracts = contracts;</span>
+<span class="nc" id="L33">		this.items = items;</span>
+<span class="nc" id="L34">		this.messages = messages;</span>
+<span class="nc" id="L35">		this.u = u;</span>
+<span class="nc" id="L36">		this.key = new ElGamalKey();</span>
+<span class="nc" id="L37">		key.setPrivateKey(new BigInteger(&quot;1&quot;));</span>
+<span class="nc" id="L38">		key.setPublicKey(new BigInteger(&quot;2&quot;));</span>
+<span class="nc" id="L39">		encrypter = new ElGamalSerpentEncrypter();</span>
+<span class="nc" id="L40">		encrypter.setKey(key);</span>
+<span class="nc" id="L41">	}</span>
+	
+
+	private void writeContracts(String path) {
+		PrintWriter writer;
+		try {
+<span class="nc" id="L47">			writer = new PrintWriter(path, &quot;UTF-8&quot;);</span>
+<span class="nc" id="L48">			writer.println(&quot;Contracts :&quot;);</span>
+<span class="nc" id="L49">			Collection&lt;ContractEntity&gt; contractCollection = contracts.findAll();</span>
+<span class="nc bnc" id="L50" title="All 2 branches missed.">			for(ContractEntity c : contractCollection)</span>
+			{
+<span class="nc bnc" id="L52" title="All 2 branches missed.">				if(c.getUserid() == u.getId()) {</span>
+<span class="nc" id="L53">					writer.println(encrypter.encrypt(c.toString().getBytes()));</span>
+				}
+<span class="nc" id="L55">			}</span>
+<span class="nc" id="L56">		} catch (FileNotFoundException e) {</span>
+			// TODO Auto-generated catch block
+<span class="nc" id="L58">			e.printStackTrace();</span>
+<span class="nc" id="L59">		} catch (UnsupportedEncodingException e) {</span>
+			// TODO Auto-generated catch block
+<span class="nc" id="L61">			e.printStackTrace();</span>
+<span class="nc" id="L62">		}</span>
+<span class="nc" id="L63">	}</span>
+	
+	private void writeItems(String path) {
+		PrintWriter writer;
+		try {
+<span class="nc" id="L68">			writer = new PrintWriter(path, &quot;UTF-8&quot;);</span>
+<span class="nc" id="L69">			writer.println(&quot;Item :&quot;);</span>
+<span class="nc" id="L70">			Collection&lt;Item&gt; itemsCollection = items.findAll();</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">			for(Item c : itemsCollection)</span>
+			{
+<span class="nc bnc" id="L73" title="All 2 branches missed.">				if(c.getUserid() == u.getId()) {</span>
+<span class="nc" id="L74">					writer.println(encrypter.encrypt(c.toString().getBytes()));</span>
+				}
+<span class="nc" id="L76">			}</span>
+<span class="nc" id="L77">		} catch (FileNotFoundException e) {</span>
+			// TODO Auto-generated catch block
+<span class="nc" id="L79">			e.printStackTrace();</span>
+<span class="nc" id="L80">		} catch (UnsupportedEncodingException e) {</span>
+			// TODO Auto-generated catch block
+<span class="nc" id="L82">			e.printStackTrace();</span>
+<span class="nc" id="L83">		}</span>
+<span class="nc" id="L84">	}</span>
+	
+	private void writeMessages(String path) {
+		PrintWriter writer;
+		try {
+<span class="nc" id="L89">			writer = new PrintWriter(path, &quot;UTF-8&quot;);</span>
+<span class="nc" id="L90">			writer.println(&quot;Item :&quot;);</span>
+<span class="nc" id="L91">			Collection&lt;Message&gt; messagesCollection = messages.findAll();</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">			for(Message c : messagesCollection)</span>
+			{
+<span class="nc bnc" id="L94" title="All 4 branches missed.">				if(c.getReceiverId() == u.getId() || c.getSenderId() == u.getId()) {</span>
+<span class="nc" id="L95">					writer.println(encrypter.encrypt(c.toString().getBytes()));</span>
+				}
+<span class="nc" id="L97">			}</span>
+<span class="nc" id="L98">		} catch (FileNotFoundException e) {</span>
+			// TODO Auto-generated catch block
+<span class="nc" id="L100">			e.printStackTrace();</span>
+<span class="nc" id="L101">		} catch (UnsupportedEncodingException e) {</span>
+			// TODO Auto-generated catch block
+<span class="nc" id="L103">			e.printStackTrace();</span>
+<span class="nc" id="L104">		}</span>
+<span class="nc" id="L105">	}</span>
+	
+
+	@Override
+	public void write(String path){
+<span class="nc" id="L110">		super.write(path);</span>
+		
+<span class="nc" id="L112">		writeContracts(path);</span>
+<span class="nc" id="L113">		writeItems(path);</span>
+<span class="nc" id="L114">		writeMessages(path);</span>
+<span class="nc" id="L115">	}</span>
+	
+	@Override
+	public boolean read(String path) {
+<span class="nc" id="L119">		return false;</span>
+		
+	}
+
+	public ContractSyncManager getContracts() {
+<span class="nc" id="L124">		return contracts;</span>
+	}
+
+	public ItemSyncManager getItems() {
+<span class="nc" id="L128">		return items;</span>
+	}
+
+	public MessageSyncManager getMessages() {
+<span class="nc" id="L132">		return messages;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

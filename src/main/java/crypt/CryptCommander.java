@@ -10,15 +10,14 @@ import javax.ws.rs.PathParam;
 
 import crypt.api.hashs.Hasher; // module to test dependencies
 import crypt.factories.HasherFactory;
-//import model.entity.ContractEntity;
-//import model.entity.ElGamalSignEntity;
-//import model.entity.Item;
-//import model.entity.User;
-//import model.syncManager.ContractSyncManagerImpl;
-//import model.syncManager.ItemSyncManagerImpl;
-//import model.syncManager.MessageSyncManagerImpl;
-//import resilience.factories.SimpleSaveFactory;
-import resilience.impl.ItemSave;
+import model.entity.ElGamalSignEntity;
+import model.entity.Item;
+import model.entity.User;
+import model.syncManager.ContractSyncManagerImpl;
+import model.syncManager.ItemSyncManagerImpl;
+import model.syncManager.MessageSyncManagerImpl;
+import resilience.api.Save;
+import resilience.factories.SaveFactory;
 import rest.api.ServletPath;
 import rest.factories.RestServerFactory;
 
@@ -33,46 +32,40 @@ public class CryptCommander {
     return new String(hasher.getHash(input.getBytes()));
   }
 
-  @SuppressWarnings("null")
 public static void main(String[] args) {
-//	  SimpleSaveFactory save = new SimpleSaveFactory("/home/raphael/git/ResilientSXP/fichierTest.txt");
-//	  
-//	  User u = new User();
-//	  u.setCreatedAt(new Date());
-//	  u.setId("001");
-//	  u.setNick("username");
-//	  u.setPasswordHash(null);
-//	  
-//	  ItemSyncManagerImpl ism = new ItemSyncManagerImpl();
-//	  
-//	  ism.begin();
-//	  
-//	  ElGamalSignEntity signature = new ElGamalSignEntity();
-//	  signature.setR(new BigInteger("10000"));
-//	  signature.setS(new BigInteger("10001"));
-//	  
-//	  Item i = new Item();
-//	  i.setCreatedAt(new Date());
-//	  i.setDescription("blibloublou");
-//	  i.setTitle("blipblip");
-//	  i.setPbkey(new BigInteger("101"));
-//	  i.setUsername("username");
-//	  i.setUserid("001");
-//	  i.setSignature(signature);
-//	  
-//	 
-//	  
-//	  ism.persist(i);
-//	  
-//	  save.writeSave(u, new ContractSyncManagerImpl(), ism, new MessageSyncManagerImpl());
-//	  
-//	  SimpleSaveFactory newSave = new SimpleSaveFactory("/home/raphael/git/ResilientSXP/fichierTest.txt");
-//	  
-//	  newSave.readSave();
-//	  
-//	  System.out.println("newSave.getHeader().getU() = " + newSave.getHeader().getU());
-//	  
-//	  ism.close();
+	  User u = new User();
+	  u.setCreatedAt(new Date());
+	  u.setId("001");
+	  u.setNick("username");
+	  u.setPasswordHash(null);
+	  
+	  ItemSyncManagerImpl ism = new ItemSyncManagerImpl();
+	  ContractSyncManagerImpl csm = new ContractSyncManagerImpl();
+	  MessageSyncManagerImpl msm = new MessageSyncManagerImpl();
+	  
+	  ism.begin();
+	  
+	  ElGamalSignEntity signature = new ElGamalSignEntity();
+	  signature.setR(new BigInteger("10000"));
+	  signature.setS(new BigInteger("10001"));
+	 
+	  Item i = new Item();
+	  i.setCreatedAt(new Date());
+	  i.setDescription("blibloublou");
+	  i.setTitle("blipblip");
+	  i.setPbkey(new BigInteger("101"));
+	  i.setUsername("username");
+	  i.setUserid("001");
+	  i.setSignature(signature);
+	  System.out.println(i.toString());
+	  ism.persist(i);
+	  
+	  SaveFactory factory = new SaveFactory();
+	  Save save = factory.createDatedHeaderContractsItemsMessages(u, csm, ism, msm);
+	  
+	  System.out.print(save.write());
+	  ism.close();
+	  
 	  RestServerFactory.createAndStartRestServer("jetty", 8080, "crypt");
   }
 }

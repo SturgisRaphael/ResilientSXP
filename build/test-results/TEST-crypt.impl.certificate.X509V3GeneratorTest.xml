@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="crypt.impl.certificate.X509V3GeneratorTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2017-11-18T18:01:52" hostname="raphael-MS-7816" time="0.096">
+  <properties/>
+  <testcase name="testGetKeysPairException" classname="crypt.impl.certificate.X509V3GeneratorTest" time="0.003"/>
+  <testcase name="testStoreInKeystore" classname="crypt.impl.certificate.X509V3GeneratorTest" time="0.023"/>
+  <testcase name="testCreateChainCertificate" classname="crypt.impl.certificate.X509V3GeneratorTest" time="0.036"/>
+  <testcase name="testCreateCertificateException" classname="crypt.impl.certificate.X509V3GeneratorTest" time="0.0"/>
+  <testcase name="testCreateCertificateAndGetters" classname="crypt.impl.certificate.X509V3GeneratorTest" time="0.032"/>
+  <testcase name="testBadInitFile" classname="crypt.impl.certificate.X509V3GeneratorTest" time="0.0"/>
+  <testcase name="testBadInitFile2" classname="crypt.impl.certificate.X509V3GeneratorTest" time="0.001"/>
+  <testcase name="testGetInstance" classname="crypt.impl.certificate.X509V3GeneratorTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

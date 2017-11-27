@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="model.validator.ItemValidatorTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2017-11-18T18:01:53" hostname="raphael-MS-7816" time="0.148">
+  <properties/>
+  <testcase name="signatureValidationTest" classname="model.validator.ItemValidatorTest" time="0.011"/>
+  <testcase name="badUsernameValidationTest" classname="model.validator.ItemValidatorTest" time="0.032"/>
+  <testcase name="badTitleValidationTest" classname="model.validator.ItemValidatorTest" time="0.042"/>
+  <testcase name="badpbKeyValidationTest" classname="model.validator.ItemValidatorTest" time="0.014"/>
+  <testcase name="badDateValidationTest" classname="model.validator.ItemValidatorTest" time="0.011"/>
+  <testcase name="badDescriptionValidationTest" classname="model.validator.ItemValidatorTest" time="0.024"/>
+  <testcase name="badUseridValidationTest" classname="model.validator.ItemValidatorTest" time="0.005"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -156,4 +156,11 @@ public class Message {
 		this.signature = signature;
 	}
 
+	@Override
+	public String toString() {
+		return "Message [id=" + id + ", sendingDate=" + sendingDate + ", senderId=" + senderId + ", senderName="
+				+ senderName + ", receiverId=" + receiverId + ", receiverName=" + receiverName + ", messageContent="
+				+ messageContent + ", status=" + status + ", pbkey=" + pbkey + ", signature=" + signature + "]";
+	}
+
 }

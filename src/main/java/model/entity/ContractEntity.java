@@ -181,4 +181,15 @@ public class ContractEntity {
 	public void setEstablishementData(String e) {
 		this.establishementData = e;
 	}
+
+
+	@Override
+	public String toString() {
+		return "ContractEntity [id=" + id + ", userid=" + userid + ", createdAt=" + createdAt + ", title=" + title
+				+ ", clauses=" + clauses + ", parties=" + parties + ", partiesNames=" + partiesNames + ", wish=" + wish
+				+ ", status=" + status + ", signatures=" + signatures + ", establisherType=" + establisherType
+				+ ", establishementData=" + establishementData + "]";
+	}
+	
+	
 }
