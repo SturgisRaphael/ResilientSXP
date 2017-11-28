@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Locale;
 
+import model.api.MessageSyncManager;
 import model.entity.ElGamalSignEntity;
 import model.entity.Message;
 import model.entity.Message.ReceptionStatus;
@@ -16,9 +17,9 @@ import model.syncManager.MessageSyncManagerImpl;
 import resilience.api.Save;
 
 public class MessagesDecorator extends SaveDecorator implements Save{
-	private MessageSyncManagerImpl messages;
+	private MessageSyncManager messages;
 	
-	public MessagesDecorator(Save save, User u, MessageSyncManagerImpl messages) {
+	public MessagesDecorator(Save save, User u, MessageSyncManager messages) {
 		super(save, u);
 		this.messages = messages;
 	}
@@ -118,7 +119,7 @@ public class MessagesDecorator extends SaveDecorator implements Save{
 		return ReceptionStatus.valueOf(substring);
 	}
 
-	public MessageSyncManagerImpl getMessages() {
+	public MessageSyncManager getMessages() {
 		return messages;
 	}
 }

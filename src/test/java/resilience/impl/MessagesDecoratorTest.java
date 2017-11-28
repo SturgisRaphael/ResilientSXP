@@ -10,6 +10,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import model.api.MessageSyncManager;
 import model.entity.ElGamalSignEntity;
 import model.entity.Message;
 import model.entity.Message.ReceptionStatus;
@@ -18,7 +19,7 @@ import model.syncManager.MessageSyncManagerImpl;
 import resilience.api.Save;
 
 public class MessagesDecoratorTest {
-	private static MessageSyncManagerImpl messages;
+	private static MessageSyncManager messages;
 	private static User u;
 	private static Save DatedHeader;
 	private static String testString;
