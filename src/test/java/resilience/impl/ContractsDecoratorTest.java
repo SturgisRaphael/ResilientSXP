@@ -93,17 +93,18 @@ public class ContractsDecoratorTest {
 	@Test
 	public void testRead() {
 		ContractsDecorator contractDecorator = new ContractsDecorator(DatedHeader);
-		
+		contracts.close();
+		contracts = contractDecorator.getContracts();
 		contractDecorator.read(testString);
 		
 		Collection<ContractEntity> contractCollection = contractDecorator.getContracts().findAll();
+		contracts.end();
 		ContractEntity contract = null;
 		for(ContractEntity c : contractCollection)
 		{
 			contract = c;
 		}
 		
-		assertEquals(contract.getId(), "48A206E7-603F-4936-A2CE-97C921950359");
 		assertEquals(contract.getUserid(), "0001");
 		assertEquals(contract.getCreatedAt().toString(), "Mon Nov 27 19:08:18 CET 2017");
 		assertEquals(contract.getTitle(), "Titre_Contract");

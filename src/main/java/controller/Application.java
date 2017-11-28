@@ -7,7 +7,6 @@ import model.api.ItemSyncManager;
 import model.syncManager.UserSyncManagerImpl;
 import network.api.Peer;
 import network.factories.PeerFactory;
-import resilience.impl.ItemSave;
 import rest.api.Authentifier;
 import rest.factories.AuthentifierFactory;
 import rest.factories.RestServerFactory;

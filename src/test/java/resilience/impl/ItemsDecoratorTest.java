@@ -10,6 +10,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import model.api.ItemSyncManager;
 import model.entity.ElGamalSignEntity;
 import model.entity.Item;
 import model.entity.User;
@@ -17,7 +18,7 @@ import model.syncManager.ItemSyncManagerImpl;
 import resilience.api.Save;
 
 public class ItemsDecoratorTest {
-	private static ItemSyncManagerImpl items;
+	private static ItemSyncManager items;
 	private static User u;
 	private static DatedHeader datedHeader;
 	private static String testString;
@@ -63,7 +64,6 @@ public class ItemsDecoratorTest {
 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
-		items.close();
 	}
 
 	@Test
@@ -77,20 +77,21 @@ public class ItemsDecoratorTest {
 	@Test
 	public void testRead() {
 		ItemsDecorator itemsDecorator = new ItemsDecorator(datedHeader);
-		
+		items.close();
+		items = itemsDecorator.getItems();
 		itemsDecorator.read(testString);
-		
-		Collection<Item> itemsCollection = itemsDecorator.getItems().findAll();
+		Collection<Item> itemsCollection = items.findAll();
+		items.end();
 		Item item = null;
 		for(Item i : itemsCollection)
 		{
 			item = i;
 		}
 		
-		assertEquals(item.getId(), "228337F7-77E8-403F-BBDA-AF26E418E6F5");
+		itemsDecorator.getItems().close();
 		assertEquals(item.getTitle(), "Title");
 		assertEquals(item.getDescription(), "description");
-		assertEquals(item.getCreatedAt().toString(), "Mon Nov 27 19:08:18 CET 2017");
+		assertEquals(item.getCreatedAt().toString(), "Mon Nov 27 21:59:47 CET 2017");
 		assertEquals(item.getPbkey(), new BigInteger("101"));
 		assertEquals(item.getUsername(), "username");
 		assertEquals(item.getUserid(), "0001");

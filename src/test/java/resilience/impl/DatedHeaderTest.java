@@ -46,7 +46,7 @@ public class DatedHeaderTest {
 		
 		assertEquals(datedHeader.getU().getNick(), "username");
 		assertEquals(datedHeader.getU().getId(), "0001");
-		assertEquals(datedHeader.getDate().toString(), "Mon Nov 27 19:08:18 CET 2017");
+		assertEquals("Mon Nov 27 19:08:18 CET 2017", datedHeader.getDate().toString());
 	}
 
 }
