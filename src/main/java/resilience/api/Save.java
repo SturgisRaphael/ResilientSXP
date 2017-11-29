@@ -3,13 +3,14 @@ package resilience.api;
 public interface Save {
 	
 	/**
-	 * @return
+	 * @return String representing all data of a SyncManager
 	 */
 	String write();
 	
 	/**
-	 * 
-	 * @return
+	 * Inputs all data in a SyncManager
+	 * @param s String containing all properties and their value
+	 * @return number of characters read
 	 */
 	int read(String s);
 }

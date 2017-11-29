@@ -9,27 +9,48 @@ import java.util.Locale;
 import model.entity.User;
 import resilience.api.Save;
 
+/**
+ * Header of a save file
+ */
 public class DatedHeader implements Save{
 	private User u;
 	private Date date;
 
+	/**
+	 * Creates a DatedHead
+	 * @param u User
+	 */
 	public DatedHeader(User u){
 		this.u = u;
 
 		this.date = new Date();
 	}
-	
+
+	/**
+	 * Creates a DatedHead
+	 * @param u User
+	 */
 	public DatedHeader(){
 		this.u = new User();
 
 		this.date = new Date();
 	}
 	
+	/**
+	 * Returns the header associated to the user <code>u</code>
+	 * @return String Header of the save file
+	 */
 	@Override
 	public String write() {
 		return "<Header>\n" + "User [username=" + u.getNick() + ", id=" + u.getId() + "]" + "\n" + "Date [date=" + date + "]" + "\n" + "</Header>";//TODO: see if can use toString()
 	}
 
+	/**
+	 * Initialises <code>date<code> and the user <code>u</code> thanks to the
+	 *  string <code>s</code>
+	 * @param s String to be analysed
+	 * @return number of characters read
+	 */
 	@Override
 	public int read(String s) {
 		u = new User();
@@ -61,10 +82,16 @@ public class DatedHeader implements Save{
 		return s.indexOf(end) + end.length();
 	}
 
+	/**
+	 * @return u User
+	 */
 	public User getU() {
 		return u;
 	}
 
+	/**
+	 * @return date Date
+	 */
 	public Date getDate() {
 		return date;
 	}

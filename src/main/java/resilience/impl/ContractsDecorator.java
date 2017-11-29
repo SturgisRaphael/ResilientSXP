@@ -18,19 +18,36 @@ import model.entity.User;
 import model.syncManager.ContractSyncManagerImpl;
 import resilience.api.Save;
 
+/**
+ * Resilient contracts 
+ */
 public class ContractsDecorator extends SaveDecorator implements Save{
 	private ContractSyncManager contracts;
 	
+	/**
+	 * Creates a ContractsDecorator
+	 * @param save Save
+	 * @param u User
+	 * @param contracts All contracts in ContractSyncManager
+	 */
 	public ContractsDecorator(Save save, User u, ContractSyncManager contracts) {
 		super(save, u);
 		this.contracts = contracts;
 	}
 
+	/**
+	 * Creates a ContractsDecorator
+	 * @param save Save
+	 */
 	public ContractsDecorator(Save save) {
 		super(save);
 		this.contracts = new ContractSyncManagerImpl();
 	}
 
+	
+	/**
+	 * @return String representing all contracts of the ContractsSyncManager <code>contracts</code>
+	 */
 	@Override
 	public String write(){
 		Collection<ContractEntity> contractCollection = contracts.findAll();
@@ -46,6 +63,12 @@ public class ContractsDecorator extends SaveDecorator implements Save{
 		return save.write() + "\n" + "<contracts>" + "\n" + result + "</contracts>";
 	}
 	
+	/**
+	 * inputs the contracts stored in the string <code>s</code> in the 
+	 * he ContractsSyncManager <code>contracts</code>
+	 * @param s String representing contracts
+	 * @return number of characters read
+	 */
 	@Override
 	public int read(String s) {
 		String str = s.substring(save.read(s));
@@ -68,6 +91,11 @@ public class ContractsDecorator extends SaveDecorator implements Save{
 		return offset + str.indexOf(endOfContracts) + endOfContracts.length();
 	}
 
+	/**
+	 * Parses a string and creates a new contract
+	 * @param string to be parsed
+	 * @return ContractEntity
+	 */
 	private ContractEntity parseContract(String string) {
 		ContractEntity c = new ContractEntity();
 
@@ -111,21 +139,39 @@ public class ContractsDecorator extends SaveDecorator implements Save{
 		return c;
 	}
 
+	
+	/**
+	 * Parses a string and create a <code>EstablisherType<c/ode>
+	 * @param substring String to be parsed
+	 * @return EstablisherType
+	 */
 	private EstablisherType parseEstablisherType(String substring) {
 		return EstablisherType.valueOf(substring);
 	}
 
+	/**
+	 * Parses a string and returns a Status
+	 * @param string to be parsed
+	 * @return Status
+	 */
 	private Status parseStatus(String string) {
 		return Status.valueOf(string);
 	}
 
+	/**
+	 * Parses a string and returns a Wish 
+	 * @param string String to be parsed
+	 * @return Wish
+	 */
 	private Wish parseWish(String string) {		
 		return Wish.valueOf(string);
 	}
 
+	/**
+	 * @param string String to be parsed
+	 * @return HashMap<String, String>
+	 */
 	private HashMap<String, String> parseHashMap(String string) {
-		// {0002=Bob, 0003=Alice}
-		
 		HashMap<String, String> hash = new HashMap<>();
 		
 		String delimiter1 = ", ";
@@ -146,6 +192,10 @@ public class ContractsDecorator extends SaveDecorator implements Save{
 		return hash;
 	}
 
+	/**
+	 * @param string String to be parsed
+	 * @return ArrayList<String>
+	 */
 	private ArrayList<String> parseArrayList(String string) {
 		ArrayList<String> clauses = new ArrayList<>();
 		String delimiter = ", ";
@@ -160,6 +210,10 @@ public class ContractsDecorator extends SaveDecorator implements Save{
 		return clauses;
 	}
 	
+	/**
+	 * Returns the contracts stored in this object.
+	 * @return ContractSyncManager
+	 */
 	public ContractSyncManager getContracts() {
 		return contracts;
 	}

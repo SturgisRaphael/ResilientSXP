@@ -14,20 +14,35 @@ import model.entity.Item;
 import model.entity.User;
 import model.syncManager.ItemSyncManagerImpl;
 import resilience.api.Save;
-
+/**
+ * Resilient items
+ */
 public class ItemsDecorator extends SaveDecorator implements Save{
 	private ItemSyncManager items;
 	
+	/**
+	 * Creates an ItemsDecorator
+	 * @param save Save
+	 * @param u User
+	 * @param items ItemSyncManager
+	 */
 	public ItemsDecorator(Save save, User u, ItemSyncManager items) {
 		super(save, u);
 		this.items = items;
 	}
 	
+	/**
+	 * Creates an ItemsDecorator
+	 * @param save Save
+	 */
 	public ItemsDecorator(Save save) {
 		super(save);
 		items = new ItemSyncManagerImpl();
 	}
 
+	/**
+	 * @return String representing all items in the ItemSyncManager <code>items</code>
+	 */
 	@Override
 	public String write() {
 		Collection<Item> itemsCollection = items.findAll();
@@ -42,6 +57,11 @@ public class ItemsDecorator extends SaveDecorator implements Save{
 		return save.write() + "\n" + "<items>" + "\n" + result + "</items>";
 	}
 
+	/**
+	 * Reads a string and adds each item found in the ItemSyncManager <code>items</code>
+	 * @param s String representing a list of items with their properties
+	 * @return number of character read
+	 */
 	@Override
 	public int read(String s) {
 		int offset = save.read(s);
@@ -65,6 +85,11 @@ public class ItemsDecorator extends SaveDecorator implements Save{
 		return s.indexOf(endOfItems) + endOfItems.length();
 	}
 
+	/**
+	 * Parses a string and returns its appropriate item
+	 * @param substring String to be parsed
+	 * @return Item
+	 */
 	private Item parseItem(String substring) {
 		Item i = new Item();
 		String titleBegin = ", title=";
@@ -108,6 +133,11 @@ public class ItemsDecorator extends SaveDecorator implements Save{
 		
 	}
 
+	/**
+	 * Creates an ElGamal signature 
+	 * @param substring String to be parsed
+	 * @return ElGamalSignEntity
+	 */
 	private ElGamalSignEntity parseSignature(String substring) {
 		ElGamalSignEntity signature = new ElGamalSignEntity();
 		
@@ -120,6 +150,10 @@ public class ItemsDecorator extends SaveDecorator implements Save{
 		return signature;
 	}
 
+	/**
+	 * 
+	 * @return the ItemSyncManager attribute <code>items</code>
+	 */
 	public ItemSyncManager getItems() {
 		return items;
 	}

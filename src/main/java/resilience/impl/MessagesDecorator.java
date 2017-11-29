@@ -16,14 +16,27 @@ import model.entity.User;
 import model.syncManager.MessageSyncManagerImpl;
 import resilience.api.Save;
 
+/**
+ * Resilient messages
+ */
 public class MessagesDecorator extends SaveDecorator implements Save{
 	private MessageSyncManager messages;
 	
+	/**
+	 * Creates a MessagesDecorator
+	 * @param save Save
+	 * @param u User
+	 * @param messages MessageSyncManager
+	 */
 	public MessagesDecorator(Save save, User u, MessageSyncManager messages) {
 		super(save, u);
 		this.messages = messages;
 	}
 
+	/**
+	 * Get all messages from <code>message</code> and transforms them into a string
+	 * @return String representing all messages in the MessageSyncManager <code>messages</code>
+	 */
 	@Override
 	public String write() {
 		Collection<Message> messagesCollection = messages.findAll();
@@ -37,6 +50,11 @@ public class MessagesDecorator extends SaveDecorator implements Save{
 		return save.write() + "\n" + "<message>" + "\n" + result + "</message>";
 	}
 	
+	/**
+	 * Inputs all items found in the string into the MessageSyncManager <code>messages</code>
+	 * @param s String representing properties and values of messages
+	 * @return number of characters read
+	 */
 	@Override
 	public int read(String s) {
 		int a = save.read(s);
@@ -61,6 +79,11 @@ public class MessagesDecorator extends SaveDecorator implements Save{
 		return offset + str.indexOf(endOfMessages) + endOfMessages.length();
 	}
 
+	/**
+	 * Enables to parse a string and returns its appropriate Message 
+	 * @param string to be parsed
+	 * @return Message
+	 */
 	private Message parseMessage(String string) {
 		Message m = new Message();
 		
@@ -101,6 +124,11 @@ public class MessagesDecorator extends SaveDecorator implements Save{
 		return m;
 	}
 
+	/**
+	 * Creates an ElGamal signature 
+	 * @param substring String to be parsed
+	 * @return ElGamalSignEntity
+	 */
 	private ElGamalSignEntity parseSignature(String substring) {		
 		ElGamalSignEntity signature = new ElGamalSignEntity();
 		System.out.println(substring);
@@ -114,10 +142,17 @@ public class MessagesDecorator extends SaveDecorator implements Save{
 		return signature;
 	}
 
+	/**
+	 * @param substring String to be parsed
+	 * @return ReceptionStatus corresponding to <code>substring</code>
+	 */
 	private ReceptionStatus parseStatus(String substring) {
 		return ReceptionStatus.valueOf(substring);
 	}
 
+	/**
+	 * @return the MessageSyncManager attribute <code>message</code>
+	 */
 	public MessageSyncManager getMessages() {
 		return messages;
 	}
