@@ -21,16 +21,10 @@ public class SaveFileManagerImpl implements SaveFileManager {
 	}
 
 	@Override
-	public void save() {
-		try {
-		    BufferedWriter out = new BufferedWriter(new FileWriter(path));
-		    out.write(save.write());
-		}
-		catch (IOException e)
-		{
-		    System.out.println("Exception ");
-
-		}
+	public void save() throws IOException {
+		FileWriter file = new FileWriter("test.txt");
+		file.write (save.write());
+		file.close();
 	}
 
 	@Override

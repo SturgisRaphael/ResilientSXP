@@ -1,13 +1,13 @@
 ----------------------------------------------------------------
-Tue Nov 28 22:05:21 CET 2017:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0160-0472-d13e-00000f15a558 
-on database directory /home/raphael/git/ResilientSXP/simpleDb with class loader sun.misc.Launcher$AppClassLoader@27973e9b 
+Wed Nov 29 11:09:09 CET 2017:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0160-0740-64c2-0000050f5868 
+on database directory /home/raphael/git/ResilientSXP/simpleDb with class loader sun.misc.Launcher$AppClassLoader@3941a79c 
 Loaded from file:/home/raphael/.gradle/caches/modules-2/files-2.1/org.apache.derby/derby/10.12.1.1/75070c744a8e52a7d17b8b476468580309d5cd09/derby-10.12.1.1.jar
 java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_151-8u151-b12-0ubuntu0.16.04.2-b12
+java.runtime.version=1.8.0_151-8u151-b12-1~deb9u1-b12
 user.dir=/home/raphael/git/ResilientSXP
 os.name=Linux
 os.arch=amd64
-os.version=4.8.0-53-generic
+os.version=4.9.0-3-amd64
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''

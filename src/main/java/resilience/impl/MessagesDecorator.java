@@ -39,31 +39,29 @@ public class MessagesDecorator extends SaveDecorator implements Save{
 	
 	@Override
 	public int read(String s) {
-		//Message [id=A965CA2F-12B7-49C5-9342-521CBBF5F040, sendingDate=Tue Nov 28 20:41:03 CET 2017, senderId=0001, senderName=username
-		//, receiverId=0002, receiverName=Eric, messageContent=message, status=RECEIVED, pbkey=101, signature=ElGamalSignEntity [r=10000, s=10001]]
-		String str = s.substring(save.read(s));
+		int a = save.read(s);
+		String str = s.substring(a);
 		String messageBegin = "Message [";
-		String messageEnd = "]\n";
+		String messageEnd = "]]";
+		System.out.println(str);
 		
 		messages.begin();
 		
 		int offset = str.indexOf(messageBegin);
 		
 		while (str.indexOf(messageBegin) != -1) {
-			Message m = parseMessage(str.substring(str.indexOf(messageBegin) + messageBegin.length(), str.indexOf(messageEnd) + messageEnd.length()));
+			Message m = parseMessage(str.substring(str.indexOf(messageBegin) + messageBegin.length(), str.indexOf(messageEnd)));
 			messages.persist(m);
 			offset += str.indexOf(messageEnd)+ messageEnd.length();
 			str = str.substring(str.indexOf(messageEnd)+ messageEnd.length());
 		}
 		
 		
-		String endOfContracts = "</message>";
-		return offset + str.indexOf(endOfContracts) + endOfContracts.length();
+		String endOfMessages = "</message>";
+		return offset + str.indexOf(endOfMessages) + endOfMessages.length();
 	}
 
 	private Message parseMessage(String string) {
-		//id=A965CA2F-12B7-49C5-9342-521CBBF5F040, sendingDate=Tue Nov 28 20:41:03 CET 2017, senderId=0001, senderName=username
-		//, receiverId=0002, receiverName=Eric, messageContent=message, status=RECEIVED, pbkey=101, signature=ElGamalSignEntity [r=10000, s=10001]
 		Message m = new Message();
 		
 		String sendingDateBegin = ", sendingDate=";
@@ -105,12 +103,13 @@ public class MessagesDecorator extends SaveDecorator implements Save{
 
 	private ElGamalSignEntity parseSignature(String substring) {		
 		ElGamalSignEntity signature = new ElGamalSignEntity();
+		System.out.println(substring);
 		
 		String rBegin = "ElGamalSignEntity [r="	;
 		String sBegin = ", s=";
 		
 		signature.setR(new BigInteger(substring.substring(substring.indexOf(rBegin) + rBegin.length(), substring.indexOf(sBegin))));
-		signature.setS(new BigInteger(substring.substring(substring.indexOf(sBegin) + sBegin.length(), substring.indexOf("]"))));
+		signature.setS(new BigInteger(substring.substring(substring.indexOf(sBegin) + sBegin.length())));
 		
 		return signature;
 	}

@@ -1,6 +1,7 @@
-/resilience/
 /controller/
+/crypt/
 /model/
 /network/
+/protocol/
+/resilience/
 /rest/
-/crypt/

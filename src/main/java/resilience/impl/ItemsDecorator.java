@@ -44,23 +44,25 @@ public class ItemsDecorator extends SaveDecorator implements Save{
 
 	@Override
 	public int read(String s) {
-		String str = s.substring(save.read(s));
+		int offset = save.read(s);
+		String str = s.substring(offset) ;
 		String itemBegin = "Item [";
-		String itemEnd = "]\n";
+		String itemEnd = "]]";
 		
-		System.out.println(items.begin());
+		items.begin();
 		
-		int offset = str.indexOf(itemBegin);
+		offset = str.indexOf(itemBegin);
 		
 		while (str.indexOf(itemBegin) != -1) {
-			Item i = parseItem(str.substring(str.indexOf(itemBegin) + itemBegin.length(), str.indexOf(itemEnd) + itemEnd.length()));
+			Item i = parseItem(str.substring(str.indexOf(itemBegin) + itemBegin.length(), str.indexOf(itemEnd)));
 			items.persist(i);
 			offset += str.indexOf(itemEnd)+ itemEnd.length();
 			str = str.substring(str.indexOf(itemEnd)+ itemEnd.length());
 		}
-		System.out.println(offset);
 		
-		return offset;
+		
+		String endOfItems = "</items>";
+		return s.indexOf(endOfItems) + endOfItems.length();
 	}
 
 	private Item parseItem(String substring) {
@@ -106,14 +108,14 @@ public class ItemsDecorator extends SaveDecorator implements Save{
 		
 	}
 
-	private ElGamalSignEntity parseSignature(String substring) {		
+	private ElGamalSignEntity parseSignature(String substring) {
 		ElGamalSignEntity signature = new ElGamalSignEntity();
 		
 		String rBegin = "ElGamalSignEntity [r="	;
 		String sBegin = ", s=";
 		
 		signature.setR(new BigInteger(substring.substring(substring.indexOf(rBegin) + rBegin.length(), substring.indexOf(sBegin))));
-		signature.setS(new BigInteger(substring.substring(substring.indexOf(sBegin) + sBegin.length(), substring.indexOf("]"))));
+		signature.setS(new BigInteger(substring.substring(substring.indexOf(sBegin) + sBegin.length())));
 		
 		return signature;
 	}

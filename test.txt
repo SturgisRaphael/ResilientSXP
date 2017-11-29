@@ -1,0 +1,13 @@
+<Header>
+User [username=null, id=null]
+Date [date=Wed Nov 29 11:09:11 CET 2017]
+</Header>
+<contracts>
+ContractEntity [id=F59451A3-8E5F-440C-8E14-B11502B4F2B8, userid=0001, createdAt=Wed Nov 29 11:09:11 CET 2017, title=Titre_Contract, clauses=[clause1, clause2], parties=[0002, 0003], partiesNames={0002=Bob, 0003=Alice}, wish=ACCEPT, status=SIGNING, signatures={Bob=Miller, Alice=Signature}, establisherType=Sigma, establishementData=data]
+</contracts>
+<items>
+Item [id=6523E8C5-6ED8-4478-8198-6936F5ABE2D7, title=Title, description=description, createdAt=Wed Nov 29 11:09:11 CET 2017, pbkey=101, username=username, userid=0001, signature=ElGamalSignEntity [r=10000, s=10001]]
+</items>
+<message>
+Message [id=21128147-EA8F-4A79-80A8-768225E84F09, sendingDate=Wed Nov 29 11:09:11 CET 2017, senderId=0001, senderName=username, receiverId=0002, receiverName=Eric, messageContent=message, status=RECEIVED, pbkey=101, signature=ElGamalSignEntity [r=10002, s=10003]]
+</message>
