@@ -30,8 +30,8 @@ if(JavaVersion.current()>= JavaVersion.VERSION_1_8){
 }
 
 
-//mainClassName = "controller.Application"
-mainClassName = "crypt.CryptCommander"
+mainClassName = "controller.Application"
+//mainClassName = "crypt.CryptCommander"
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 repositories {
